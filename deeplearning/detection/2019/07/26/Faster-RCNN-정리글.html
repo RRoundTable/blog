@@ -10,14 +10,14 @@
 
 <p>한 이미지 당 cpu기준 약 2초의 시간이 걸린다.</p>
 
-<p><img src="/images/2019-07-26-Faster-RCNN-정리글/selective_search.png" alt="" title="Selective Search" /></p>
+<p><img src="/blog/images/2019-07-26-Faster-RCNN-정리글/selective_search.png" alt="" title="Selective Search" /></p>
 
 <ul>
   <li>reference: https://donghwa-kim.github.io/SelectiveSearch.html</li>
 </ul>
 
 <h2 id="faster-rcnn">Faster-RCNN</h2>
-<p><img src="/images/2019-07-26-Faster-RCNN-정리글/fasterrcnn.png" alt="" title="Faster RCNN" /></p>
+<p><img src="/blog/images/2019-07-26-Faster-RCNN-정리글/fasterrcnn.png" alt="" title="Faster RCNN" /></p>
 
 <p>Faster-RCNN은 두 가지 모듈로 구성된다.</p>
 
@@ -32,7 +32,7 @@
 
 <p>어떤 사이즈의 이미지가 들어와도 직사각형의 object proposal을 output으로 가진다.</p>
 
-<p><img src="/images/2019-07-26-Faster-RCNN-정리글/fullyconv.png" alt="" title="Fully Convoulutional Network" /></p>
+<p><img src="/blog/images/2019-07-26-Faster-RCNN-정리글/fullyconv.png" alt="" title="Fully Convoulutional Network" /></p>
 
 <p>이  논문의 목표는 detector의 computation과 proposal의 computation을 공유하는 것이기 때문에 위와 같은 convolution layers를 공유한다고 가정하였다.</p>
 
@@ -64,7 +64,7 @@
     <p>classfier: $2k$의 outputs, object or not</p>
   </li>
   <li>
-    <p><img src="/images/2019-07-26-Faster-RCNN-정리글/anchor.png" alt="" /></p>
+    <p><img src="/blog/images/2019-07-26-Faster-RCNN-정리글/anchor.png" alt="" /></p>
   </li>
 </ul>
 
@@ -74,7 +74,7 @@
 
 <p><strong>translation-invariant의 특성이란</strong></p>
 
-<p><img src="/images/2019-07-26-Faster-RCNN-정리글/trnaslation_invariant.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-26-Faster-RCNN-정리글/trnaslation_invariant.png" alt="" /></p>
 
 <p>물체가 특정 위치에 존재할 때만 탐지되거나 혹은 특정 위치에서는 탐지가 잘 안되는 현상을 줄이는 것</p>
 
@@ -88,7 +88,7 @@
 
 <h4 id="multi-scale-anchors-as-regression-references">Multi-Scale Anchors as Regression References</h4>
 
-<p><img src="/images/2019-07-26-Faster-RCNN-정리글/figure1.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-26-Faster-RCNN-정리글/figure1.png" alt="" /></p>
 
 <p>multi-scale prediction에는 두 가지 방법이 있다. 그리고 이 두가지 방법은 종종 혼합하여 사용된다. 해당 논문에서는 cost-efficient한 두 번째 방법을 사용하였다.</p>
 
@@ -199,7 +199,7 @@ t_w^*= \log(w^*/w_a), t_h^*=\log(h^*/h_a)</annotation></semantics></math></span>
 
 <p>일반적으로 전반적인 detection accuracy와 관련있는 metric이다.</p>
 
-<p><img src="/images/2019-07-26-Faster-RCNN-정리글/figure4.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-26-Faster-RCNN-정리글/figure4.png" alt="" /></p>
 
 <p>위의 이미지를 보면 알 수 있듯이, SS, EB가 더 빠르게 감소하는 recall을 확인할 수 있다.</p>
 

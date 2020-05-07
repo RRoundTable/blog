@@ -14,7 +14,7 @@
 
 <h2 id="batch-normalization-and-internal-covariate-shift">Batch normalization and internal covariate shift</h2>
 
-<p><img src="/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure1.png" alt="" title="Figure 1" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure1.png" alt="" title="Figure 1" /></p>
 
 <p>train, test 그래프에서는 batch normalization의 역할을 잘 보여주고 있다. 높은 learning rate를 사용할 수 있는 것을 보여주고 있는데, 오른쪽의 그래프를 보면 BN을 적용한 모델의 activation과 그렇지 않은 모델의 activation의 분포가 그리 큰 차이를 가지고 있지 않는 것을 확인 할 수 있다. 이런 결과를 가지고 다음과 같은 질문을 할 수 있다.</p>
 
@@ -34,7 +34,7 @@
   <li>noise가 추가되면 결국 covariate shift현상이 생기는 것이다.</li>
 </ul>
 
-<p><img src="/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure2.png" alt="" title="Figure 2" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure2.png" alt="" title="Figure 2" /></p>
 
 <p>위의 그림을 보면, Standard + BatchNorm과 Standard + ‘noisy’BatchNorm과의 성능 차이가 거의 없음을 알 수 있다. 즉, internal covariate shift를 해결하는 것과 batch normalization의 효과를 무관하다고 볼 수 있다. 또한 오른쪽 이미지를 보면, Standard + ‘noisy’BatchNormdl Standard보다 덜 안정적인 distribution을 가지고 있는 것을 확인할 수 있다. 하지만, 실험결과는 Standard + ‘noisy’BatchNorm이 우수한 걸로 보아 stable distribution이 training performance에 주는 영향은 미비한 것으로 보인다. 또한 Standard에 noise를 섞을 때, 전혀 학습이 안되는 것을 확인할 수 있었다.</p>
 
@@ -82,7 +82,7 @@
   </li>
 </ul>
 
-<p><img src="/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure3.png" alt="" title="Figure 3" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure3.png" alt="" title="Figure 3" /></p>
 
 <p>위의 internal covariate shift 산출방법으로 bath norm을 적용한 경우와 그렇지 않은 경우를 비교하였다. 이전의 주장은 BN이 ICS를 감소시킨다고 주장하였으나, 실험결과 BN이 ICS를 증가시키기도 하였다. 위의 그림을 보면 확인 할 수 있다. 이런 현상은 DLN에서 더 도드라 진다. DLN을 보면 오히려 Standard한 것이 ICS가 적게 나타나는데 비해서 BN을 적용할 때는 $G, \acute{G}$는 서로 상관관계가 없어보인다. (하지만 training 결과는 loss, acc 측면에서 더 좋게 나온다.)</p>
 
@@ -120,15 +120,15 @@
   <p>https://arxiv.org/pdf/1405.4980.pdf</p>
 </blockquote>
 
-<p><img src="/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure9.png" alt="" title="Figure 9" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure9.png" alt="" title="Figure 9" /></p>
 
 <p>이 smooth 효과는 training algorithm에 매우 효과적이다. non-BatchNorm의 loss function은 non-convex할 뿐만 아니라 kinks, flat regions , sharp minima의 문제를 가지고 있다. 이 문제는 gradient 방법론이 수렴하기 불안정하도록 만든다. 하지만 BatchNorm을 적용하게 되면, gradient가 reliable하고 predictive한 방향으로 나오게 된다. 무엇보다도 개선된 Lipschitzness는 learning step을 크게 잡을 수 있게 해준다. 아래의 그래프를 보면 그 효과를 확인할 수 있다.</p>
 
-<p><img src="/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure10.png" alt="" title="Figure 10" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure10.png" alt="" title="Figure 10" /></p>
 
 <h3 id="exploration-of-the-optimization-landscap">Exploration of the optimization landscap</h3>
 
-<p><img src="/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure4.png" alt="" title="Figure 4" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure4.png" alt="" title="Figure 4" /></p>
 
 <p>위의 그래프의 Figure 4(a)를 보면 step마다의 loss변화를 알 수 있다. 이를 통해서 non-BatchNorm의 방식은 loss의 변화량이 BatchNorm보다 크다는 것을 알 수 있다. 이런 현상은 초기 학습과정에서 특히 심하다.</p>
 
@@ -142,7 +142,7 @@
 
 <p>아래의 실험결과를 보면, 꼭 BatchNorm을 고집할 이유는 없어 보인다.</p>
 
-<p><img src="/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure13.png" alt="" title="Figure 13" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure13.png" alt="" title="Figure 13" /></p>
 
 <h2 id="theoretical-analysis">Theoretical Analysis</h2>
 
@@ -150,7 +150,7 @@
 
 <p>fully-connected layer W에 single BatchNorm을 추가한 효과를 분석하고자 한다. Figure 5(b)와 같은 상황을 가정한다. 주목할 점은 input에 BatchNorm을 적용한 것이 아니라, layer W의 output에 BatchNorm을 적용한다. 이는 해당 논문의 분석이 단지 input에 대한 normalization 효과에 대한 것이 아니라 reparameterization에 대한 것임을 알려준다.</p>
 
-<p><img src="/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure5.png" alt="" title="Figure 5" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure5.png" alt="" title="Figure 5" /></p>
 
 <p>Notation</p>
 
@@ -204,9 +204,9 @@
 
 <p>자세한 증명은 해당 논문의 appendix를 참고하길 바란다.</p>
 
-<p><img src="/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/c2.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/c2.png" alt="" /></p>
 
-<p><img src="/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/c2_1.png" alt="" title="Lipschitzness proofs" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/c2_1.png" alt="" title="Lipschitzness proofs" /></p>
 
 <h4 id="theorem-42-the-effect-of-bn-to-smoothness">Theorem 4.2 (The effect of BN to smoothness).</h4>
 
@@ -232,9 +232,9 @@
 
 <p>아래는 이에 대한 증명이다.</p>
 
-<p><img src="/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/t4_4.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/t4_4.png" alt="" /></p>
 
-<p><img src="/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/t4_4_1.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/t4_4_1.png" alt="" /></p>
 
 <h4 id="lemma-45-batchnorm-leads-to-a-favourable-initialization">Lemma 4.5 (BatchNorm leads to a favourable initialization).</h4>
 

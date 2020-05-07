@@ -14,7 +14,7 @@
 
 <h2 id="introduction">Introduction</h2>
 
-<p><img src="/images/2019-08-23-mixconv/figure1.png" alt="" title="Figure1" /></p>
+<p><img src="/blog/images/2019-08-23-mixconv/figure1.png" alt="" title="Figure1" /></p>
 
 <p>Figure 1에서 볼 수 있듯이, kernel size가 클수록 모델의 성능이 올라간다고 할 수 없다.  올라가는 추세를 보이다가 k9*9를 넘어서면 accuracy가 떨어지는 것을 확인할 수 있다.</p>
 
@@ -22,7 +22,7 @@
 
 <p>아래는 해당 논문의 MixConv의 개략적인 구조이다.</p>
 
-<p><img src="/images/2019-08-23-mixconv/figure2.png" alt="" title="Figure1" /></p>
+<p><img src="/blog/images/2019-08-23-mixconv/figure2.png" alt="" title="Figure1" /></p>
 
 <h2 id="related-work">Related Work</h2>
 
@@ -142,7 +142,7 @@ X_{x+i, y+j, \frac{z}{m}} \cdot W_{i, j, z} \
 
       <p>출처: https://3months.tistory.com/213 [Deep Play]</p>
 
-      <p><img src="/images/2019-08-23-mixconv/dilatedconv.png" alt="" /></p>
+      <p><img src="/blog/images/2019-08-23-mixconv/dilatedconv.png" alt="" /></p>
 
     </blockquote>
   </li>
@@ -150,9 +150,9 @@ X_{x+i, y+j, \frac{z}{m}} \cdot W_{i, j, z} \
 
 <h3 id="33-mixconv-performance-on-mobile-nets">3.3 MixConv Performance on Mobile Nets</h3>
 
-<p><img src="/images/2019-08-23-mixconv/figure4.png" alt="" /></p>
+<p><img src="/blog/images/2019-08-23-mixconv/figure4.png" alt="" /></p>
 
-<p><img src="/images/2019-08-23-mixconv/table1.png" alt="" /></p>
+<p><img src="/blog/images/2019-08-23-mixconv/table1.png" alt="" /></p>
 
 <h3 id="3-4-ablation-study">3. 4 Ablation Study</h3>
 
@@ -166,7 +166,7 @@ X_{x+i, y+j, \frac{z}{m}} \cdot W_{i, j, z} \
   <li>MixConv for Single Layer</li>
 </ul>
 
-<p><img src="/images/2019-08-23-mixconv/figure5.png" alt="" /></p>
+<p><img src="/blog/images/2019-08-23-mixconv/figure5.png" alt="" /></p>
 
 <p>​	하나의 layer씩 변화시켜본 결과는 위의 Figure 5와 같다. 2(s2)-(with large kernel size + stride2)를 보면 accuracy가 상승한 것을 확인할 수 있으며, 대부분의 레이어에서  비슷하거나 조금의 성능 향상이 있었다.</p>
 
@@ -174,7 +174,7 @@ X_{x+i, y+j, \frac{z}{m}} \cdot W_{i, j, z} \
   <li>
     <p>Channel Partition Method/ Dilated Convolution</p>
 
-    <p><img src="/images/2019-08-23-mixconv/figure6.png" alt="" /></p>
+    <p><img src="/blog/images/2019-08-23-mixconv/figure6.png" alt="" /></p>
   </li>
 </ul>
 
@@ -201,9 +201,9 @@ X_{x+i, y+j, \frac{z}{m}} \cdot W_{i, j, z} \
 
 <h3 id="42-mixnet-performance-on-imagenet">4.2 MixNet Performance on ImageNet</h3>
 
-<p><img src="/images/2019-08-23-mixconv/figure7.png" alt="" /></p>
+<p><img src="/blog/images/2019-08-23-mixconv/figure7.png" alt="" /></p>
 
-<p><img src="/images/2019-08-23-mixconv/table2.png" alt="" /></p>
+<p><img src="/blog/images/2019-08-23-mixconv/table2.png" alt="" /></p>
 
 <h3 id="43-mixnet-architectures">4.3 MixNet Architectures</h3>
 
@@ -214,7 +214,7 @@ X_{x+i, y+j, \frac{z}{m}} \cdot W_{i, j, z} \
 <ul>
   <li>small kernel은 앞단의 stage에서 computation cost를 줄이기 위하여 사용함</li>
   <li>large kernel은 뒷단의 stage에서 더 좋은 accuracy를 위해서 많이 나타남.</li>
-  <li><img src="/images/2019-08-23-mixconv/figure8.png" alt="" /></li>
+  <li><img src="/blog/images/2019-08-23-mixconv/figure8.png" alt="" /></li>
 </ul>
 
 <p>또한, 큰 MixNet model일수록 parameter와 FLOPS를 비용으로 지불하면서 더 큰 size의 kernel을 많이 사용하고 더 많은 수의 layer를 사용하였다.</p>
@@ -224,7 +224,7 @@ X_{x+i, y+j, \frac{z}{m}} \cdot W_{i, j, z} \
 <h3 id="44-transfer-learning-performance">4.4 Transfer Learning Performance</h3>
 
 <ul>
-  <li><img src="/images/2019-08-23-mixconv/figure9.png" alt="" /></li>
+  <li><img src="/blog/images/2019-08-23-mixconv/figure9.png" alt="" /></li>
 </ul>
 
 <p>Figure 9는 transfer learning을 MixNet에 적용하였을 때, 성능향상을 나타내는 이미지이다. MixNet-M은 97.92%의 성능향상을 했으며 이는 ResNet-50보다 1% 높은 수치이다.</p>

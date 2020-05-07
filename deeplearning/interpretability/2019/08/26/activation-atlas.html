@@ -8,7 +8,7 @@
 
 <p>기본적으로 네트워크를 시각적으로 분석할려고 노력했다.</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figure1.png" alt="" title="Figure1" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figure1.png" alt="" title="Figure1" /></p>
 
 <ul>
   <li>
@@ -42,7 +42,7 @@
   </li>
   <li></li>
   <li>
-    <p><img src="/images/2019-08-26-activation atlas/tsne.jpg" alt="" title="t-sne" /></p>
+    <p><img src="/blog/images/2019-08-26-activation atlas/tsne.jpg" alt="" title="t-sne" /></p>
 
     <p>t-SNE 기반의 시각화 방법이다. 간략히 설명하면, 각 input tensor 혹은 activation value에 대해서 t-SNE로 mapping 시킬 좌표를 구하고 해당 좌표에 위와 같이 이미지를 시각화 하는 것이다.</p>
   </li>
@@ -74,13 +74,13 @@
 
 <p>InceptionV1은 convolution layers로 이루어져 있으므로, 각 layer마다 복수의 activation vector가 존재한다. (Filter의 수만큼) 또한 아래의 이미지 처럼 하나의 뉴런이 각 patch를 이동하면서 activation vector를 생성한다. (Parameter-sharing)</p>
 
-<p><img src="/images/2019-08-26-activation atlas/filter.jpg" alt="" title="CNN filter" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/filter.jpg" alt="" title="CNN filter" /></p>
 
 <p>그러므로, network에 input image를 넣으면 하나의 뉴런은 많은 수의 evaluation을 받는다. 우리는 이를 각 뉴런이 각 patch에 대해서 얼마나 활성화됐는지 평가할 수 있다.</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figure2.png" alt="" title="Figure2" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figure2.png" alt="" title="Figure2" /></p>
 
-<p><img src="/images/2019-08-26-activation atlas/figure3.jpg" alt="" title="Figure3" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figure3.jpg" alt="" title="Figure3" /></p>
 
 <h2 id="aggregating-multiple-images">Aggregating Multiple Images</h2>
 
@@ -92,7 +92,7 @@
 
 <p>이렇게 수집된 vector는 high-dimension(512 dim)의 성격을 가진다. 이를 dimensionality reduction방법론을 적용해서 2차원으로 mapping 하면 아래의 이미지처럼 나타나게 된다.</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figure4.jpg" alt="" title="Figure4" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figure4.jpg" alt="" title="Figure4" /></p>
 
 <p>Feature visualization을 적용할 때, regularization을 사용하였다.(ex: <a href="https://distill.pub/2017/feature-visualization/#regularizer-playground-robust">transformation robustness</a>)</p>
 
@@ -108,7 +108,7 @@
 <blockquote>
   <p>cosine similarity
 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>s</mi><mi>i</mi><mi>m</mi><mi>i</mi><mi>l</mi><mi>a</mi><mi>r</mi><mi>i</mi><mi>t</mi><mi>y</mi><mo>=</mo><mi>cos</mi><mo>⁡</mo><mo stretchy="false">(</mo><mi>θ</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><mi>A</mi><mo>⋅</mo><mi>B</mi></mrow><mrow><mo stretchy="false">∥</mo><mi>A</mi><mo stretchy="false">∥</mo><mo stretchy="false">∥</mo><mi>B</mi><mo stretchy="false">∥</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">similarity = \cos(\theta)= \frac{A\cdot B}{\rVert A \rVert \rVert B \rVert}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8888799999999999em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">s</span><span class="mord mathdefault">i</span><span class="mord mathdefault">m</span><span class="mord mathdefault">i</span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">a</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">i</span><span class="mord mathdefault">t</span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mop">cos</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02778em;">θ</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.392331em;vertical-align:-0.52em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.872331em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mclose mtight">∥</span><span class="mord mathdefault mtight">A</span><span class="mclose mtight">∥</span><span class="mclose mtight">∥</span><span class="mord mathdefault mtight" style="margin-right:0.05017em;">B</span><span class="mclose mtight">∥</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">A</span><span class="mbin mtight">⋅</span><span class="mord mathdefault mtight" style="margin-right:0.05017em;">B</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.52em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span>
-<img src="/images/2019-08-26-activation atlas/similarity.png" alt="" title="Similarity" /></p>
+<img src="/blog/images/2019-08-26-activation atlas/similarity.png" alt="" title="Similarity" /></p>
 </blockquote>
 
 <p>각 activation vector마다 attribution vector를 구할 수 있다. attribution vector란, 각 calss에 대한 항목이 있으며 각 class의 logit에 영향을 받은 activation vector의 값을 근사한다. attribution vector는 주변 contex에 영향을 받는다.
@@ -121,11 +121,11 @@
   <li>Code: https://colab.research.google.com/github/tensorflow/lucid/blob/master/notebooks/building-blocks/AttrSpatial.ipynb</li>
 </ul>
 
-<p><img src="/images/2019-08-26-activation atlas/figure5.png" alt="" title="Figure5" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figure5.png" alt="" title="Figure5" /></p>
 
 <p>위에서 보이는 이미지는 오른쪽의 feature space에 상단 좌측에 위치한 average attribution을 시각화 한 것이다. 위의 이미지는 모두 조금씩 다르지만, 비슷한 류의 동물의 형상을 하고 있다. 특히, 눈, 털, 코 등의 특징을 잡아내고 있다. 주의 할 점은 앞단의 레이어에서 실행하면, 상당히 혼란스러울수 있다는 점이다. (앞단의 레이어에서는 위와 같은 특징을 못잡을 수도 있다.)</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figure6.png" alt="" title="Figure6" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figure6.png" alt="" title="Figure6" /></p>
 
 <p>위의 이미지는 좌측 하단의 위치한 average attribution vector이다. 위의 이미지와 다르게 바다 해변의 형상을 가지고 있다.</p>
 
@@ -141,9 +141,9 @@
 
 <p>사용할 레이어는 다음과 같다.(강조된 부분)</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figure7.png" alt="" title="Figure7" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figure7.png" alt="" title="Figure7" /></p>
 
-<p><img src="/images/2019-08-26-activation atlas/figure8.png" alt="" title="Figure8" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figure8.png" alt="" title="Figure8" /></p>
 
 <p>위의 이미지는 cabbage class를 시각화한 것이다. 왼쪽에서 오른쪽으로 갈 수록 더 cabbage처럼 구체적이고 복잡해지는 것을 확인할 수 있다. 이는 해당연구에서 기대했던 바인데 이유는 다음과 같다.</p>
 
@@ -151,7 +151,7 @@
   <li>뒷 단의 레이어일수록 receptive field가 크기 때문</li>
 </ul>
 
-<p><img src="/images/2019-08-26-activation atlas/figur9.png" alt="" title="Figure9" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figur9.png" alt="" title="Figure9" /></p>
 
 <p>위의 이미지는 sand와 water 그리고 sandbar의 이미지의 activation value를 나타낸 것이다. sandbar를 보면, 앞의 두 이미지를 합친 것과 유사해 보인다.</p>
 
@@ -161,21 +161,21 @@
 
 <p>예를 들어서, network가 어떤 과정을 거쳐서 ‘fireboat’라는 class로 결정하는지 살펴볼 것이다.</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figur10.jpg" alt="" title="Figure10" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figur10.jpg" alt="" title="Figure10" /></p>
 
 <p>먼저 last layer(mixed5b)를 살펴볼 것이다. 뚜렷하게 보이는 부분일수록 ‘fireboat’로 결정하는데 큰 기여를 한 activation이다. classification 전의 layer이기 때문에 ‘fireboat’와 매우 유사한 이미지들이 진하게 보인다는 것을 확인 할 수 있다.</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figur11.png" alt="" title="Figure11" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figur11.png" alt="" title="Figure11" /></p>
 
 <p>아래의 이미지는 mixed4d의 이미지로 여러가지 부분의 조합으로 ‘fireboat’로 인식하고 있음을 확인할 수 있다. 각 부분들은 fireboat와 유사해 보이지 않지만, 위의 fireboat사진을 보면 이렇게 인식하는 이유를 이해할 수 있다.</p>
 
 <p>fireboat를 보면 창문 + 기중기 + 물로 이루어져 있음을 알 수 있다. 해당 부분도 물, 기중기, 창문들로 이루어져 있다.</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figur12.png" alt="" title="Figure12" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figur12.png" alt="" title="Figure12" /></p>
 
 <p>이러한 특성은 ‘fireboat’와 ‘streetcar’와 비교해보면 잘 알 수 있다. (조금 유사하지만 다른 object)</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figur13.png" alt="" title="Figure13" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figur13.png" alt="" title="Figure13" /></p>
 
 <p>해당 이미지를 보면 streetcar는 기중기나 물에서는 약한 activation을 가지고 있으나 창문과 집에 대한 activation에서는 매우 강한 activation을 가진다. 반대로 fireboat는 물과 기중기, 창문에서는 강한 activation을 가지지만 집에 대한 activation에서는 약한 activation을 가지고 있음을 확인할 수 있다.</p>
 
@@ -183,7 +183,7 @@
 
 <p>특정 class에 기여하는 activation만을 확인하고 싶다면, 다른 activation을 완전히 제외할 수 있다. 이를 class-specific activation이라고 한다.</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figur14.png" alt="" title="Figure14" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figur14.png" alt="" title="Figure14" /></p>
 
 <ul>
   <li>
@@ -196,17 +196,17 @@
 
 <p>class activation atlas는 특정 class에 대해서 어떤 detector가 더 많은 기여를 했는지 명확하게 보여준다. 위의 스노쿨링 예시에서 강한 attribution만 보여주는 것이 아니라, strength가 약하더라도 해당 class에 전반적인 영향을 끼친 attribution도 보여준다. 특정 경우 우리가 보고 싶어하는 object와 매우 강하게 상관관계가 있는 object가 있다. (스노쿨러 - 물고기) 물고기는 우리가 보고 싶어하는 부분과 다른 부분이다. 따라서 적절한 filtering 방법이 필요하다</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figur15.png" alt="" title="Figure15" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figur15.png" alt="" title="Figure15" /></p>
 
 <p>위의 이미지 다른 필터링을 적용한 것이다. 위의 설명을 참고 바란다.</p>
 
 <p>이제는 유사한 두 클레스를 비교해볼 것이다. (magnitude 기준으로)</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figur16.png" alt="" title="Figure16" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figur16.png" alt="" title="Figure16" /></p>
 
 <p>위의 이미지를 보면 두 클레스를 구분하기 힘들것이다. 아래의 이미지를 보면 도움이 될 것이다.</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figur17.png" alt="" title="Figure17" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figur17.png" alt="" title="Figure17" /></p>
 
 <blockquote>
   <p>To help make the comparison easier, we can combine the two views into one. We’ll plot the difference between the attributions of the “snorkel” and “scuba diver” horizontally, and use t-SNE  to cluster similar activations vertically.</p>
@@ -216,17 +216,17 @@
 
 <p>스노쿨링 이미지에 조금씩 기관차 이미지를 사이즈 업하여 더한 것이다.</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figur18.png" alt="" title="Figure18" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figur18.png" alt="" title="Figure18" /></p>
 
 <p>해당 이미지를 보면 조금 더 하면 스쿠버 다이버의 softmax값이 올라가나 일정수준이 넘으면 기관차로 인식함을 알 수 있다. 아마도 기관차의 스팀이 그런역할을 한 것으로 보이며 이와 같은 feature를 multi-use feature라고 칭한다.(시각적으로 유사해 보여도 서로 다른 시각적으로 다른 class에 반응)</p>
 
 <p>위와 같은 실험을 attack의 개념으로 1000여번을 진행했다.</p>
 
-<p><img src="/images/2019-08-26-activation atlas/figur19.png" alt="" title="Figure19" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figur19.png" alt="" title="Figure19" /></p>
 
-<p><img src="/images/2019-08-26-activation atlas/figur20.png" alt="" title="Figure20" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figur20.png" alt="" title="Figure20" /></p>
 
-<p><img src="/images/2019-08-26-activation atlas/figur21.png" alt="" title="Figure21" /></p>
+<p><img src="/blog/images/2019-08-26-activation atlas/figur21.png" alt="" title="Figure21" /></p>
 
 <p>위의 공격은 모든 클레스에 대해서 효과적인것은 아니었으나, 다섯개의 이미지에서 2개 정도로 target image로 인식하게 만들 수 있었다.</p>
 

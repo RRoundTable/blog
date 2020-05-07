@@ -18,7 +18,7 @@
 
 <h2 id="proposed-method-rapp">Proposed Method RaPP</h2>
 
-<p><img src="/images/2020-04-02-RaPP/img1.png" alt="" title="hidden space" /></p>
+<p><img src="/blog/images/2020-04-02-RaPP/img1.png" alt="" title="hidden space" /></p>
 
 <p>위의 이미지 처럼 encoder와 decoder간의 hidden space를  비교하는 것이 목표이지만, 위에서 언급한 한계때문에 불가능하다.  그래서 새롭게 제안하는 방법은 reconstruction output을 다시 autoencoder에 넣어서 decoder의 hidden space들을 재현하는 것이다.</p>
 
@@ -30,7 +30,7 @@
 
 <h3 id="reconstruction-error-in-hidden-spaces">Reconstruction Error In Hidden Spaces</h3>
 
-<p><img src="/images/2020-04-02-RaPP/figure1_a.png" alt="" title="Figure1 (a)" /></p>
+<p><img src="/blog/images/2020-04-02-RaPP/figure1_a.png" alt="" title="Figure1 (a)" /></p>
 
 <p>위에 보이는 이미지처럼, $h_i(x), \hat{h}_i(x)$를 각각 구한다.</p>
 
@@ -44,7 +44,7 @@
 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>H</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">{</mo><mo stretchy="false">(</mo><msub><mi>h</mi><mi>i</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><msub><mover accent="true"><mi>h</mi><mo>^</mo></mover><mi>i</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo>:</mo><mi>i</mi><mo>≤</mo><mi>i</mi><mo>≤</mo><mi>l</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">H(x) = \{ (h_i(x), \hat{h}_i(x)) : i \le i \le l \}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.2078799999999998em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">h</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9578799999999998em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">h</span></span></span><span style="top:-3.26344em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">^</span></span></span></span></span></span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.79549em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.79549em;vertical-align:-0.13597em;"></span><span class="mord mathdefault">i</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mclose">}</span></span></span></span>
 $H(x)$를 활용해서 novelty score를 얻기 위해 다음과 같은 과정을 진행한다.</p>
 
-<p><img src="/images/2020-04-02-RaPP/algorithm1.png" alt="" title="Algorithm1" /></p>
+<p><img src="/blog/images/2020-04-02-RaPP/algorithm1.png" alt="" title="Algorithm1" /></p>
 
 <p>여기서 $S$ 는 novelty score를 측정하는 함수로 본 연구에서는 크게 두 가지 방향을 제시한다.</p>
 
@@ -73,7 +73,7 @@ $H(x)$를 활용해서 novelty score를 얻기 위해 다음과 같은 과정을
 
 <p>그럼에도 불구하고, $\hat{h}<em>i(x) = g</em>(A(x))$의 관계를 바탕으로, 위의 문제의식을 실현할 수 있었다. 전반적인 프로세스는 아래의 Figure1 (b)를 확인하면 알 수 있다.</p>
 
-<p><img src="/images/2020-04-02-RaPP/figure1_b.png" alt="" title="Figure1 (b)" /></p>
+<p><img src="/blog/images/2020-04-02-RaPP/figure1_b.png" alt="" title="Figure1 (b)" /></p>
 
 <h3 id="computation-of-hidden-reconstruction">Computation Of Hidden Reconstruction</h3>
 
@@ -88,7 +88,7 @@ $H(x)$를 활용해서 novelty score를 얻기 위해 다음과 같은 과정을
   <li>$M_i = { g_{:i(x)}: x \in M_0 }$</li>
 </ul>
 
-<p><img src="/images/2020-04-02-RaPP/M.png" alt="" title="M" /></p>
+<p><img src="/blog/images/2020-04-02-RaPP/M.png" alt="" title="M" /></p>
 
 <p>다음과 같은 decoder $\tilde{f}$ 가 있다고 가정하자.</p>
 

@@ -67,11 +67,11 @@ data augmentation의 이론적 배경으로 training data와 유사한 주변 �
 
 <p>아래의 영상은 lambda값에 따라서 mixup 데이터의 pca결과값이 어떻게 변하는지 시각화한 것이다. 아래의 그림들처럼 linear하게 PCA value가 변하는 것을 확인하였는데 이는 VRM 가정이 옳다는 것을 보여준다.</p>
 
-<p><img src="/images/2019-07-21-mixup-정리글/sample1.png" alt="" title="MNIST" /></p>
+<p><img src="/blog/images/2019-07-21-mixup-정리글/sample1.png" alt="" title="MNIST" /></p>
 
-<p><img src="/images/2019-07-21-mixup-정리글/sample2.png" alt="" title="CIFAR10" /></p>
+<p><img src="/blog/images/2019-07-21-mixup-정리글/sample2.png" alt="" title="CIFAR10" /></p>
 
-<p><img src="/images/2019-07-21-mixup-정리글/sample3.png" alt="" title="Fashion MNIST" /></p>
+<p><img src="/blog/images/2019-07-21-mixup-정리글/sample3.png" alt="" title="Fashion MNIST" /></p>
 
 <h2 id="from-empirical-risk-minimization-to-mixup">From Empirical Risk Minimization To Mixup</h2>
 
@@ -93,7 +93,7 @@ data augmentation의 이론적 배경으로 training data와 유사한 주변 �
 <p>참고: <a href="https://en.wikipedia.org/wiki/Dirac_delta_function">Dirac mass centered</a>
 아래 그림과 같이 굉장히 naive한 가정이다.</p>
 
-<p><img src="/images/2019-07-21-mixup-정리글/dirac.png" alt="" title="Dirac distribution" /></p>
+<p><img src="/blog/images/2019-07-21-mixup-정리글/dirac.png" alt="" title="Dirac distribution" /></p>
 
 <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>R</mi><mi>σ</mi></msub><mo>=</mo><mo>∫</mo><mi>l</mi><mi>o</mi><mi>s</mi><mi>s</mi><mo stretchy="false">(</mo><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mi>d</mi><msub><mi>P</mi><mi>σ</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo stretchy="false">)</mo><mo>=</mo><mfrac><mn>1</mn><mi>n</mi></mfrac><msubsup><mi mathvariant="normal">Σ</mi><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><mi>l</mi><mi>o</mi><mi>s</mi><mi>s</mi><mo stretchy="false">(</mo><mi>f</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo separator="true">,</mo><msub><mi>y</mi><mi>i</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">R_{\sigma}=\int loss(f(x), y)dP_{\sigma}(x,y)=\frac{1}{n}\Sigma_{i=1}^{n}loss(f(x_i),y_i)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.00773em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">σ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.22225em;vertical-align:-0.86225em;"></span><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011249999999999316em;">∫</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">s</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mord mathdefault">d</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">σ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.00744em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.32144em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault">n</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mord">Σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7143919999999999em;"><span style="top:-2.4530000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">s</span><span class="mord mathdefault">s</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>
 
@@ -107,7 +107,7 @@ VRM을 가정하게 되면 P는 다음과 같이 정의할 수 있다.</p>
 
 <h3 id="what-is-mixup-doing">[what is mixup doing?]</h3>
 
-<p><img src="/images/2019-07-21-mixup-정리글/erm_mixup.png" alt="" title="ERM VS Mixup" /></p>
+<p><img src="/blog/images/2019-07-21-mixup-정리글/erm_mixup.png" alt="" title="ERM VS Mixup" /></p>
 
 <p>(Mixup) Effect of mixup on a toy problem.
 Green: Class 0
@@ -118,7 +118,7 @@ Blue shading indicates $P(y = 1 \mid  x)$.</p>
 파란색 부분은 해당 데이터 x가 주어졌을 때, Class 1일 확률이다. ERM을 보면 파란색 부분이 Class 1가 가까운 것과 가깝지 않는 것 사이의 차이를 나타내지 못한다.
 반면에 mixup은 가까운 부분은 더 짙은 파란색으로 나타내어, uncertainty를 smoother하게 측정할 수 있다.</p>
 
-<p><img src="/images/2019-07-21-mixup-정리글/erm_mixup2.png" alt="" title="ERM VS Mixup" /></p>
+<p><img src="/blog/images/2019-07-21-mixup-정리글/erm_mixup2.png" alt="" title="ERM VS Mixup" /></p>
 
 <p>(a) 는 prediction을 나타낸 것이고, (b)는 gradient norm을 나타낸 것이다.
 (a)를 보면 mixup으로 학습시킨 것이 더 prediction측면에서 좋은 성능을 보이고 있다.</p>
@@ -138,15 +138,15 @@ Blue shading indicates $P(y = 1 \mid  x)$.</p>
 
 <h3 id="32-cifar10-and-cifar100">3.2 CIFAR10 AND CIFAR100</h3>
 
-<p><img src="/images/2019-07-21-mixup-정리글/figure3.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-21-mixup-정리글/figure3.png" alt="" /></p>
 
 <h3 id="33-speech-data">3.3 SPEECH DATA]</h3>
 
-<p><img src="/images/2019-07-21-mixup-정리글/figure4.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-21-mixup-정리글/figure4.png" alt="" /></p>
 
 <h3 id="34-memorization-of-corrupted-labels">3.4 MEMORIZATION OF CORRUPTED LABELS]</h3>
 
-<p><img src="/images/2019-07-21-mixup-정리글/table2.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-21-mixup-정리글/table2.png" alt="" /></p>
 
 <p>mixup interpolation alpha가 더 커질수록 memorization이 더 어려워진다는 가설을 세웠다.
 corruption label을 가지고 학습을 시켰다. 이는 memorizaiton을 검증하는 실험에서 사용된다. (더 찾아보기)
@@ -154,15 +154,15 @@ corruption label을 가지고 학습을 시켰다. 이는 memorizaiton을 검증
 
 <h3 id="35-robustness-to-adversarial-examples">3.5 ROBUSTNESS TO ADVERSARIAL EXAMPLES</h3>
 
-<p><img src="/images/2019-07-21-mixup-정리글/table3.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-21-mixup-정리글/table3.png" alt="" /></p>
 
 <h3 id="36-tabular-data">3.6 TABULAR DATA</h3>
 
-<p><img src="/images/2019-07-21-mixup-정리글/table4.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-21-mixup-정리글/table4.png" alt="" /></p>
 
 <h3 id="37-stabilization-of-generative-adversarial-networks">3.7 STABILIZATION OF GENERATIVE ADVERSARIAL NETWORKS</h3>
 
-<p><img src="/images/2019-07-21-mixup-정리글/figure5.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-21-mixup-정리글/figure5.png" alt="" /></p>
 
 <p>mixup은 disciriminator의 <strong>gradient regularizer</strong>의 역할을 하기 때문에, 더 안정적인 학습을 할 수 있다.</p>
 
