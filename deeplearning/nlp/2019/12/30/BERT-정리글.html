@@ -1,0 +1,221 @@
+<h1 id="bert-bidirectional-encoder-representations-from-transformers"><strong>BERT, Bidirectional Encoder Representations from Transformers</strong></h1>
+
+<h2 id="abstract">Abstract</h2>
+
+<p>BERT는  unlabeled text를 기반으로 deep bidirectional representation을 pretrain하기 위해서 만들어졌다. 이는 모든 layer에서 왼쪽과 오른쪽 모두의 context정보를 바탕으로 만들어진다.</p>
+
+<p>결과적으로 pretrained된 BERT 모델은 output layer을 추가하고 fine-tuning을 함으로써 question answering 그리고 language inference분야에서 state-of-the-art 성능을 낼 수 있다. 이는 task-specific한 구조의 변화없이 가능하다.</p>
+
+<h2 id="1-introduction">1. Introduction</h2>
+
+<p>pretrained language representation을 활용하는데는 두 가지 전략이 있다.</p>
+
+<ul>
+  <li>
+    <p>Feature-based: ELMO</p>
+
+    <p>task-specific한 architecture를 사용한다.</p>
+  </li>
+  <li>
+    <p>fine-tuning: OpenAI GPT</p>
+
+    <p>task-specific한 parameter를 적게 사용한다.</p>
+  </li>
+</ul>
+
+<p>위의 두 가지 전략은 pretraining을 하는동안 동일한 objective를 사용하게 된다. 또한 모두 unidirectional representation을 사용하고 있다.</p>
+
+<p><img src="https://mino-park7.github.io/images/2018/12/%EA%B7%B8%EB%A6%BC1-bert-openai-gpt-elmo-%EC%B6%9C%EC%B2%98-bert%EB%85%BC%EB%AC%B8.png" /></p>
+
+<p>하지만, 본 논문에서는 unidirectional representation이 pretrained representation 능력을 제한한다고 주장하며,  이는 특히 fine-tuning 방법론에 영향을 많이 끼친다고 말한다. 가장 큰 한계는 standard language models가 unidirectional하며 이는 architecture를 선택할 때 많은 제한을 두게 된다. 예를 들어서, openAI GPT의 경우 left-to-right architecture를 사용한다. 모든 토큰은 self-attention layer에서 자기 자신보다 이전의 있는 토큰에만 영향을 끼친다. 이런 제한은 sentence-level task에서 sub-optimal하다.</p>
+
+<p>이 논문에서는 세 가지 contribution을 제공한다.</p>
+
+<ul>
+  <li>Bidirectional pre-training for language representation</li>
+  <li>pre-trained representation은  task-specific architecture의 필요성을 감소시킨다.</li>
+  <li>11가지 NLP task에 대해서 SOTA의 성능을 보인다.</li>
+</ul>
+
+<h2 id="2-related-work">2. Related Work</h2>
+
+<p>pre-training general language representations에 관련된 연구들이다.</p>
+
+<h3 id="21-unsupervised-feature-based-approaches">2.1 Unsupervised Feature-based Approaches</h3>
+
+<ul>
+  <li>
+    <p>word embedding vectors</p>
+  </li>
+  <li>
+    <p>ELMO</p>
+  </li>
+</ul>
+
+<h3 id="22--unsupervised-fine-tuning-approaches">2.2  Unsupervised Fine-tuning Approaches</h3>
+
+<p>word embedding parameter를 unlabeled text로 pre-trained 하는 것으로 연구가 시작되었다.</p>
+
+<ul>
+  <li>OpenAI GPT</li>
+</ul>
+
+<p>fine-tuning approach는 학습과정에서 적은 parameter를 학습시키면 된다는 장점을 가지고 있다.</p>
+
+<h3 id="23-transfer-learning-from-supervised-data">2.3 Transfer Learning from Supervised Data</h3>
+
+<p>NLP, vision task에서 모두 tranfer learning은 효과적임을 보여주고 있다.</p>
+
+<ul>
+  <li>Imagenet pretrained</li>
+</ul>
+
+<h2 id="3-bert-unified-architecture-across-different-tasks">3. BERT: unified architecture across different tasks.</h2>
+
+<p>BERT는 두 가지 단계를 가지고 있다.</p>
+
+<ul>
+  <li>
+    <p>pre-training: unlabeled data를 이용해서 학습을 진행한다.</p>
+  </li>
+  <li>
+    <p>fine-tuning: weight값을 pre-trained된 값으로 초기화해준다. 그 후 labeled data를 이용해서 지도학습을 진행하게 된다.</p>
+  </li>
+  <li>
+    <p><strong>Model Architecture</strong></p>
+
+    <p>Transformer 기반으로 만들어졌다. Transformer 논문은 encoder decoder구조로 이루어져 있지만, BERT에서는 encoder 위주로 사용한다.</p>
+
+    <p><img src="https://user-images.githubusercontent.com/1250095/49935094-73f99c80-ff13-11e8-8ba5-50a008ed4d20.png" style="width: 50%" /></p>
+  </li>
+  <li>
+    <p>**Input/Output Representations **</p>
+
+    <p>down-stream task에서 잘 작동하려면, input representation이 single sentence 혹은 a pair of sentence에 모두 유연하게 반응할 수 있어야 한다.</p>
+
+    <p><img src="https://user-images.githubusercontent.com/1250095/50039788-8e4e8a00-007b-11e9-9747-8e29fbbea0b3.png" /></p>
+
+    <p>해당 논문은 WordPiece embeddings을 사용하였다. 첫번째 token은 항상 [CLS]이다.(special classification token의 역할을 수행) 그리고 [CLS]에 반응하는 hidden state는 classification task를 위한 representation을 모으는 역할을 수행한다.</p>
+
+    <p>또한 두 가지 방법으로 sentence를 구분한다.</p>
+
+    <ol>
+      <li>special token [SEP]를 이용하여 sentence를 구분한다.</li>
+      <li>각 sentence에 sentence embedding을 더하여 어떤 sentence정보를 가지고 있는지 알려준다.</li>
+    </ol>
+  </li>
+</ul>
+
+<h3 id="31-pre-training-bert">3.1 Pre-training BERT</h3>
+
+<ul>
+  <li>
+    <p><strong>Task #1: Masked LM</strong></p>
+
+    <p>직관적으로, bidirectional representation이 unidirectional representation보다 좋다는 것은 쉽게 알 수 있다. 하지만,  기존의 연구에서 사용하지 않은 이유는 바로 bidirectional representation을 하게 되면, 간접적으로 각 word가 자신에 대한 정보를 쉽게 얻을 수 있게 되며, 모델이 multi layerd contex에서 target word를 참조하기 힘들게 한다.</p>
+
+    <p>위의 한계점을 극복하고 deep bidirectional representation한 train을 하기 위해서 해당 연구에서는 input token중 일부를 랜덤하게 마스크하고 이렇게 mask된 단어들을 학습하도록 유도하였다. 이를 masked LM(MLM)이라고 한다. 실험적으로 약 15%의 token을 마스크하는것이 효과적이였다.</p>
+
+    <p>하지만, fine-tuning을 할 때, 문제가 발생한다. 바로 [Mask] 했던 token들은 fine-tuning과정에서는 발생하지 않기 때문이다. 이러한 문제점을 해결하기 위해서, 다음과 같은 조치를 취하였다.</p>
+
+    <ol>
+      <li>
+        <p>i-token이 mask되었다면, 80% 확률로 [Mask]로 대체한다.</p>
+
+        <p>나는 학생이다. -&gt; 나는 [Mask]이다.</p>
+      </li>
+      <li>
+        <p>i-token이 mask되었다면, 10% 확률로 random하게 다른 단어로 대체한다.</p>
+
+        <p>나는 학생이다 -&gt; 나는 아파트이다.</p>
+      </li>
+      <li>
+        <p>i-token이 mask되었다면,  10% 확률로 변화시키지 않는다.</p>
+
+        <p>나는 학생이다. -&gt; 나는 학생이다.</p>
+      </li>
+    </ol>
+
+    <p>이런 조치를 취하게 되면, Transformer layer가  cross entropy loss로 학습을 진행하게 된다. 참고로 random하게 단어를 변화시키는 확률은 $0.15 * 0.1 = 0.015$ 로 모델의 표현력을 저하시키지 않는다.</p>
+  </li>
+  <li>
+    <p><strong>Task #2: Next Sentence Prediction(NSP)</strong></p>
+
+    <p>Question Answering, Natural Language Inference와 같은 task에서 두 문장 사이의 관계를 파악하는 것은 중요하다. 이는 language modeling에서 직접적으로 관계를 파악하기 힘들다. 두 문장 사이의 관계를 파악하기 위해서 해당 논문은 next sentence prediction task로 pre-train을 하였다.</p>
+
+    <ul>
+      <li>특히 A문장과 B문장을 고를때, 50%확률로 B가 실제로 뒤에 있는 문장이다.</li>
+      <li>나머지 50% 확률로 random하게 배치한다.</li>
+    </ul>
+
+    <p>하지만, 이전 연구에서는 sentence embedding만 down-task에 전이가 한다. (BERT는 모든 parameter를 전이한다.)</p>
+  </li>
+</ul>
+
+<h3 id="32-fine-tunning-bert">3.2 Fine-tunning BERT</h3>
+
+<ul>
+  <li>self-attention layer의 영향으로 fine-tuning은 매우 순조롭다.</li>
+  <li>input sequence에 대해서 일정한 차원수의 representation 결과를 얻고 싶기 때문에, <code class="highlighter-rouge">[CLS]</code> token의 <strong>Transformer output</strong>값을 사용합니다.</li>
+  <li><code class="highlighter-rouge">[CLS]</code> token의 벡터는 H차원을 가집니다. $C∈R^H$</li>
+  <li>여기서 <strong>classify하고 싶은 갯수(K)에 따라 classification layer</strong>를 붙여 줍니다. classification layer : $W∈R^{K×H} W∈R^{K×H}$</li>
+  <li>label probabilities는 <strong>standard softmax</strong>로 계산 됩니다.$P=softmax(CWT)P=softmax(CWT)$</li>
+  <li>
+    <p>W matrix와 BERT의 모든 파라미터가 같이 fine-tuning 됩니다.</p>
+  </li>
+  <li>
+    <p>hyperparmeter</p>
+
+    <p><strong>Batch size</strong>: 16, 32 <strong>Learning rage (Adam)</strong>: 5e-5, 3e-5, 2e-5 Number of epochs : 3, 4</p>
+  </li>
+  <li>
+    <p>pretraining과 비교했을때, 상대적으로 fine-tuning은 적은 비용으로 학습시킬수 있다.</p>
+  </li>
+  <li>fine-tuning시 dataset의 크기가 클수록 hyperparameter의 영향을 덜 받고 잘 training됨을 관측할 수 있었다고 합니다.</li>
+</ul>
+
+<h3 id="33-comparision-of-bert-elmo-and-openai-gpt">3.3 Comparision of BERT, ELMO and OpenAI GPT</h3>
+
+<p><img src="https://mino-park7.github.io/images/2018/12/%EA%B7%B8%EB%A6%BC1-bert-openai-gpt-elmo-%EC%B6%9C%EC%B2%98-bert%EB%85%BC%EB%AC%B8.png" /></p>
+
+<ul>
+  <li>BERT와 OpenAI GPT는 fine-tuning approach인 반면에, ELMo는 feature-based approach이다.</li>
+  <li>BERT와 OpenAI GPT는 유사한 pre-training방법론을 사용하였다.</li>
+  <li>BERT와 ELMo는 bidirectional representation을 얻는다. OpenAI GPT는 unidirectional representation을 사용한다.</li>
+</ul>
+
+<h2 id="4experiments">4.Experiments</h2>
+
+<ul>
+  <li><strong>Fine-tunning on Different Tasks</strong></li>
+</ul>
+
+<p><img src="https://mino-park7.github.io/images/2019/02/%EA%B7%B8%EB%A6%BC4-bert-experiment-result.png" style="width: 80%" /></p>
+
+<p>위의 그림은 각 task에 대한 fine-tuning 방법론을 시각화한 것이다. (a), (b)는 sentence level, (c)와 (d)는 token-level task이다. 참고로 [CLS]는 classification을 위한 단어이고, [SEP]는 연속적이지 않은 token을 나누기 위한 단어이다.</p>
+
+<ul>
+  <li>
+    <p>GLUE</p>
+  </li>
+  <li>
+    <p>SQuAD v1.1</p>
+  </li>
+  <li>
+    <p>SQuAD v2.0</p>
+  </li>
+  <li>
+    <p>SWAG</p>
+  </li>
+</ul>
+
+<h2 id="5-ablation-studies">5. Ablation Studies</h2>
+
+<h3 id="51-effect-of-pre-training-tasks">5.1 Effect of Pre-training Tasks</h3>
+
+<h3 id="51-effect-of-model-size">5.1 Effect of Model Size</h3>
+
+<h3 id="53-feature-based-approach-with-bert">5.3 Feature-based Approach with BERT</h3>
+
+<h2 id="6-conclusion">6. Conclusion</h2>
+

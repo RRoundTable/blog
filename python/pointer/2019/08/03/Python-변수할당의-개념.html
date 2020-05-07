@@ -1,0 +1,132 @@
+<h1 id="python-변수할당의-개념">“Python 변수할당의 개념”</h1>
+
+<h2 id="python은-c언어와-다르게-pointer가-존재하지-않는다">Python은 C언어와 다르게 Pointer가 존재하지 않는다.</h2>
+
+<p>Pointer란</p>
+
+<p>프로그래밍 언어에서 다른 변수, 혹은 그 변수의 메모리 공간주소를 가리키는 변수를 말한다. 포인터가 가리키는 값을 가져오는 것을 역참조라고 한다.</p>
+
+<p><img src="/images/2019-08-03-Python-변수할당의-개념/pointer.png" alt="" /></p>
+
+<p>python에서는 메모리 주소를 변수를 구별하는 용도로 사용한다.</p>
+
+<p>참고로 변수의 메모리 주소는 id()를 이용하여 구할 수 있다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">a</span> <span class="o">=</span> <span class="s">"String"</span>
+<span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>python에서는 변수에 값을 할당하면 object를 생성해서 값을 저장한 후 변수는 해당 object의 메모리 주소를 의미하는 id값을 가지게 된다.  여기서 변수는 object의 label정도로 생각하면 된다.</p>
+
+<p><img src="/images/2019-08-03-Python-변수할당의-개념/variable.png" alt="" title="variable" /></p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="mi">23282008</span>
+</code></pre></div></div>
+
+<p>다음과 같은 두 가지 상황을 생각해 볼 수 있다.</p>
+
+<ul>
+  <li>
+    <p>같은 object 값을 가지고 같은 메모리 주소를 가지는 경우</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="mi">23283616</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="mi">23283616</span>
+</code></pre></div>    </div>
+
+    <p>이 경우 변수 a를 변화시킨다면, 주소값도 같이 변한다.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span>
+<span class="mi">101</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="mi">140706122743760</span>
+  
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span>
+<span class="mi">100</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="mi">140706122743728</span> <span class="c1"># b의 주소값은 변하지 않는다.
+</span>  
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">+=</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="mi">140706122743760</span> <span class="c1"># a와 같은 주소값을 가진다.
+</span>  
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">-=</span> <span class="mi">1</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="mi">140706122743728</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>같은 object 값을 가지고 다른 메모리 주소를 가지는 경우: 같은 주소값을 가질수도 안가질 수도 있다.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">12345</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">12345</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="mi">23564368</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="mi">23564584</span>
+  
+</code></pre></div>    </div>
+
+    <p>따라서 두 변수를 비교할 때는 해당 값을 비교하는 것인지, object의 id를 가르키는 것인지 명확히 해야한다.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">12345</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">b</span> <span class="o">=</span> <span class="mi">12345</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+<span class="mi">23564368</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="nb">id</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="mi">23564584</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="ow">is</span> <span class="n">b</span> <span class="c1"># object id 비교
+</span><span class="bp">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">a</span> <span class="o">==</span> <span class="n">b</span> <span class="c1"># object value 비교
+</span><span class="bp">True</span>
+  
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h2 id="정체성--동질성">정체성 , 동질성</h2>
+
+<ul>
+  <li>
+    <p>동일한 객체를 참조하는 사례: dict 자료형</p>
+
+    <p>dict 자료형의 경우, 변수 선언을 기존의 dict 형 변수로 할 경우 동일한 object를 참조하게 되며, 하나의 값이 변하면, 다른 하나의 변수도 같이 변하게 된다.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">A</span> <span class="o">=</span> <span class="p">{</span><span class="s">"a"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">"b"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">"c"</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">B</span> <span class="o">=</span> <span class="n">A</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">A</span> <span class="ow">is</span> <span class="n">B</span> <span class="c1"># 같은 object
+</span><span class="bp">True</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">A</span> <span class="o">==</span> <span class="n">B</span> 
+<span class="bp">True</span>
+  
+<span class="o">&gt;&gt;&gt;</span> <span class="n">A</span><span class="p">[</span><span class="s">'d'</span><span class="p">]</span> <span class="o">=</span> <span class="mi">4</span> <span class="c1"># A에 key 'd' 추가
+</span><span class="o">&gt;&gt;&gt;</span> <span class="n">B</span> <span class="c1"># A의 변화가 B에도 반영
+</span><span class="p">{</span><span class="s">'a'</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">'b'</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">'c'</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span> <span class="s">'d'</span><span class="p">:</span> <span class="mi">4</span><span class="p">}</span>
+  
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>위의 두 변수를 독립적으로 사용하기 위해서는 아래와 같이 서로 다른 object를 참조해야 한다.</p>
+
+    <div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&gt;&gt;&gt;</span> <span class="n">A</span> <span class="o">=</span> <span class="p">{</span><span class="s">"a"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">"b"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">"c"</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">B</span> <span class="o">=</span> <span class="p">{</span><span class="s">"a"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="s">"b"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span> <span class="s">"c"</span><span class="p">:</span> <span class="mi">3</span><span class="p">}</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">A</span> <span class="ow">is</span> <span class="n">B</span> <span class="c1"># 서로 다른 object 참조
+</span><span class="bp">False</span>
+<span class="o">&gt;&gt;&gt;</span> <span class="n">A</span> <span class="o">==</span> <span class="n">B</span>
+<span class="bp">True</span>
+</code></pre></div>    </div>
+  </li>
+</ul>
+
+<h4 id="reference">Reference</h4>
+
+<ul>
+  <li>https://technote.kr/185</li>
+  <li>https://technote.kr/289</li>
+  <li>https://zzsza.github.io/development/2018/08/25/python-object/</li>
+</ul>

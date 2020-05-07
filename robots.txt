@@ -1,1 +1,1 @@
-Sitemap: https://rroundtable.github.io/blog/sitemap.xml
+Sitemap: https://fastpages.fast.ai/sitemap.xml

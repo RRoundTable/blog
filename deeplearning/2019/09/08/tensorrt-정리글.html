@@ -1,0 +1,201 @@
+<h1 id="tensorrt-정리글">“tensorrt 정리글”</h1>
+
+<h2 id="13-how-does-tensorrt-work">[1.3. How Does TensorRT Work?]</h2>
+
+<p>inference 과정을 최적화 시키기 위해서, TensorRT는 network definition을 가져와서 해당 환경(GPU)에서 최적화를 하며, inference engine을 생성한다. 이 과정은 상당한 시간이 소요되며, embedded 된 platform(하드웨어)에서는 더 오래걸린다. 이런 이유 때문에, 보통 engine을 만들면 그것을 serialize화 하여, 저장하고 후에 읽어와서 사용하는 방법을 선호한다.</p>
+
+<p><strong>Note:</strong> 위의 generated된 file은 다른 tensorRT 버전 혹은 다른 플렛폼에서 사용할 수 없다. 특정 gpu에서만 사용해야한다.</p>
+
+<blockquote>
+  <p>serialize</p>
+
+  <p><strong>직렬화</strong>(直列化) 또는 <strong>시리얼라이제이션</strong>(serialization)은 <a href="https://ko.wikipedia.org/wiki/컴퓨터_과학">컴퓨터 과학</a>의 데이터 스토리지 문맥에서 <a href="https://ko.wikipedia.org/wiki/데이터_구조">데이터 구조</a>나 <a href="https://ko.wikipedia.org/wiki/오브젝트">오브젝트</a> 상태를 동일하거나 다른 컴퓨터 환경에 저장(이를테면 <a href="https://ko.wikipedia.org/wiki/컴퓨터_파일">파일</a>이나 메모리 <a href="https://ko.wikipedia.org/wiki/데이터_버퍼">버퍼</a>에서, 또는 <a href="https://ko.wikipedia.org/wiki/컴퓨터_네트워크">네트워크</a> 연결 링크 간 전송)하고 나중에 재구성할 수 있는 포맷으로 변환하는 과정이다.[<a href="https://ko.wikipedia.org/wiki/직렬화#cite_note-1">1]</a></p>
+
+  <p><a href="https://ko.wikipedia.org/wiki/직렬화">https://ko.wikipedia.org/wiki/%EC%A7%81%EB%A0%AC%ED%99%94</a></p>
+</blockquote>
+
+<p>다음과 같은 과정을 통해서 inference engine이 만들어진다.</p>
+
+<ul>
+  <li>사용되지 않는 output을 가지는 layer를 삭제</li>
+  <li>convolution, bias, Relu operations를 결합하여 연산</li>
+  <li>비슷한 parameter 혹은 같은 source tensor를 사용하는 연산을 묶기</li>
+  <li>layer output을 correct eventual destination에 지정하여 concatenation layer 합치기</li>
+</ul>
+
+<p>또한 precision of weights를 변경하여 최적화하기도 한다. (half-precision)</p>
+
+<h2 id="14-what-capabilities-does-tensorrt-provide">[1.4. What Capabilities Does TensorRT Provide?]</h2>
+
+<p>import, calibrate, generate, deploy optimized networks</p>
+
+<p>Network는 Caffe 혹은 다른 framework를 통해서 import할 수 있다. (UFF or ONNX formax)</p>
+
+<p>다음은 tensorRT의 대표적인 라이브러리이다.</p>
+
+<ul>
+  <li>
+    <p><strong>Network Definition</strong></p>
+
+    <p>input, output tensor를 정의하거나, 특정 layer를 정의할 때 사용할 수 있다.</p>
+  </li>
+  <li>
+    <p><strong>Builder</strong></p>
+
+    <p>engine을 만들 때 사용</p>
+  </li>
+  <li>
+    <p><strong>Engine</strong></p>
+
+    <p>inference를 실행할 때 사용한다.</p>
+  </li>
+  <li>
+    <p><strong>Caffe</strong> <strong>Parser</strong></p>
+
+    <p>caffe로 저장된 모델을 불러들일때 사용</p>
+  </li>
+  <li>
+    <p><strong>UFF Parser</strong></p>
+
+    <p>UFF로 저장된 모델을 불러들일때 사용</p>
+  </li>
+  <li>
+    <p><strong>ONNX</strong> <strong>Parser</strong></p>
+
+    <p>ONNX로 저장된 모델을 불러들일</p>
+  </li>
+</ul>
+
+<h2 id="지원하지-않는-노드레이어">지원하지 않는 노드/레이어</h2>
+
+<p>object detection 혹은 다른 모델을 tensorRT에 적용할 때, 지원하지 않는 노드가 있을 수도 있다. 이럴때는  GraphSurgeon을 이용하여 따로 정의해주어야 한다.</p>
+
+<p>아래는 SSD에 tensorRT를 적용할 때의 예시이다.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1"># Model download and UFF convertion utils
+</span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">tarfile</span>
+
+<span class="kn">import</span> <span class="nn">requests</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="n">tf</span>
+<span class="kn">import</span> <span class="nn">tensorrt</span> <span class="k">as</span> <span class="n">trt</span>
+<span class="kn">import</span> <span class="nn">graphsurgeon</span> <span class="k">as</span> <span class="n">gs</span>
+<span class="kn">import</span> <span class="nn">uff</span>
+
+<span class="k">class</span> <span class="nc">ModelData</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="c1"># Name of input node
+</span>    <span class="n">INPUT_NAME</span> <span class="o">=</span> <span class="s">"Input"</span>
+    <span class="c1"># CHW format of model input
+</span>    <span class="n">INPUT_SHAPE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+    <span class="c1"># Name of output node
+</span>    <span class="n">OUTPUT_NAME</span> <span class="o">=</span> <span class="s">"NMS"</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_input_channels</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">ModelData</span><span class="o">.</span><span class="n">INPUT_SHAPE</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_input_height</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">ModelData</span><span class="o">.</span><span class="n">INPUT_SHAPE</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+    <span class="o">@</span><span class="nb">staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_input_width</span><span class="p">():</span>
+        <span class="k">return</span> <span class="n">ModelData</span><span class="o">.</span><span class="n">INPUT_SHAPE</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">ssd_unsupported_nodes_to_plugin_nodes</span><span class="p">(</span><span class="n">ssd_graph</span><span class="p">):</span>
+    <span class="s">"""Makes ssd_graph TensorRT comparible using graphsurgeon.
+    This function takes ssd_graph, which contains graphsurgeon
+    DynamicGraph data structure. This structure describes frozen Tensorflow
+    graph, that can be modified using graphsurgeon (by deleting, adding,
+    replacing certain nodes). The graph is modified by removing
+    Tensorflow operations that are not supported by TensorRT's UffParser
+    and replacing them with custom layer plugin nodes.
+    Note: This specific implementation works only for
+    ssd_inception_v2_coco_2017_11_17 network.
+    Args:
+        ssd_graph (gs.DynamicGraph): graph to convert
+    Returns:
+        gs.DynamicGraph: UffParser compatible SSD graph
+    """</span>
+    <span class="c1"># Create TRT plugin nodes to replace unsupported ops in Tensorflow graph
+</span>    <span class="n">channels</span> <span class="o">=</span> <span class="n">ModelData</span><span class="o">.</span><span class="n">get_input_channels</span><span class="p">()</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">ModelData</span><span class="o">.</span><span class="n">get_input_height</span><span class="p">()</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="n">ModelData</span><span class="o">.</span><span class="n">get_input_width</span><span class="p">()</span>
+
+    <span class="n">Input</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">create_plugin_node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">"Input"</span><span class="p">,</span>
+        <span class="n">op</span><span class="o">=</span><span class="s">"Placeholder"</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+        <span class="n">shape</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="p">])</span>
+    <span class="n">PriorBox</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">create_plugin_node</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s">"GridAnchor"</span><span class="p">,</span> <span class="n">op</span><span class="o">=</span><span class="s">"GridAnchor_TRT"</span><span class="p">,</span>
+        <span class="n">minSize</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+        <span class="n">maxSize</span><span class="o">=</span><span class="mf">0.95</span><span class="p">,</span>
+        <span class="n">aspectRatios</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">0.33</span><span class="p">],</span>
+        <span class="n">variance</span><span class="o">=</span><span class="p">[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.2</span><span class="p">],</span>
+        <span class="n">featureMapShapes</span><span class="o">=</span><span class="p">[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="n">numLayers</span><span class="o">=</span><span class="mi">6</span>
+    <span class="p">)</span>
+    <span class="n">NMS</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">create_plugin_node</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s">"NMS"</span><span class="p">,</span>
+        <span class="n">op</span><span class="o">=</span><span class="s">"NMS_TRT"</span><span class="p">,</span>
+        <span class="n">shareLocation</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">varianceEncodedInTarget</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">backgroundLabelId</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+        <span class="n">confidenceThreshold</span><span class="o">=</span><span class="mf">1e-8</span><span class="p">,</span>
+        <span class="n">nmsThreshold</span><span class="o">=</span><span class="mf">0.6</span><span class="p">,</span>
+        <span class="n">topK</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">keepTopK</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+        <span class="n">numClasses</span><span class="o">=</span><span class="mi">91</span><span class="p">,</span>
+        <span class="n">inputOrder</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+        <span class="n">confSigmoid</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">isNormalized</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+    <span class="n">concat_priorbox</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">create_node</span><span class="p">(</span>
+        <span class="s">"concat_priorbox"</span><span class="p">,</span>
+        <span class="n">op</span><span class="o">=</span><span class="s">"ConcatV2"</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">2</span>
+    <span class="p">)</span>
+    <span class="n">concat_box_loc</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">create_plugin_node</span><span class="p">(</span>
+        <span class="s">"concat_box_loc"</span><span class="p">,</span>
+        <span class="n">op</span><span class="o">=</span><span class="s">"FlattenConcat_TRT"</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">ignoreBatch</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">)</span>
+    <span class="n">concat_box_conf</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">create_plugin_node</span><span class="p">(</span>
+        <span class="s">"concat_box_conf"</span><span class="p">,</span>
+        <span class="n">op</span><span class="o">=</span><span class="s">"FlattenConcat_TRT"</span><span class="p">,</span>
+        <span class="n">dtype</span><span class="o">=</span><span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
+        <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+        <span class="n">ignoreBatch</span><span class="o">=</span><span class="mi">0</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Create a mapping of namespace names -&gt; plugin nodes.
+</span>    <span class="n">namespace_plugin_map</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s">"MultipleGridAnchorGenerator"</span><span class="p">:</span> <span class="n">PriorBox</span><span class="p">,</span>
+        <span class="s">"Postprocessor"</span><span class="p">:</span> <span class="n">NMS</span><span class="p">,</span>
+        <span class="s">"Preprocessor"</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
+        <span class="s">"ToFloat"</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
+        <span class="s">"image_tensor"</span><span class="p">:</span> <span class="n">Input</span><span class="p">,</span>
+        <span class="s">"MultipleGridAnchorGenerator/Concatenate"</span><span class="p">:</span> <span class="n">concat_priorbox</span><span class="p">,</span>
+        <span class="s">"MultipleGridAnchorGenerator/Identity"</span><span class="p">:</span> <span class="n">concat_priorbox</span><span class="p">,</span>
+        <span class="s">"concat"</span><span class="p">:</span> <span class="n">concat_box_loc</span><span class="p">,</span>
+        <span class="s">"concat_1"</span><span class="p">:</span> <span class="n">concat_box_conf</span>
+    <span class="p">}</span>
+
+    <span class="c1"># Create a new graph by collapsing namespaces
+</span>    <span class="n">ssd_graph</span><span class="o">.</span><span class="n">collapse_namespaces</span><span class="p">(</span><span class="n">namespace_plugin_map</span><span class="p">)</span>
+    <span class="c1"># Remove the outputs, so we just have a single output node (NMS).
+</span>    <span class="c1"># If remove_exclusive_dependencies is True, the whole graph will be removed!
+</span>    <span class="n">ssd_graph</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">ssd_graph</span><span class="o">.</span><span class="n">graph_outputs</span><span class="p">,</span> <span class="n">remove_exclusive_dependencies</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ssd_graph</span>
+</code></pre></div></div>
+
+<ul>
+  <li>https://github.com/NVIDIA/object-detection-tensorrt-example/tree/master/SSD_Model/utils</li>
+</ul>
+
+<h4 id="reference">Reference</h4>
+
+<p>https://docs.nvidia.com/deeplearning/sdk/tensorrt-developer-guide/index.html#fit__fit2</p>
