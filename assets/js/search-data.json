@@ -337,7 +337,7 @@
   
       ,"page1": {
           "title": "About Me",
-          "content": "This is where you put the contents of your About page. Like all your pages, it’s in Markdown format. . This website is powered by fastpages 1. . a blogging platform that natively supports Jupyter notebooks in addition to other formats. &#8617; . |",
+          "content": "PROJECTS . Mixup implementation . Data augmentation via convex combination. . . Hedged instance embedding implementation . Modeled uncertainty by hedging the location of each input in embedding space. . [low uncertainty in clean image] . [high uncertainty in occluded image] . . Error encoding network implementation . Visualized that the distance of different latent variables measures the similarity of images. . **Mixture density network implementation ** . Visualized explainable variance and unexplainable variance. . AWARDS AND HONORS . Ocean litter detector | Stock network analysis | Innovation hackaton | .",
           "url": "https://fastpages.fast.ai/about/",
           "relUrl": "/about/",
           "date": ""
@@ -348,7 +348,7 @@
   
       ,"page2": {
           "title": "About Me",
-          "content": "PROJECTS . Mixup implementation . Data augmentation via convex combination. . . Hedged instance embedding implementation . Modeled uncertainty by hedging the location of each input in embedding space. . [low uncertainty in clean image] . [high uncertainty in occluded image] . . Error encoding network implementation . Visualized that the distance of different latent variables measures the similarity of images. . **Mixture density network implementation ** . Visualized explainable variance and unexplainable variance. . AWARDS AND HONORS . Ocean litter detector | Stock network analysis | Innovation hackaton | .",
+          "content": "This is where you put the contents of your About page. Like all your pages, it’s in Markdown format. . This website is powered by fastpages 1. . a blogging platform that natively supports Jupyter notebooks in addition to other formats. &#8617; . |",
           "url": "https://fastpages.fast.ai/about/",
           "relUrl": "/about/",
           "date": ""
@@ -359,17 +359,6 @@
   
 
   
-      ,"page4": {
-          "title": "",
-          "content": "Posts .",
-          "url": "https://fastpages.fast.ai/",
-          "relUrl": "/",
-          "date": ""
-      }
-      
-  
-
-  
   
 
   
@@ -391,7 +380,7 @@
   
 
   
-      ,"page13": {
+      ,"page12": {
           "title": "",
           "content": "Sitemap: {{ “sitemap.xml” | absolute_url }} | .",
           "url": "https://fastpages.fast.ai/robots.txt",
