@@ -45,7 +45,7 @@ $$
 
 여기서 baseline의 역할은 비교대상이다. 예를 들어, object recognition 과제가 있을 때, input image에서 어떤 pixel이 특정 class라고 판단하게 하는지 구할 수 있다.  아래의 이미지처럼, attribution을 알고싶다면, baseline을 모두 0으로 처리할 수 있다.
 
-![](){{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/ex1.png "Example")
+![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/ex1.png "Example")
 
 baseline은 model의 행동의 원인을 파악하고자 필요한 개념이다. prediction이 중립적인 상황을 가정하며, image의 경우에는 위와 같이 나타낼 수 있다.
 
@@ -65,7 +65,7 @@ sensitivity를 만족했다는 것은 다음을 의미한다. input하고 baseli
 
 하지만, gradient는 이러한 특성을 반영하지 못한다. 아래의 이미지를 살펴보자.
 
-![](){{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/gradient.png "gradient")
+![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/gradient.png "gradient")
 
 - baseline: $x=0$
 
@@ -77,7 +77,7 @@ gradient의 한계로 인해서, 연관성 없는 feature에 gradient 값이 높
 
 attribution이 두 개의 기능적으로 동일한 network상에서 항상 같아야 한다는 것이다.
 
-![](){{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/implementation_invariance.png)
+![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/implementation_invariance.png)
 
 우선, gradient 자체로는 implementation invariant하다.  아래의 수식을 살펴보자. 
 
@@ -95,7 +95,7 @@ $$
 $$
 \frac{f(x_1) - f(x_0)}{g(x_1) - g(x_0)} \ne \frac{f(x_1) - f(x_0)}{h(x_1) - h(x_0)} \cdot \frac{h(x_1) - h(x_0)}{g(x_1) - g(x_0)} \text{   for all  } x_1, x_0
 $$
-![](){{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/figure7.png)
+![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/figure7.png)
 
 
 
@@ -150,7 +150,7 @@ unnatural한 data가 만들어진다. 따라서 성능의 저하가 단순히 at
 
 ### Path Methods
 
-![](){{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/figure1.png)
+![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/figure1.png)
 
 - $\gamma = (\gamma_1, \cdots, \gamma_n) : [0, 1] \rightarrow R^n$
 - $\gamma(0) = \acute{x}$
@@ -182,5 +182,5 @@ $x_1, x_2$는 symmetric variable이고 input에서는 $x_1=x_2=1$ 이며, baslin
 
 그리고, integrated gradient는 이러한 조건을 만족한다. 아래를 간략히 정리하면, non-straightline은 symmetry preserving하지 않다는 것이다.
 
-![](){{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/proof1.png)
+![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/proof1.png)
 
