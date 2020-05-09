@@ -4,6 +4,7 @@ toc: true
 branch: master
 badges: true
 categories: ['nlp']
+layout: post
 ---
 
 # Word Representation 정리글

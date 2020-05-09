@@ -6,6 +6,7 @@ badges: true
 comments: true
 categories: ['interview', 'deeplearning']
 metadata_key1: batch normalization
+layout: post
 ---
 
 # How Does Batch Normalization Help Optimization? 정리글

@@ -3,6 +3,7 @@ title: "Feature Visulatization 번역글"
 toc: true
 badges: true
 categories: ['deeplearning', 'interpretability']
+layout: post
 ---
 
 

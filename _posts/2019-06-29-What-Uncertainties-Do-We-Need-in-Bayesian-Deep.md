@@ -8,6 +8,7 @@ comments: true
 image: https://alexgkendall.com/assets/images/blog_uncertainty/uncertainty_types.jpg
 categories: ['uncertainty', 'computer_vision']
 metadata_key1: uncertainty in computer vision
+layout: post
 ---
 
 

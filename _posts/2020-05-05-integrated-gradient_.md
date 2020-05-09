@@ -5,6 +5,7 @@ branch: master
 badges: true
 comments: true
 categories: ['deeplearning', 'XAI']
+layout: post
 ---
 
 

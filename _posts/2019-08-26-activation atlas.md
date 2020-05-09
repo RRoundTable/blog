@@ -5,6 +5,7 @@ toc: true
 branch: master
 badges: true
 categories: ['deeplearning', 'interpretability']
+layout: post
 ---
 
 

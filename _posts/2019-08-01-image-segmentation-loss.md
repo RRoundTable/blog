@@ -1,5 +1,6 @@
 ---
 title: "Image segmentation에서 사용되는 loss"
+layout: post
 ---
 
 

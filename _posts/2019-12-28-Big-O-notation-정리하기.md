@@ -4,6 +4,7 @@ toc: true
 badges: true
 branch: master
 categories: ['algorithm']
+layout: post
 ---
 
 # Big-O notation 정리하기

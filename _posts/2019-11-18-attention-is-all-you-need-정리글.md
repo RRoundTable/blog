@@ -4,6 +4,7 @@ toc: true
 badges: true
 branch: master
 categories: ['deeplearning', 'nlp', 'transformer']
+layout: post
 ---
 
 # attention is all you need 정리글

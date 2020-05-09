@@ -6,6 +6,7 @@ badges: true
 comments: true
 categories: ['deeplearning']
 metadata_key1: mesh tensorflow
+layout: post
 ---
 
 

@@ -7,6 +7,7 @@ comments: true
 categories: ['interview', 'machine learning']
 metadata_key1: MLE
 metadata_key2: MAP
+layout: post
 ---
 
 

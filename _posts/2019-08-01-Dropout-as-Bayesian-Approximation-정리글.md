@@ -6,6 +6,7 @@ badges: true
 comments: true
 categories: ['deeplearning', 'uncertainty']
 metadata_key1: dropout
+layout: post
 ---
 
 

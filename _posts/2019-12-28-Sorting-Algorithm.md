@@ -4,6 +4,7 @@ toc: true
 branch: master
 badges: true
 categories: ['algorithm']
+layout: post
 ---
 
 # Sorting Algorithm

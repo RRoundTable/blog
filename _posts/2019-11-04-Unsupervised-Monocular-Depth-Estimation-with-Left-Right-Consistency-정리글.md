@@ -4,6 +4,7 @@ toc: true
 badges: true
 branch: master
 categories: ['deeplearning', 'computer vision']
+layout: post
 ---
 
 #  Unsupervised Monocular Depth Estimation with Left-Right Consistency 정리글

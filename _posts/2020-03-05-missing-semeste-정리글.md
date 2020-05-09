@@ -4,6 +4,7 @@ branch: master
 badges: true
 comments: true
 categories: ['shell', 'bash']
+layout: post
 ---
 
 # Missing Semester 정리글

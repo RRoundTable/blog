@@ -6,6 +6,7 @@ badges: true
 comments: true
 categories: ['deeplearning', 'detection']
 metadata_key1: mixup
+layout: post
 ---
 # Faster-RCNN 정리글
 
