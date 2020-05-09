@@ -1,6 +1,185 @@
-<h1 id="word-representation-정리글">Word Representation 정리글</h1>
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>word representation | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="word representation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Word Representation 정리글" />
+<meta property="og:description" content="Word Representation 정리글" />
+<link rel="canonical" href="https://fastpages.fast.ai/blog/nlp/2020/01/14/word-representation.html" />
+<meta property="og:url" content="https://fastpages.fast.ai/blog/nlp/2020/01/14/word-representation.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-01-14T00:00:00-06:00" />
+<script type="application/ld+json">
+{"description":"Word Representation 정리글","mainEntityOfPage":{"@type":"WebPage","@id":"https://fastpages.fast.ai/blog/nlp/2020/01/14/word-representation.html"},"@type":"BlogPosting","url":"https://fastpages.fast.ai/blog/nlp/2020/01/14/word-representation.html","headline":"word representation","dateModified":"2020-01-14T00:00:00-06:00","datePublished":"2020-01-14T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://fastpages.fast.ai/blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
-<h2 id="word2vec-distributed-representation">Word2vec: distributed representation</h2>
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-5','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>word representation | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="word representation" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Word Representation 정리글" />
+<meta property="og:description" content="Word Representation 정리글" />
+<link rel="canonical" href="https://fastpages.fast.ai/blog/nlp/2020/01/14/word-representation.html" />
+<meta property="og:url" content="https://fastpages.fast.ai/blog/nlp/2020/01/14/word-representation.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-01-14T00:00:00-06:00" />
+<script type="application/ld+json">
+{"description":"Word Representation 정리글","mainEntityOfPage":{"@type":"WebPage","@id":"https://fastpages.fast.ai/blog/nlp/2020/01/14/word-representation.html"},"@type":"BlogPosting","url":"https://fastpages.fast.ai/blog/nlp/2020/01/14/word-representation.html","headline":"word representation","dateModified":"2020-01-14T00:00:00-06:00","datePublished":"2020-01-14T00:00:00-06:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://fastpages.fast.ai/blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-5','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script type="text/javascript">
+require.config({
+  paths: {
+    jquery: 'https://code.jquery.com/jquery-3.5.0.min',
+    plotly: 'https://cdn.plot.ly/plotly-latest.min'
+  },
+
+  shim: {
+    plotly: {
+      deps: ['jquery'],
+      exports: 'plotly'
+    }
+  }
+});
+</script>
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">RoundTable</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">word representation</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-01-14T00:00:00-06:00" itemprop="datePublished">
+        Jan 14, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      7 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#nlp">nlp</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#word-representation-정리글">Word Representation 정리글</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#word2vec-distributed-representation">Word2vec: distributed representation</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#1-cbowcontinuous-bag-of-words">1. CBOW(Continuous Bag of Words)</a></li>
+<li class="toc-entry toc-h3"><a href="#2-skip-gram">2. Skip-Gram</a></li>
+<li class="toc-entry toc-h3"><a href="#3-negative-sampling">3. Negative Sampling</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#word2vec의-한계점">word2vec의 한계점</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#glove">Glove</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#co-occurrence-probability">Co-occurrence probability</a></li>
+<li class="toc-entry toc-h3"><a href="#loss-function">Loss function</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#fasttext">FastText</a></li>
+</ul>
+</li>
+</ul><h1 id="word-representation-정리글">
+<a class="anchor" href="#word-representation-%EC%A0%95%EB%A6%AC%EA%B8%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>Word Representation 정리글</h1>
+
+<h2 id="word2vec-distributed-representation">
+<a class="anchor" href="#word2vec-distributed-representation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Word2vec: distributed representation</h2>
 
 <blockquote>
   <p>분산 표현(distributed representation) 방법은 기본적으로 분포 가설(distributional hypothesis)이라는 가정 하에 만들어진 표현 방법입니다. 이 가정은 <strong>‘비슷한 위치에서 등장하는 단어들은 비슷한 의미를 가진다’</strong>라는 가정입니다.</p>
@@ -8,11 +187,12 @@
   <p>reference: https://wikidocs.net/22660</p>
 </blockquote>
 
-<h3 id="1-cbowcontinuous-bag-of-words">1. CBOW(Continuous Bag of Words)</h3>
+<h3 id="1-cbowcontinuous-bag-of-words">
+<a class="anchor" href="#1-cbowcontinuous-bag-of-words" aria-hidden="true"><span class="octicon octicon-link"></span></a>1. CBOW(Continuous Bag of Words)</h3>
 
 <p>주변에 있는 단어로 중간에 있는 단어를 예측하는 방법입니다. 중심단어를 예측하기 위해서 주변단어를 보는 범위를 window라고 합니다. 예를 들어서, 아래 이미지의 첫 번째 글에서 파란색 부분이 ‘fat’, ‘cat’이므로 window는 2입니다.</p>
 
-<p><img src="https://wikidocs.net/images/page/22660/%EB%8B%A8%EC%96%B4.PNG" /></p>
+<p><img src="https://wikidocs.net/images/page/22660/%EB%8B%A8%EC%96%B4.PNG"></p>
 
 <blockquote>
   <p>보통 딥 러닝이라함은, 입력층과 출력층 사이의 은닉층의 개수가 충분히 쌓인 신경망을 학습할 때를 말하는데 Word2Vec는 입력층과 출력층 사이에 하나의 은닉층만이 존재합니다. 이렇게 은닉층(hidden Layer)이 1개인 경우에는 일반적으로 심층신경망(Deep Neural Network)이 아니라 얕은신경망(Shallow Neural Network)이라고 부릅니다. 또한 Word2Vec의 은닉층은 일반적인 은닉층과는 달리 활성화 함수가 존재하지 않으며 룩업 테이블이라는 연산을 담당하는 층으로 일반적인 은닉층과 구분하기 위해 투사층(projection layer)이라고 부르기도 합니다.</p>
@@ -20,7 +200,7 @@
   <p>reference: https://wikidocs.net/22660</p>
 </blockquote>
 
-<p><img src="https://wikidocs.net/images/page/22660/word2vec_renew_2.PNG" /></p>
+<p><img src="https://wikidocs.net/images/page/22660/word2vec_renew_2.PNG"></p>
 
 <p>아래의 이미지를 보면 연산과정을 알 수 있다.</p>
 
@@ -31,21 +211,23 @@
   <li>$V, M$: 단어의 개수, embedding 차원</li>
 </ul>
 
-<p><img src="https://wikidocs.net/images/page/22660/word2vec_renew_3.PNG" /></p>
+<p><img src="https://wikidocs.net/images/page/22660/word2vec_renew_3.PNG"></p>
 
-<p><img src="https://wikidocs.net/images/page/22660/word2vec_renew_5.PNG" /></p>
+<p><img src="https://wikidocs.net/images/page/22660/word2vec_renew_5.PNG"></p>
 
 <p>loss function으로는 cross-entropy 함수를 사용하게 됩니다.</p>
 
 <p>이제 역전파(Back Propagation)를 수행하면 W와 W’가 학습이 되는데, 학습이 다 되었다면 M차원의 크기를 갖는 W의 행이나 W’의 열로부터 어떤 것을 임베딩 벡터로 사용할지를 결정하면 됩니다. 때로는 W와 W’의 평균치를 가지고 임베딩 벡터를 선택하기도 합니다.</p>
 
-<h3 id="2-skip-gram">2. Skip-Gram</h3>
+<h3 id="2-skip-gram">
+<a class="anchor" href="#2-skip-gram" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. Skip-Gram</h3>
 
 <p>중간에 있는 단어로 주변의 단어들을 예측하는 방법입니다.</p>
 
-<p><img src="https://wikidocs.net/images/page/22660/word2vec_renew_6.PNG" /></p>
+<p><img src="https://wikidocs.net/images/page/22660/word2vec_renew_6.PNG"></p>
 
-<h3 id="3-negative-sampling">3. Negative Sampling</h3>
+<h3 id="3-negative-sampling">
+<a class="anchor" href="#3-negative-sampling" aria-hidden="true"><span class="octicon octicon-link"></span></a>3. Negative Sampling</h3>
 
 <p>대부분 word2vec은 negative sampling을 함께 사용합니다. word2vec의 학습과정을 잘 살펴보면, 출력층에 있는 softmax 함수는 단어집합 크기의 vector내의 모든 값을 0과 1사이의 값이면서 모두 더하면 1이 되도록 바꾸는 작업을 수행합니다. 이는 그 단어가 주변단어와 전혀 상관이 없는 단어라도 똑같이 적용되는 부분입니다.</p>
 
@@ -73,14 +255,16 @@
 
 <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><msub><mi>w</mi><mi>i</mi></msub><mo stretchy="false">)</mo><mo>=</mo><mfrac><mrow><mi>f</mi><mo stretchy="false">(</mo><msub><mi>w</mi><mi>i</mi></msub><msup><mo stretchy="false">)</mo><mn>0.75</mn></msup></mrow><mrow><munderover><mo>∑</mo><mrow><mi>j</mi><mo>=</mo><mn>0</mn></mrow><mi>n</mi></munderover><mo stretchy="false">(</mo><mi>f</mi><mo stretchy="false">(</mo><msub><mi>w</mi><mi>j</mi></msub><msup><mo stretchy="false">)</mo><mn>0.75</mn></msup><mo stretchy="false">)</mo></mrow></mfrac></mrow><annotation encoding="application/x-tex">P(w_i) =\frac{f(w_i)^{0.75}}{\sum_{j=0}^n (f(w_j)^{0.75})}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.6212180000000003em;vertical-align:-1.1301100000000002em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.491108em;"><span style="top:-2.305708em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.804292em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span><span class="mrel mtight">=</span><span class="mord mtight">0</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.740108em;"><span style="top:-2.9890000000000003em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mord mtight">.</span><span class="mord mtight">7</span><span class="mord mtight">5</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mord mtight">.</span><span class="mord mtight">7</span><span class="mord mtight">5</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:1.1301100000000002em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span>
 
-<h4 id="word2vec의-한계점">word2vec의 한계점</h4>
+<h4 id="word2vec의-한계점">
+<a class="anchor" href="#word2vec%EC%9D%98-%ED%95%9C%EA%B3%84%EC%A0%90" aria-hidden="true"><span class="octicon octicon-link"></span></a>word2vec의 한계점</h4>
 
 <ul>
   <li>out of vocalbulary에 대해서는 word representation을 얻을 수 없다.</li>
   <li>infrequent words는 학습이 불안정하다.</li>
 </ul>
 
-<h2 id="glove">Glove</h2>
+<h2 id="glove">
+<a class="anchor" href="#glove" aria-hidden="true"><span class="octicon octicon-link"></span></a>Glove</h2>
 
 <p>카운트 기반과 예측기반을 모두 사용하는 방법론입니다.</p>
 
@@ -194,7 +378,8 @@
   </tbody>
 </table>
 
-<h3 id="co-occurrence-probability">Co-occurrence probability</h3>
+<h3 id="co-occurrence-probability">
+<a class="anchor" href="#co-occurrence-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>Co-occurrence probability</h3>
 
 <table>
   <tbody>
@@ -248,7 +433,8 @@
   <p>위의 표를 통해 알 수 있는 사실은 solid가 등장했을 때 ice가 등장할 확률 0.00019은 solid가 등장했을 때 steam이 등장할 확률인 0.000022보다 약 8.9배 크다는 겁니다. 그도 그럴 것이 solid는 ‘단단한’이라는 의미를 가졌으니까 ‘증기’라는 의미를 가지는 steam보다는 당연히 ‘얼음’이라는 의미를 가지는 ice라는 단어와 더 자주 등장할 겁니다.</p>
 </blockquote>
 
-<h3 id="loss-function">Loss function</h3>
+<h3 id="loss-function">
+<a class="anchor" href="#loss-function" aria-hidden="true"><span class="octicon octicon-link"></span></a>Loss function</h3>
 
 <p>Embedding 된 중심단어와 주변 단어 벡터의 내적이 전체 코퍼스에서 동시 등장 확률이 되도록 모델을 학습시킨다.
 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle mathcolor="#cc0000"><mtext>\mbox</mtext></mstyle><mrow><mi>d</mi><mi>o</mi><mi>c</mi><mi>p</mi><mi>r</mi><mi>o</mi><mi>d</mi><mi>u</mi><mi>c</mi><mi>t</mi></mrow><mo stretchy="false">(</mo><msub><mi>W</mi><mi>i</mi></msub><mo separator="true">,</mo><msub><mi>W</mi><mi>k</mi></msub><mo stretchy="false">)</mo><mo>≈</mo><mi>P</mi><mo stretchy="false">(</mo><mi>k</mi><mi mathvariant="normal">∣</mi><mi>i</mi><mo stretchy="false">)</mo><mo>=</mo><msub><mi>P</mi><mrow><mi>i</mi><mi>k</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\mbox{doc product}(W_i, W_k) \approx P(k|i) = P_{ik}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text" style="color:#cc0000;"><span class="mord" style="color:#cc0000;">\mbox</span></span><span class="mord"><span class="mord mathdefault">d</span><span class="mord mathdefault">o</span><span class="mord mathdefault">c</span><span class="mord mathdefault">p</span><span class="mord mathdefault" style="margin-right:0.02778em;">r</span><span class="mord mathdefault">o</span><span class="mord mathdefault">d</span><span class="mord mathdefault">u</span><span class="mord mathdefault">c</span><span class="mord mathdefault">t</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mord">∣</span><span class="mord mathdefault">i</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span></p>
@@ -306,7 +492,7 @@ F는 두 vector의 차이를  받았기 때문에, 뺄셈에 대한 homomorphism
 
 <p>그리고 이러한 조건을 만족시키는 함수는 지수 함수(Exponential function)입니다.</p>
 
-<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Exp.svg/200px-Exp.svg.png" /></p>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Exp.svg/200px-Exp.svg.png"></p>
 
 <ul>
   <li>$x^{a + b} = x ^ a * x ^ b$</li>
@@ -334,14 +520,48 @@ F는 두 vector의 차이를  받았기 때문에, 뺄셈에 대한 homomorphism
 
 <p>가중치 함수의 그래프는 아래와 같습니다. 특정 값보다 크다면 모두 같은 가중치를 주게 됩니다.</p>
 
-<p><img src="https://wikidocs.net/images/page/22885/%EA%B0%80%EC%A4%91%EC%B9%98.PNG" />
+<p><img src="https://wikidocs.net/images/page/22885/%EA%B0%80%EC%A4%91%EC%B9%98.PNG">
 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi>min</mi><mo>⁡</mo><mo stretchy="false">(</mo><mn>1</mn><mo separator="true">,</mo><mo stretchy="false">(</mo><mfrac><mi>x</mi><msub><mi>x</mi><mi>max</mi><mo>⁡</mo></msub></mfrac><msup><mo stretchy="false">)</mo><mn>0.75</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">f(x) = \min(1, (\frac{x}{x_{\max}})^{0.75})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.2592079999999999em;vertical-align:-0.44509999999999994em;"></span><span class="mop">min</span><span class="mopen">(</span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mopen">(</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.695392em;"><span style="top:-2.655em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.16454285714285719em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mop mtight"><span class="mtight">m</span><span class="mtight">a</span><span class="mtight">x</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">x</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.44509999999999994em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">0</span><span class="mord mtight">.</span><span class="mord mtight">7</span><span class="mord mtight">5</span></span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span>
 최종적으로 목적함수는 아래의 식과 같습니다.
 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mstyle mathcolor="#cc0000"><mtext>\mbox</mtext></mstyle><mrow><mi>l</mi><mi>o</mi><mi>s</mi><mi>s</mi><mi>f</mi><mi>u</mi><mi>n</mi><mi>c</mi><mi>t</mi><mi>i</mi><mi>o</mi><mi>n</mi></mrow><mo>=</mo><msubsup><mo>∑</mo><mrow><mi>m</mi><mo separator="true">,</mo><mi>n</mi><mo>=</mo><mn>1</mn></mrow><mi>V</mi></msubsup><mi>f</mi><mo stretchy="false">(</mo><msub><mi>X</mi><mi>min</mi><mo>⁡</mo></msub><mo stretchy="false">)</mo><mo stretchy="false">(</mo><msubsup><mi>w</mi><mi>m</mi><mi>T</mi></msubsup><msub><mi>w</mi><mi>n</mi></msub><mo>+</mo><msub><mi>b</mi><mi>m</mi></msub><mo>+</mo><msub><mi>b</mi><mi>n</mi></msub><mo>−</mo><mi>log</mi><mo>⁡</mo><msub><mi>X</mi><mrow><mi>m</mi><mi>n</mi></mrow></msub><msup><mo stretchy="false">)</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\mbox{loss function} = \sum_{m,n = 1}^V f(X_{\min})(w_m ^ T w_n + b_m + b_n - \log X_{mn})^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text" style="color:#cc0000;"><span class="mord" style="color:#cc0000;">\mbox</span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.01968em;">l</span><span class="mord mathdefault">o</span><span class="mord mathdefault">s</span><span class="mord mathdefault">s</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mord mathdefault">u</span><span class="mord mathdefault">n</span><span class="mord mathdefault">c</span><span class="mord mathdefault">t</span><span class="mord mathdefault">i</span><span class="mord mathdefault">o</span><span class="mord mathdefault">n</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.417049em;vertical-align:-0.43581800000000004em;"></span><span class="mop"><span class="mop op-symbol small-op" style="position:relative;top:-0.0000050000000000050004em;">∑</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.981231em;"><span style="top:-2.40029em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mpunct mtight">,</span><span class="mord mathdefault mtight">n</span><span class="mrel mtight">=</span><span class="mord mtight">1</span></span></span></span><span style="top:-3.2029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.22222em;">V</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.43581800000000004em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31750199999999995em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mop mtight"><span class="mtight">m</span><span class="mtight">i</span><span class="mtight">n</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8413309999999999em;"><span style="top:-2.4530000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">m</span></span></span><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.247em;"><span></span></span></span></span></span></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.02691em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.84444em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">b</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mop">lo<span style="margin-right:0.01389em;">g</span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mathdefault mtight">n</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></p>
 
-<h2 id="fasttext">FastText</h2>
+<h2 id="fasttext">
+<a class="anchor" href="#fasttext" aria-hidden="true"><span class="octicon octicon-link"></span></a>FastText</h2>
 
 <p>FastText는 단어를 구성하는 Subwords(substrings)의 vector 합으로 단어 vector를 표현합니다. 이 방법은 typo(오식)가 있는 단어라 할지라도 비슷한 representation을 얻을 수 있으며, 새로운 단어에 대해서도 형태적 유사성을 고려한 적당한 word representation을 얻도록 도와줍니다.</p>
 
 <p>자연어 처리에서 자주 등장하는 문제는 (1) out of vocabulary, (2) infrequent words(모호성) 입니다. word2vec에서는 앞/뒤에 등장하는 단어로 가운데 단어를 예측하게 학습함으로서 문맥이 비슷한 단어를 유사한 vector로 표현합니다.</p>
 
+
+  </div><a class="u-url" href="/blog/nlp/2020/01/14/word-representation.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

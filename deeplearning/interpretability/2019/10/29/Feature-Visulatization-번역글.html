@@ -1,6 +1,192 @@
-<h1 id="feature-visulatization-번역글">Feature Visulatization 번역글</h1>
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Feature Visulatization 번역글 | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Feature Visulatization 번역글" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Feature Visulatization 번역글" />
+<meta property="og:description" content="Feature Visulatization 번역글" />
+<link rel="canonical" href="https://fastpages.fast.ai/blog/deeplearning/interpretability/2019/10/29/Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80.html" />
+<meta property="og:url" content="https://fastpages.fast.ai/blog/deeplearning/interpretability/2019/10/29/Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-10-29T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Feature Visulatization 번역글","mainEntityOfPage":{"@type":"WebPage","@id":"https://fastpages.fast.ai/blog/deeplearning/interpretability/2019/10/29/Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80.html"},"@type":"BlogPosting","url":"https://fastpages.fast.ai/blog/deeplearning/interpretability/2019/10/29/Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80.html","headline":"Feature Visulatization 번역글","dateModified":"2019-10-29T00:00:00-05:00","datePublished":"2019-10-29T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://fastpages.fast.ai/blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
-<h2 id="introduction">Introduction</h2>
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-5','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Feature Visulatization 번역글 | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Feature Visulatization 번역글" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Feature Visulatization 번역글" />
+<meta property="og:description" content="Feature Visulatization 번역글" />
+<link rel="canonical" href="https://fastpages.fast.ai/blog/deeplearning/interpretability/2019/10/29/Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80.html" />
+<meta property="og:url" content="https://fastpages.fast.ai/blog/deeplearning/interpretability/2019/10/29/Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-10-29T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Feature Visulatization 번역글","mainEntityOfPage":{"@type":"WebPage","@id":"https://fastpages.fast.ai/blog/deeplearning/interpretability/2019/10/29/Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80.html"},"@type":"BlogPosting","url":"https://fastpages.fast.ai/blog/deeplearning/interpretability/2019/10/29/Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80.html","headline":"Feature Visulatization 번역글","dateModified":"2019-10-29T00:00:00-05:00","datePublished":"2019-10-29T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://fastpages.fast.ai/blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-5','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script type="text/javascript">
+require.config({
+  paths: {
+    jquery: 'https://code.jquery.com/jquery-3.5.0.min',
+    plotly: 'https://cdn.plot.ly/plotly-latest.min'
+  },
+
+  shim: {
+    plotly: {
+      deps: ['jquery'],
+      exports: 'plotly'
+    }
+  }
+});
+</script>
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">RoundTable</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Feature Visulatization 번역글</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2019-10-29T00:00:00-05:00" itemprop="datePublished">
+        Oct 29, 2019
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#deeplearning">deeplearning</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#interpretability">interpretability</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#feature-visulatization-번역글">Feature Visulatization 번역글</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#introduction">Introduction</a></li>
+<li class="toc-entry toc-h2"><a href="#feature-visualization-by-optimization">Feature Visualization by Optimization</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#optimization-objective">Optimization Objective</a></li>
+<li class="toc-entry toc-h3"><a href="#why-visualize-by-optimization">Why visualize by optimization?</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#diversity">Diversity</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#achieving-diversity-with-optimization">Achieving Diversity with Optimization</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#interaction-between-neurons">Interaction between Neurons</a></li>
+<li class="toc-entry toc-h2"><a href="#the-enemy-of-feature-visualization">The Enemy of Feature Visualization</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#the-spectrum-of-regularization">The Spectrum of Regularization</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#reference">Reference</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h1 id="feature-visulatization-번역글">
+<a class="anchor" href="#feature-visulatization-%EB%B2%88%EC%97%AD%EA%B8%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feature Visulatization 번역글</h1>
+
+<h2 id="introduction">
+<a class="anchor" href="#introduction" aria-hidden="true"><span class="octicon octicon-link"></span></a>Introduction</h2>
 
 <p>neural network의 해석가능성에 대한 필요성이 늘어나고 있다. Deep learning의 해석가능성은 크게 두 가지 문제로 나뉜다.</p>
 
@@ -8,7 +194,7 @@
   <li>
     <p>feature visualization</p>
 
-    <p><img src="/blog/images/2019-10-29-Feature-Visulatization-번역글/img1.png" alt="" title="Figure1" /></p>
+    <p><img src="/blog/images/2019-10-29-Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/img1.png" alt="" title="Figure1"></p>
 
     <p>network 혹은 network의 부분이 무엇을 보고자 하는가</p>
   </li>
@@ -21,19 +207,21 @@
   </li>
 </ol>
 
-<h2 id="feature-visualization-by-optimization">Feature Visualization by Optimization</h2>
+<h2 id="feature-visualization-by-optimization">
+<a class="anchor" href="#feature-visualization-by-optimization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Feature Visualization by Optimization</h2>
 
 <p>일반적으로 neural network는 input에 대해서 differentiable하다. 만약 당신이 어떤 종류의 input이 특정한 행동양상을 가지는지 알고 싶다면(내부적인 뉴런의 동작 혹은 마지막 결과물의 양상이 예시가 될 수 있다.),  iteratively 미분하면서 목표를 이룰수 있다. 이렇게 얘기하면 매우 쉬울 거 같지만, 이를 하기 위해서는 많은 문제를 해결해야 한다.</p>
 
-<p><img src="/blog/images/2019-10-29-Feature-Visulatization-번역글/img2.png" alt="" title="Figure1" /></p>
+<p><img src="/blog/images/2019-10-29-Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/img2.png" alt="" title="Figure1"></p>
 
 <p>위의 예시는 random noise를 input으로 두고 특정 뉴런을 활성화 시키기 위해서 input을 변화시켜나가는 과정으로 보인다.</p>
 
-<h3 id="optimization-objective">Optimization Objective</h3>
+<h3 id="optimization-objective">
+<a class="anchor" href="#optimization-objective" aria-hidden="true"><span class="octicon octicon-link"></span></a>Optimization Objective</h3>
 
-<p><img src="/blog/images/2019-10-29-Feature-Visulatization-번역글/img2.png" alt="" /></p>
+<p><img src="/blog/images/2019-10-29-Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/img2.png" alt=""></p>
 
-<p><img src="/blog/images/2019-10-29-Feature-Visulatization-번역글/img3.png" alt="" /></p>
+<p><img src="/blog/images/2019-10-29-Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/img3.png" alt=""></p>
 
 <ul>
   <li>Neuron: $layer_n [x,y,z]$</li>
@@ -47,7 +235,8 @@
 
 <p>위의 방법론 말고도 여러가지 방법을 시도해 볼 수 있다.  style transfer도 좋은 예시이다. style transfer에서는 content와 style이라는 개념이 나온다. model이 optimization을 진행할 때 어떤 정보는 유지하고 어떤 정보는 버리는지에 대해서 알 수 있다.</p>
 
-<h3 id="why-visualize-by-optimization">Why visualize by optimization?</h3>
+<h3 id="why-visualize-by-optimization">
+<a class="anchor" href="#why-visualize-by-optimization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why visualize by optimization?</h3>
 
 <p>왜 dataset 그 자체로는 feature visualization을 하지 않고 optimization을 사용하는가?</p>
 
@@ -55,18 +244,20 @@
 
 <p>그 이유는 optimization이 model의 행동을 유발하는 요소와 상관관계가 있는 요소를 분리할 수 있기 때문이다.  아래의 예시 이미지를 보면 쉽게 알 수 있다.</p>
 
-<p><img src="/blog/images/2019-10-29-Feature-Visulatization-번역글/img4.png" alt="" /></p>
+<p><img src="/blog/images/2019-10-29-Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/img4.png" alt=""></p>
 
 <p>또한 optimization은 유연하다는 장점을 가진다. 특정 neuron을 활성화 시키고 싶다면 그에 맞게 수식을 적용하면 된다.</p>
 
-<h2 id="diversity">Diversity</h2>
+<h2 id="diversity">
+<a class="anchor" href="#diversity" aria-hidden="true"><span class="octicon octicon-link"></span></a>Diversity</h2>
 
 <p>optimization을 사용할 때는 주의할 필요가 있다.예를 들어,  genuine을 표현하고 싶은데, facet의 특징으로 설명할 수 도 있다.</p>
 
 <p>여기서 Dataset example이 매우 큰 장점을 가진다. 이를 통해서 diverse example을 찾을 수 있었다.
-<img src="/blog/images/2019-10-29-Feature-Visulatization-번역글/img5.png" alt="" /></p>
+<img src="/blog/images/2019-10-29-Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/img5.png" alt=""></p>
 
-<h3 id="achieving-diversity-with-optimization">Achieving Diversity with Optimization</h3>
+<h3 id="achieving-diversity-with-optimization">
+<a class="anchor" href="#achieving-diversity-with-optimization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Achieving Diversity with Optimization</h3>
 
 <p>nework는 inputs의 넓은 범위에 활성화될 수 있다. 예를 들어서 class level에서 생각해보자. 만약 classifier가 개를 인식하게 학습이 되었다면, 해당 classifier는 개의 얼굴과 전체적인 시각적인 특징을 잡아내야 한다. (비록 시각적으로 그 둘의 차이가 크더라도)</p>
 
@@ -86,15 +277,16 @@
 
 <p>이 글에서 제시하는 방법은 간단하게 적용할 수 있다. diversity term을 objective에 추가해서 multiple example이 서로 다르다고 하게끔 학습이 진행된다. 결과가 개선되었는데 정확한 이유는 아직 알 수 없다. 다만 추측하기로는 penalize the cosine similarity 혹은 feature가 다른 style로 보일 수 있게끔 학습이 진행되어서 그런것이라고 보고 있다.(style transfer)</p>
 
-<p><img src="/blog/images/2019-10-29-Feature-Visulatization-번역글/img6.png" alt="" /></p>
+<p><img src="/blog/images/2019-10-29-Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/img6.png" alt=""></p>
 
 <p>오른쪽을 보면 다양한 뷰의 강아진 사진이있다. 그리고 왼쪽의 결과물은 diversity를 고려한 optimization의 결과물이다.</p>
 
-<p><img src="/blog/images/2019-10-29-Feature-Visulatization-번역글/img7.png" alt="" /></p>
+<p><img src="/blog/images/2019-10-29-Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/img7.png" alt=""></p>
 
 <p>위의 그림은 diversity를 고려하지 않은 결과물이다.</p>
 
-<h2 id="interaction-between-neurons">Interaction between Neurons</h2>
+<h2 id="interaction-between-neurons">
+<a class="anchor" href="#interaction-between-neurons" aria-hidden="true"><span class="octicon octicon-link"></span></a>Interaction between Neurons</h2>
 
 <p>neuron은 혼자서 작용하는 것이 아니라 다른 neuron과의 상호작용을 통해서 결과물을 도출한다. 이를 이해하기 위해서 geometrically하게 생각하는 것을 추천한다.</p>
 
@@ -106,38 +298,74 @@
 
 <p>그리고 이글에서의 실험도 위의 견해와 일치하게 결과가 나왔다.</p>
 
-<p><img src="/blog/images/2019-10-29-Feature-Visulatization-번역글/img8.png" alt="" /></p>
+<p><img src="/blog/images/2019-10-29-Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/img8.png" alt=""></p>
 
 <p>위의 이미지는 각 이미지에 대한 optimization을 적용하였을 때의 결과물이다.</p>
 
-<p><img src="/blog/images/2019-10-29-Feature-Visulatization-번역글/img9.png" alt="" /></p>
+<p><img src="/blog/images/2019-10-29-Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/img9.png" alt=""></p>
 
 <p>위의 결과물도 흥미롭다. direction을 정의할 수 있다는 것인데, mosaic neuron에 흑백의 neruon을 더하면 흑백의 mosaic neuron이 나오게 된다. 이는 word2vector 혹은 generative model의 latent space와 유사한 개념이다.</p>
 
 <p>(interpolation)</p>
 
-<p><img src="/blog/images/2019-10-29-Feature-Visulatization-번역글/img10.png" alt="" /></p>
+<p><img src="/blog/images/2019-10-29-Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/img10.png" alt=""></p>
 
 <p>위의 이미지는  두 뉴런의 interpolation의 결과물이다. 해당 뉴런이 어떤식으로 결합되는지 확인할 수 있다. 위의 방법으로는 아주 작은 힌트만 얻을 수 있다. 예를 들면, 몇개의 interaction이 존재하는지 하지만 실제상황에서는 수백개의 interaction이 존재한다.</p>
 
-<h2 id="the-enemy-of-feature-visualization">The Enemy of Feature Visualization</h2>
+<h2 id="the-enemy-of-feature-visualization">
+<a class="anchor" href="#the-enemy-of-feature-visualization" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Enemy of Feature Visualization</h2>
 
 <p>위에서 말한 optimization 방법론은 실제로 잘 작동하지 않는다. 아래 이미지와 같은 약간 이상하면서 자주 나타나는 패턴이 있다. 이 이미지는 실제 data상에서 잘 보이지 않는 패턴이며, 특정 뉴런을 활성화 시키기 위한 cheeting 같은 느낌이 든다. 이는 adversarial attack과 유사해보인다</p>
 
-<p><img src="/blog/images/2019-10-29-Feature-Visulatization-번역글/img11.png" alt="" /></p>
+<p><img src="/blog/images/2019-10-29-Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/img11.png" alt=""></p>
 
 <p>위에서 언급한 자주 보이는 패턴이 convolution과 pooling 연산에 의존적임을 확인할 수 있었다.</p>
 
-<p><img src="/blog/images/2019-10-29-Feature-Visulatization-번역글/img12.png" alt="" /></p>
+<p><img src="/blog/images/2019-10-29-Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80/img12.png" alt=""></p>
 
 <p>정리하자면, constraint없는 optimization은 매력적이긴 하지만, 위의 예시처럼 의미없는 결과를 불러올 수 있다. (결국 adversarial example과 유사하게 만들어진다.)</p>
 
-<h3 id="the-spectrum-of-regularization">The Spectrum of Regularization</h3>
+<h3 id="the-spectrum-of-regularization">
+<a class="anchor" href="#the-spectrum-of-regularization" aria-hidden="true"><span class="octicon octicon-link"></span></a>The Spectrum of Regularization</h3>
 
 <p>위의 자주 보이는 패턴을 다루는 것은 feature visualization 연구에서 매우 중요한 영역이다. 만약 더 유용한 visualization을 원한다면, prior, regularizer, constraint를 조합하여 만들어야한다.</p>
 
 <p>연구분야에서는 regularization에 대한 관심이 많아보인다.</p>
 
-<h4 id="reference">Reference</h4>
+<h4 id="reference">
+<a class="anchor" href="#reference" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reference</h4>
 
 <p>https://distill.pub/2017/feature-visualization/</p>
+
+  </div><a class="u-url" href="/blog/deeplearning/interpretability/2019/10/29/Feature-Visulatization-%EB%B2%88%EC%97%AD%EA%B8%80.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

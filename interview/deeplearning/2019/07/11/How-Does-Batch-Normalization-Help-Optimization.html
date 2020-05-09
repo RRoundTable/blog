@@ -1,6 +1,197 @@
-<h1 id="how-does-batch-normalization-help-optimization-정리글">How Does Batch Normalization Help Optimization? 정리글</h1>
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>How Does Batch Normalization Help Optimization? 정리글 | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="How Does Batch Normalization Help Optimization? 정리글" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How Does Batch Normalization Help Optimization? 정리글" />
+<meta property="og:description" content="How Does Batch Normalization Help Optimization? 정리글" />
+<link rel="canonical" href="https://fastpages.fast.ai/blog/interview/deeplearning/2019/07/11/How-Does-Batch-Normalization-Help-Optimization.html" />
+<meta property="og:url" content="https://fastpages.fast.ai/blog/interview/deeplearning/2019/07/11/How-Does-Batch-Normalization-Help-Optimization.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-07-11T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"How Does Batch Normalization Help Optimization? 정리글","mainEntityOfPage":{"@type":"WebPage","@id":"https://fastpages.fast.ai/blog/interview/deeplearning/2019/07/11/How-Does-Batch-Normalization-Help-Optimization.html"},"@type":"BlogPosting","url":"https://fastpages.fast.ai/blog/interview/deeplearning/2019/07/11/How-Does-Batch-Normalization-Help-Optimization.html","headline":"How Does Batch Normalization Help Optimization? 정리글","dateModified":"2019-07-11T00:00:00-05:00","datePublished":"2019-07-11T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://fastpages.fast.ai/blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
-<h2 id="main-contribution">Main Contribution</h2>
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-5','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>How Does Batch Normalization Help Optimization? 정리글 | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="How Does Batch Normalization Help Optimization? 정리글" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="How Does Batch Normalization Help Optimization? 정리글" />
+<meta property="og:description" content="How Does Batch Normalization Help Optimization? 정리글" />
+<link rel="canonical" href="https://fastpages.fast.ai/blog/interview/deeplearning/2019/07/11/How-Does-Batch-Normalization-Help-Optimization.html" />
+<meta property="og:url" content="https://fastpages.fast.ai/blog/interview/deeplearning/2019/07/11/How-Does-Batch-Normalization-Help-Optimization.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-07-11T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"How Does Batch Normalization Help Optimization? 정리글","mainEntityOfPage":{"@type":"WebPage","@id":"https://fastpages.fast.ai/blog/interview/deeplearning/2019/07/11/How-Does-Batch-Normalization-Help-Optimization.html"},"@type":"BlogPosting","url":"https://fastpages.fast.ai/blog/interview/deeplearning/2019/07/11/How-Does-Batch-Normalization-Help-Optimization.html","headline":"How Does Batch Normalization Help Optimization? 정리글","dateModified":"2019-07-11T00:00:00-05:00","datePublished":"2019-07-11T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://fastpages.fast.ai/blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-5','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script type="text/javascript">
+require.config({
+  paths: {
+    jquery: 'https://code.jquery.com/jquery-3.5.0.min',
+    plotly: 'https://cdn.plot.ly/plotly-latest.min'
+  },
+
+  shim: {
+    plotly: {
+      deps: ['jquery'],
+      exports: 'plotly'
+    }
+  }
+});
+</script>
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">RoundTable</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">How Does Batch Normalization Help Optimization? 정리글</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2019-07-11T00:00:00-05:00" itemprop="datePublished">
+        Jul 11, 2019
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      8 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#interview">interview</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#deeplearning">deeplearning</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h1"><a href="#how-does-batch-normalization-help-optimization-정리글">How Does Batch Normalization Help Optimization? 정리글</a>
+<ul>
+<li class="toc-entry toc-h2"><a href="#main-contribution">Main Contribution</a></li>
+<li class="toc-entry toc-h2"><a href="#batch-normalization-and-internal-covariate-shift">Batch normalization and internal covariate shift</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#does-batchnorms-performance-stem-from-controlling-internal-covariate-shift">Does BatchNorm’s performance stem from controlling internal covariate shift?</a></li>
+<li class="toc-entry toc-h3"><a href="#is-batchnorm-reducing-internal-covariate-shift">Is BatchNorm reducing internal covariate shift?</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#why-dose-batchnorm-work">Why dose BatchNorm Work?</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#the-smoothing-effect-of-batchnorm">The smoothing effect of BatchNorm</a></li>
+<li class="toc-entry toc-h3"><a href="#exploration-of-the-optimization-landscap">Exploration of the optimization landscap</a></li>
+<li class="toc-entry toc-h3"><a href="#is-batchnorm-the-best-only-way-to-smoothen-the-landscape">Is BatchNorm the best (only?) way to smoothen the landscape?</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#theoretical-analysis">Theoretical Analysis</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#setup">Setup</a></li>
+<li class="toc-entry toc-h3"><a href="#theoretical-results">Theoretical Results</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#theorem-41-the-effect-of-batchnorm-on-the-lipschitzness-of-the-loss">Theorem 4.1 (The effect of BatchNorm on the Lipschitzness of the loss).</a></li>
+<li class="toc-entry toc-h4"><a href="#theorem-42-the-effect-of-bn-to-smoothness">Theorem 4.2 (The effect of BN to smoothness).</a></li>
+<li class="toc-entry toc-h4"><a href="#theorem-44-minimax-bound-on-weight-space-lipschitzness">Theorem 4.4 (Minimax bound on weight-space Lipschitzness).</a></li>
+<li class="toc-entry toc-h4"><a href="#lemma-45-batchnorm-leads-to-a-favourable-initialization">Lemma 4.5 (BatchNorm leads to a favourable initialization).</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul><h1 id="how-does-batch-normalization-help-optimization-정리글">
+<a class="anchor" href="#how-does-batch-normalization-help-optimization-%EC%A0%95%EB%A6%AC%EA%B8%80" aria-hidden="true"><span class="octicon octicon-link"></span></a>How Does Batch Normalization Help Optimization? 정리글</h1>
+
+<h2 id="main-contribution">
+<a class="anchor" href="#main-contribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Main Contribution</h2>
 
 <p><a href="https://rroundtable.github.io/FastPages/interview/deeplearning/2019/07/08/Batch-Normalization%EC%97%90-%EB%8C%80%ED%95%98%EC%97%AC.html">Batch normalization에 대하여</a>에서 BN이 결국 internal covariate shift현상을 해결하여, 모델의 수렴속도를 높인다고 주장하였다. 하지만,  해당 논문에서는 internal covariate shift현상을 감소하여 그러는 것이 아니며, BN이 실제로 감소시키지 않는다고 주장한다.</p>
 
@@ -12,9 +203,10 @@
   <p>https://ifm.mathematik.uni-wuerzburg.de/~schmidt/publications.php</p>
 </blockquote>
 
-<h2 id="batch-normalization-and-internal-covariate-shift">Batch normalization and internal covariate shift</h2>
+<h2 id="batch-normalization-and-internal-covariate-shift">
+<a class="anchor" href="#batch-normalization-and-internal-covariate-shift" aria-hidden="true"><span class="octicon octicon-link"></span></a>Batch normalization and internal covariate shift</h2>
 
-<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure1.png" alt="" title="Figure 1" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure1.png" alt="" title="Figure 1"></p>
 
 <p>train, test 그래프에서는 batch normalization의 역할을 잘 보여주고 있다. 높은 learning rate를 사용할 수 있는 것을 보여주고 있는데, 오른쪽의 그래프를 보면 BN을 적용한 모델의 activation과 그렇지 않은 모델의 activation의 분포가 그리 큰 차이를 가지고 있지 않는 것을 확인 할 수 있다. 이런 결과를 가지고 다음과 같은 질문을 할 수 있다.</p>
 
@@ -23,7 +215,8 @@
   <li><strong>Batch Normalization이 internal covariate shift를 감소시키는 역할을 하는가?</strong></li>
 </ul>
 
-<h3 id="does-batchnorms-performance-stem-from-controlling-internal-covariate-shift">Does BatchNorm’s performance stem from controlling internal covariate shift?</h3>
+<h3 id="does-batchnorms-performance-stem-from-controlling-internal-covariate-shift">
+<a class="anchor" href="#does-batchnorms-performance-stem-from-controlling-internal-covariate-shift" aria-hidden="true"><span class="octicon octicon-link"></span></a>Does BatchNorm’s performance stem from controlling internal covariate shift?</h3>
 
 <p>layer input의 distribution의 mean, variance를 조정하는 것이 training performance를 향상시킬 수 있는것 인가? 이를 어떻게 입증할 것인가?</p>
 
@@ -34,13 +227,14 @@
   <li>noise가 추가되면 결국 covariate shift현상이 생기는 것이다.</li>
 </ul>
 
-<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure2.png" alt="" title="Figure 2" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure2.png" alt="" title="Figure 2"></p>
 
 <p>위의 그림을 보면, Standard + BatchNorm과 Standard + ‘noisy’BatchNorm과의 성능 차이가 거의 없음을 알 수 있다. 즉, internal covariate shift를 해결하는 것과 batch normalization의 효과를 무관하다고 볼 수 있다. 또한 오른쪽 이미지를 보면, Standard + ‘noisy’BatchNormdl Standard보다 덜 안정적인 distribution을 가지고 있는 것을 확인할 수 있다. 하지만, 실험결과는 Standard + ‘noisy’BatchNorm이 우수한 걸로 보아 stable distribution이 training performance에 주는 영향은 미비한 것으로 보인다. 또한 Standard에 noise를 섞을 때, 전혀 학습이 안되는 것을 확인할 수 있었다.</p>
 
 <p>결국 internal covariate shift를 감소시키는 것과 batch normalization효과는 관련이 있다고 보기 힘들다.</p>
 
-<h3 id="is-batchnorm-reducing-internal-covariate-shift">Is BatchNorm reducing internal covariate shift?</h3>
+<h3 id="is-batchnorm-reducing-internal-covariate-shift">
+<a class="anchor" href="#is-batchnorm-reducing-internal-covariate-shift" aria-hidden="true"><span class="octicon octicon-link"></span></a>Is BatchNorm reducing internal covariate shift?</h3>
 
 <p>위에서 internal covariate shift와 training performance와 직접적인 관계가 없다는 것을 증명했다. 하지만,  보다 넓은 관점에서의 training performance와 연관된 internal covariate shift(ICS)이 있을까라는 궁금증이 들 수 있으며, 만약 그렇다면 BatchNorm은 ICS를 감소시킬까?</p>
 
@@ -82,17 +276,19 @@
   </li>
 </ul>
 
-<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure3.png" alt="" title="Figure 3" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure3.png" alt="" title="Figure 3"></p>
 
 <p>위의 internal covariate shift 산출방법으로 bath norm을 적용한 경우와 그렇지 않은 경우를 비교하였다. 이전의 주장은 BN이 ICS를 감소시킨다고 주장하였으나, 실험결과 BN이 ICS를 증가시키기도 하였다. 위의 그림을 보면 확인 할 수 있다. 이런 현상은 DLN에서 더 도드라 진다. DLN을 보면 오히려 Standard한 것이 ICS가 적게 나타나는데 비해서 BN을 적용할 때는 $G, \acute{G}$는 서로 상관관계가 없어보인다. (하지만 training 결과는 loss, acc 측면에서 더 좋게 나온다.)</p>
 
 <p>결국 batch normalization은 internal covariate shift를 감소시키지 않는다는 것을 증명하였다.</p>
 
-<h2 id="why-dose-batchnorm-work">Why dose BatchNorm Work?</h2>
+<h2 id="why-dose-batchnorm-work">
+<a class="anchor" href="#why-dose-batchnorm-work" aria-hidden="true"><span class="octicon octicon-link"></span></a>Why dose BatchNorm Work?</h2>
 
 <p>위에서 밝혔듯이 BatchNorm과 ICS는 관련이 없다. 하지만, BatchNorm은 exploding gradient 혹은 vanishing gradient 문제에 있어서 효과적이다. 하지만 이는 BatchNorm이 training performance를 향상 시키는 본질적인 이유라고 할 수 없다.</p>
 
-<h3 id="the-smoothing-effect-of-batchnorm">The smoothing effect of BatchNorm</h3>
+<h3 id="the-smoothing-effect-of-batchnorm">
+<a class="anchor" href="#the-smoothing-effect-of-batchnorm" aria-hidden="true"><span class="octicon octicon-link"></span></a>The smoothing effect of BatchNorm</h3>
 
 <blockquote>
   <p>it reparametrizes the underlying optimization problem to make its landscape significantly more smooth.</p>
@@ -120,15 +316,16 @@
   <p>https://arxiv.org/pdf/1405.4980.pdf</p>
 </blockquote>
 
-<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure9.png" alt="" title="Figure 9" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure9.png" alt="" title="Figure 9"></p>
 
 <p>이 smooth 효과는 training algorithm에 매우 효과적이다. non-BatchNorm의 loss function은 non-convex할 뿐만 아니라 kinks, flat regions , sharp minima의 문제를 가지고 있다. 이 문제는 gradient 방법론이 수렴하기 불안정하도록 만든다. 하지만 BatchNorm을 적용하게 되면, gradient가 reliable하고 predictive한 방향으로 나오게 된다. 무엇보다도 개선된 Lipschitzness는 learning step을 크게 잡을 수 있게 해준다. 아래의 그래프를 보면 그 효과를 확인할 수 있다.</p>
 
-<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure10.png" alt="" title="Figure 10" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure10.png" alt="" title="Figure 10"></p>
 
-<h3 id="exploration-of-the-optimization-landscap">Exploration of the optimization landscap</h3>
+<h3 id="exploration-of-the-optimization-landscap">
+<a class="anchor" href="#exploration-of-the-optimization-landscap" aria-hidden="true"><span class="octicon octicon-link"></span></a>Exploration of the optimization landscap</h3>
 
-<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure4.png" alt="" title="Figure 4" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure4.png" alt="" title="Figure 4"></p>
 
 <p>위의 그래프의 Figure 4(a)를 보면 step마다의 loss변화를 알 수 있다. 이를 통해서 non-BatchNorm의 방식은 loss의 변화량이 BatchNorm보다 크다는 것을 알 수 있다. 이런 현상은 초기 학습과정에서 특히 심하다.</p>
 
@@ -136,21 +333,24 @@
 
 <p>Figure 4(c)에서는 BatchNorm의 loss gradient stability/Lipschitzness의 향상을 확인할 수 있다. 이는 gradient direction 뿐만 아니라, random direction에 대해서도 결과가 유사하게 나왔다.</p>
 
-<h3 id="is-batchnorm-the-best-only-way-to-smoothen-the-landscape">Is BatchNorm the best (only?) way to smoothen the landscape?</h3>
+<h3 id="is-batchnorm-the-best-only-way-to-smoothen-the-landscape">
+<a class="anchor" href="#is-batchnorm-the-best-only-way-to-smoothen-the-landscape" aria-hidden="true"><span class="octicon octicon-link"></span></a>Is BatchNorm the best (only?) way to smoothen the landscape?</h3>
 
 <p>실험결과 $l_1$ normalization의 결과가 BatchNorm보다 좋게 나왔다. 기억할 것은 $l_p$ normalization은 distribution shift를 일으킨다는 것이다. 하지만, 여전히 성능을 향상 시킨다. (결국, ICS와 성능향상은 무관하다는 것이다.)</p>
 
 <p>아래의 실험결과를 보면, 꼭 BatchNorm을 고집할 이유는 없어 보인다.</p>
 
-<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure13.png" alt="" title="Figure 13" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure13.png" alt="" title="Figure 13"></p>
 
-<h2 id="theoretical-analysis">Theoretical Analysis</h2>
+<h2 id="theoretical-analysis">
+<a class="anchor" href="#theoretical-analysis" aria-hidden="true"><span class="octicon octicon-link"></span></a>Theoretical Analysis</h2>
 
-<h3 id="setup">Setup</h3>
+<h3 id="setup">
+<a class="anchor" href="#setup" aria-hidden="true"><span class="octicon octicon-link"></span></a>Setup</h3>
 
 <p>fully-connected layer W에 single BatchNorm을 추가한 효과를 분석하고자 한다. Figure 5(b)와 같은 상황을 가정한다. 주목할 점은 input에 BatchNorm을 적용한 것이 아니라, layer W의 output에 BatchNorm을 적용한다. 이는 해당 논문의 분석이 단지 input에 대한 normalization 효과에 대한 것이 아니라 reparameterization에 대한 것임을 알려준다.</p>
 
-<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure5.png" alt="" title="Figure 5" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/figure5.png" alt="" title="Figure 5"></p>
 
 <p>Notation</p>
 
@@ -163,13 +363,15 @@
   <li>$\sigma_j$는 batch의 output $y_i \in R^m$의 stadard deviation이다.</li>
 </ul>
 
-<h3 id="theoretical-results">Theoretical Results</h3>
+<h3 id="theoretical-results">
+<a class="anchor" href="#theoretical-results" aria-hidden="true"><span class="octicon octicon-link"></span></a>Theoretical Results</h3>
 
 <p>activation $y_i$에 대한 optimization landscape를 생각해보자. 앞서 BatchNorm이 결국 landscape가 더 잘 작동하도록 만든다는 것을 실험을 통해 증명하였다. (Lipschitz-continuity, and predictability of the gradients ) 이 논문에서는 activation-space상에서 landscape가 weight -space landscape에서의 <strong>worst-case bounds</strong>가 된다는 것을 증명할 것이다.</p>
 
 <p>gradient magnitude $\rVert\nabla_{y_i}\mathcal{L}\rVert$에 대해서 먼저 생각해보자. 이는 Lipschitzness를 나타내주는 지표이다.  loss의Lipschitzness는  optimization문제에서 큰 역할을 한다고 알려져 있다. (이 지표는 결국 loss가 training step에 따라서 얼마나 변할지 알려주기 때문)</p>
 
-<h4 id="theorem-41-the-effect-of-batchnorm-on-the-lipschitzness-of-the-loss">Theorem 4.1 (The effect of BatchNorm on the Lipschitzness of the loss).</h4>
+<h4 id="theorem-41-the-effect-of-batchnorm-on-the-lipschitzness-of-the-loss">
+<a class="anchor" href="#theorem-41-the-effect-of-batchnorm-on-the-lipschitzness-of-the-loss" aria-hidden="true"><span class="octicon octicon-link"></span></a>Theorem 4.1 (The effect of BatchNorm on the Lipschitzness of the loss).</h4>
 
 <p><strong>For a BatchNorm network with loss $\hat{\mathcal{L}}$ and an identical non-BN network with (identical) loss $\mathcal{L}$</strong>,</p>
 
@@ -194,7 +396,7 @@
 <p>convenient gradient of BN
 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mi mathvariant="normal">∂</mi><msup><mover accent="true"><mi>y</mi><mo>^</mo></mover><mrow><mo stretchy="false">(</mo><mi>b</mi><mo stretchy="false">)</mo></mrow></msup></mrow><mrow><mi mathvariant="normal">∂</mi><msup><mi>y</mi><mrow><mo stretchy="false">(</mo><mi>k</mi><mo stretchy="false">)</mo></mrow></msup></mrow></mfrac><mo>=</mo><mfrac><mn>1</mn><mi>σ</mi></mfrac><mrow><mo fence="true">(</mo><mn>1</mn><mo stretchy="false">[</mo><mi>b</mi><mo>=</mo><mi>k</mi><mo stretchy="false">]</mo><mo>=</mo><mfrac><mn>1</mn><mi>m</mi></mfrac><mo>−</mo><mfrac><mn>1</mn><mi>m</mi></mfrac><msup><mover accent="true"><mi>y</mi><mo>^</mo></mover><mrow><mo stretchy="false">(</mo><mi>b</mi><mo stretchy="false">)</mo></mrow></msup><msup><mover accent="true"><mi>y</mi><mo>^</mo></mover><mrow><mo stretchy="false">(</mo><mi>k</mi><mo stretchy="false">)</mo></mrow></msup><mtext> </mtext><mo fence="true">)</mo></mrow></mrow><annotation encoding="application/x-tex">\frac{\partial \hat{y}^{(b)}}{\partial y^{(k)}} = \frac{1}{\sigma}\left(1[b=k] =\frac{1}{m} - \frac{1}{m}\hat{y}^{(b)}\hat{y}^{(k)}\ \right)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.6443409999999998em;vertical-align:-0.5215329999999999em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.122808em;"><span style="top:-2.6145750000000003em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8220357142857143em;"><span style="top:-2.8220357142857138em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5357142857142856em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mtight"><span class="mord accent mtight"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-2.7em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span></span></span><span style="top:-2.7em;"><span class="pstrut" style="height:2.7em;"></span><span class="accent-body" style="left:-0.19444em;"><span class="mtight">^</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9667142857142857em;"><span style="top:-2.966714285714285em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5357142857142856em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight">b</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.5215329999999999em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.2380099999999998em;vertical-align:-0.35001em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">σ</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size1">(</span></span><span class="mord">1</span><span class="mopen">[</span><span class="mord mathdefault">b</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord mathdefault" style="margin-right:0.03148em;">k</span><span class="mclose">]</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.19444em;">^</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight">b</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mord"><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.19444em;">^</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.19444em;"><span></span></span></span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8879999999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mopen mtight">(</span><span class="mord mathdefault mtight" style="margin-right:0.03148em;">k</span><span class="mclose mtight">)</span></span></span></span></span></span></span></span></span><span class="mspace"> </span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size1">)</span></span></span></span></span></span>
 그러므로,
-<span class="katex-error" title="ParseError: KaTeX parse error: Expected group after &#x27;\frac&#x27; at position 6: \frac}̲{\partial y^{(k…" style="color:#cc0000">\frac}{\partial y^{(k)}} = \frac{\gamma}{\sigma}\left(1[b=k] =\frac{1}{m} - \frac{1}{m}\hat{y}^{(b)}\hat{y}^{(k)}\ \right)</span></p>
+<span class="katex-error" title="ParseError: KaTeX parse error: Expected group after '\frac' at position 6: \frac}̲{\partial y^{(k…" style="color:#cc0000">\frac}{\partial y^{(k)}} = \frac{\gamma}{\sigma}\left(1[b=k] =\frac{1}{m} - \frac{1}{m}\hat{y}^{(b)}\hat{y}^{(k)}\ \right)</span></p>
 
 <p>$\left\langle 1, \nabla_{y_i}\mathcal{L}\right\rangle ^ 2$ 은  해당 차원에서 quadratically하게 증가한다. 그러므로 중요한 term이다. 게다가 $\left\langle  \nabla_{y_i}\mathcal{L}, \hat{y}_j\right\rangle ^ 2$은 zero 값으로 부터 조금 떨어진 값이라고 기대되는데 이는 variable과 variable의 gradient term이 일반적으로 uncorrelated하기 때문이다. $\sigma_j$는 커지는 경향이 있는데$\gamma $-scaling을 해줌으로써 flatness가 되도록 해주는 효과를 기대할 수 있다.</p>
 
@@ -204,11 +406,12 @@
 
 <p>자세한 증명은 해당 논문의 appendix를 참고하길 바란다.</p>
 
-<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/c2.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/c2.png" alt=""></p>
 
-<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/c2_1.png" alt="" title="Lipschitzness proofs" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/c2_1.png" alt="" title="Lipschitzness proofs"></p>
 
-<h4 id="theorem-42-the-effect-of-bn-to-smoothness">Theorem 4.2 (The effect of BN to smoothness).</h4>
+<h4 id="theorem-42-the-effect-of-bn-to-smoothness">
+<a class="anchor" href="#theorem-42-the-effect-of-bn-to-smoothness" aria-hidden="true"><span class="octicon octicon-link"></span></a>Theorem 4.2 (The effect of BN to smoothness).</h4>
 
 <p>**Let $\hat{g}<em>i = \nabla</em>{y_i}\mathcal{L}$ and $H_{j j} = \frac{\partial\mathcal{L}}{\partial{y_i}\partial{y_i}}$ be the gradient and Hessian of the loss with respect to the layer outputs respectively. Then **
 <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mrow><mo fence="true">(</mo><msub><mi mathvariant="normal">∇</mi><msub><mi>y</mi><mi>i</mi></msub></msub><mover accent="true"><mi mathvariant="script">L</mi><mo>^</mo></mover><mo fence="true">)</mo></mrow><mi>T</mi></msup><mfrac><mrow><mi mathvariant="normal">∂</mi><mover accent="true"><mi mathvariant="script">L</mi><mo>^</mo></mover></mrow><mrow><mi mathvariant="normal">∂</mi><msub><mi>y</mi><mi>i</mi></msub><mi mathvariant="normal">∂</mi><msub><mi>y</mi><mi>i</mi></msub></mrow></mfrac><mrow><mo fence="true">(</mo><msub><mi mathvariant="normal">∇</mi><msub><mi>y</mi><mi>i</mi></msub></msub><mover accent="true"><mi mathvariant="script">L</mi><mo>^</mo></mover><mo fence="true">)</mo></mrow><mo>≤</mo><mfrac><msup><mi>γ</mi><mn>2</mn></msup><msubsup><mi>σ</mi><mi>j</mi><mn>2</mn></msubsup></mfrac><mrow><mo fence="true">(</mo><mfrac><mrow><mi mathvariant="normal">∂</mi><mover accent="true"><mi mathvariant="script">L</mi><mo>^</mo></mover></mrow><mrow><mi mathvariant="normal">∂</mi><msub><mi>y</mi><mi>i</mi></msub></mrow></mfrac><mo fence="true">)</mo></mrow><msub><mi>H</mi><mrow><mi>j</mi><mi>j</mi></mrow></msub><mrow><mo fence="true">(</mo><mfrac><mrow><mi mathvariant="normal">∂</mi><mi mathvariant="script">L</mi></mrow><mrow><mi mathvariant="normal">∂</mi><msub><mi>y</mi><mi>i</mi></msub></mrow></mfrac><mo fence="true">)</mo></mrow><mo>−</mo><mfrac><mi>γ</mi><mrow><mi>m</mi><msup><mi>σ</mi><mn>2</mn></msup></mrow></mfrac><mrow><mo fence="true">⟨</mo><mover accent="true"><msub><mi>g</mi><mi>j</mi></msub><mo>^</mo></mover><mo separator="true">,</mo><mover accent="true"><msub><mi>y</mi><mi>j</mi></msub><mo>^</mo></mover><mo fence="true">⟩</mo></mrow><mo stretchy="false">∥</mo><mfrac><mrow><mi mathvariant="normal">∂</mi><mi mathvariant="script">L</mi></mrow><mrow><mi mathvariant="normal">∂</mi><msub><mi>y</mi><mi>i</mi></msub></mrow></mfrac><msup><mo stretchy="false">∥</mo><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">\left( \nabla_{y_i}\hat{\mathcal{L}} \right)^T\frac{\partial\hat{\mathcal{L}}}{\partial{y_i}\partial{y_i}} \left( \nabla_{y_i}\hat{\mathcal{L}}\right) \le \frac{\gamma^2}{\sigma_j^2} \left(\frac{\partial\hat{\mathcal{L}}}{\partial{y_i}} \right) H_{jj} \left(\frac{\partial\mathcal{L}}{\partial{y_i}} \right) - \frac{\gamma}{m\sigma^2} \left\langle \hat{g_j}, \hat{y_j} \right\rangle \rVert\frac{\partial\mathcal{L}}{\partial{y_i}} \rVert^2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:2.031251em;vertical-align:-0.65002em;"></span><span class="minner"><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size2">(</span></span><span class="mord"><span class="mord">∇</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.03588em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9467699999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathcal">L</span></span></span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;">^</span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size2">)</span></span></span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:1.3812309999999999em;"><span style="top:-3.6029em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.13889em;">T</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0567389999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.03588em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.03588em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord accent mtight"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9467699999999999em;"><span style="top:-2.7em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord mtight"><span class="mord mtight"><span class="mord mathcal mtight">L</span></span></span></span><span style="top:-2.9523300000000003em;"><span class="pstrut" style="height:2.7em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mtight">^</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size2">(</span></span><span class="mord"><span class="mord">∇</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.15139200000000003em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.03588em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mord accent"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9467699999999999em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathcal">L</span></span></span></span><span style="top:-3.25233em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.22222em;">^</span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size2">)</span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">≤</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.8463999999999998em;vertical-align:-0.6963999999999999em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.070028em;"><span style="top:-2.6264200000000004em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8051142857142857em;"><span style="top:-2.177714285714286em;margin-left:-0.03588em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span><span style="top:-2.8448em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.46117142857142857em;"><span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05556em;">γ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8913142857142857em;"><span style="top:-2.931em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.6963999999999999em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size2">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.0567389999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.03588em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord accent mtight"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.9467699999999999em;"><span style="top:-2.7em;"><span class="pstrut" style="height:2.7em;"></span><span class="mord mtight"><span class="mord mtight"><span class="mord mathcal mtight">L</span></span></span></span><span style="top:-2.9523300000000003em;"><span class="pstrut" style="height:2.7em;"></span><span class="accent-body" style="left:-0.22222em;"><span class="mtight">^</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size2">)</span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.08125em;">H</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.08125em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;"><span class="delimsizing size2">(</span></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.03588em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mtight"><span class="mord mathcal mtight">L</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose delimcenter" style="top:0em;"><span class="delimsizing size2">)</span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.3612159999999998em;vertical-align:-0.481108em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.7475em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">m</span><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">σ</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7463142857142857em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.446108em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.05556em;">γ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner"><span class="mopen delimcenter" style="top:0em;">⟨</span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">g</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">^</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord accent"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.69444em;"><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span></span></span><span style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="accent-body" style="left:-0.25em;">^</span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span><span class="mclose delimcenter" style="top:0em;">⟩</span></span><span class="mclose">∥</span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.8801079999999999em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:-0.03588em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.143em;"><span></span></span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight" style="margin-right:0.05556em;">∂</span><span class="mord mtight"><span class="mord mathcal mtight">L</span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.481108em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mclose"><span class="mclose">∥</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></p>
@@ -221,7 +424,8 @@
 
 <p>$\left\langle \hat{y_j},\hat{g_j}\right\rangle$이 non-negative 한 성격을 가지고 Hessian을 가진다면, 위의 theorem은 더 예측가능한 gradient값을 가진다.(predictive gradient) Hessian은 loss가 locally convex하게 되면, positive semi-definite한 성격을 가지게 된다.</p>
 
-<h4 id="theorem-44-minimax-bound-on-weight-space-lipschitzness">Theorem 4.4 (Minimax bound on weight-space Lipschitzness).</h4>
+<h4 id="theorem-44-minimax-bound-on-weight-space-lipschitzness">
+<a class="anchor" href="#theorem-44-minimax-bound-on-weight-space-lipschitzness" aria-hidden="true"><span class="octicon octicon-link"></span></a>Theorem 4.4 (Minimax bound on weight-space Lipschitzness).</h4>
 
 <p><strong>For a BatchNorm network with loss $\hat{\mathcal{L}}$ and an identical non-BN network (with identical loss  $\mathcal{L}$), if</strong></p>
 
@@ -232,11 +436,12 @@
 
 <p>아래는 이에 대한 증명이다.</p>
 
-<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/t4_4.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/t4_4.png" alt=""></p>
 
-<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/t4_4_1.png" alt="" /></p>
+<p><img src="/blog/images/2019-07-11-How-Does-Batch-Normalization-Help-Optimization/t4_4_1.png" alt=""></p>
 
-<h4 id="lemma-45-batchnorm-leads-to-a-favourable-initialization">Lemma 4.5 (BatchNorm leads to a favourable initialization).</h4>
+<h4 id="lemma-45-batchnorm-leads-to-a-favourable-initialization">
+<a class="anchor" href="#lemma-45-batchnorm-leads-to-a-favourable-initialization" aria-hidden="true"><span class="octicon octicon-link"></span></a>Lemma 4.5 (BatchNorm leads to a favourable initialization).</h4>
 
 <p><em>*Let $W^</em>$ and $\hat{W}^*$ be the set of local optima for the weights in the normal and BN networks, respectively. For any initialization $W_0$ **</p>
 
@@ -247,3 +452,44 @@
 <ul>
   <li>https://arxiv.org/abs/1805.11604</li>
 </ul>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="RoundTable/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/interview/deeplearning/2019/07/11/How-Does-Batch-Normalization-Help-Optimization.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

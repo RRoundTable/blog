@@ -1,12 +1,203 @@
-<p>이 논문에서는 epistemic uncertainty와 aleatoric uncertainty를 하나의 모델에서 측정하는 것을 제안하고 있습니다. (이전의 연구에서는 위의 uncertainty를 따로 분리하여 측정했다고 합니다.)</p>
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision? 정리글 | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision? 정리글" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="이 논문에서는 epistemic uncertainty와 aleatoric uncertainty를 하나의 모델에서 측정하는 것을 제안하고 있습니다. (이전의 연구에서는 위의 uncertainty를 따로 분리하여 측정했다고 합니다.)" />
+<meta property="og:description" content="이 논문에서는 epistemic uncertainty와 aleatoric uncertainty를 하나의 모델에서 측정하는 것을 제안하고 있습니다. (이전의 연구에서는 위의 uncertainty를 따로 분리하여 측정했다고 합니다.)" />
+<link rel="canonical" href="https://fastpages.fast.ai/blog/uncertainty/computer_vision/2019/06/29/What-Uncertainties-Do-We-Need-in-Bayesian-Deep.html" />
+<meta property="og:url" content="https://fastpages.fast.ai/blog/uncertainty/computer_vision/2019/06/29/What-Uncertainties-Do-We-Need-in-Bayesian-Deep.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:image" content="https://alexgkendall.com/assets/images/blog_uncertainty/uncertainty_types.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-06-29T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"이 논문에서는 epistemic uncertainty와 aleatoric uncertainty를 하나의 모델에서 측정하는 것을 제안하고 있습니다. (이전의 연구에서는 위의 uncertainty를 따로 분리하여 측정했다고 합니다.)","mainEntityOfPage":{"@type":"WebPage","@id":"https://fastpages.fast.ai/blog/uncertainty/computer_vision/2019/06/29/What-Uncertainties-Do-We-Need-in-Bayesian-Deep.html"},"@type":"BlogPosting","url":"https://fastpages.fast.ai/blog/uncertainty/computer_vision/2019/06/29/What-Uncertainties-Do-We-Need-in-Bayesian-Deep.html","headline":"What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision? 정리글","dateModified":"2019-06-29T00:00:00-05:00","datePublished":"2019-06-29T00:00:00-05:00","image":"https://alexgkendall.com/assets/images/blog_uncertainty/uncertainty_types.jpg","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://fastpages.fast.ai/blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/uncertainty_types.jpg" alt="" title="aleatoric uncertainty와 epistemic uncertainty의 차이를 보여주고 있다. 주된 차이점은 aleatoric은 물체사이의 boundary에 주로 나타나는 것을 확인할 수 있다. 맨 밑의 라인은 실패한 케이스를 보여준다. 여기서는 epistemic uncertainty가 높아진 것을 확인할 수 있다." /></p>
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-5','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision? 정리글 | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision? 정리글" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="이 논문에서는 epistemic uncertainty와 aleatoric uncertainty를 하나의 모델에서 측정하는 것을 제안하고 있습니다. (이전의 연구에서는 위의 uncertainty를 따로 분리하여 측정했다고 합니다.)" />
+<meta property="og:description" content="이 논문에서는 epistemic uncertainty와 aleatoric uncertainty를 하나의 모델에서 측정하는 것을 제안하고 있습니다. (이전의 연구에서는 위의 uncertainty를 따로 분리하여 측정했다고 합니다.)" />
+<link rel="canonical" href="https://fastpages.fast.ai/blog/uncertainty/computer_vision/2019/06/29/What-Uncertainties-Do-We-Need-in-Bayesian-Deep.html" />
+<meta property="og:url" content="https://fastpages.fast.ai/blog/uncertainty/computer_vision/2019/06/29/What-Uncertainties-Do-We-Need-in-Bayesian-Deep.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:image" content="https://alexgkendall.com/assets/images/blog_uncertainty/uncertainty_types.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-06-29T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"이 논문에서는 epistemic uncertainty와 aleatoric uncertainty를 하나의 모델에서 측정하는 것을 제안하고 있습니다. (이전의 연구에서는 위의 uncertainty를 따로 분리하여 측정했다고 합니다.)","mainEntityOfPage":{"@type":"WebPage","@id":"https://fastpages.fast.ai/blog/uncertainty/computer_vision/2019/06/29/What-Uncertainties-Do-We-Need-in-Bayesian-Deep.html"},"@type":"BlogPosting","url":"https://fastpages.fast.ai/blog/uncertainty/computer_vision/2019/06/29/What-Uncertainties-Do-We-Need-in-Bayesian-Deep.html","headline":"What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision? 정리글","dateModified":"2019-06-29T00:00:00-05:00","datePublished":"2019-06-29T00:00:00-05:00","image":"https://alexgkendall.com/assets/images/blog_uncertainty/uncertainty_types.jpg","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://fastpages.fast.ai/blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-5','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script type="text/javascript">
+require.config({
+  paths: {
+    jquery: 'https://code.jquery.com/jquery-3.5.0.min',
+    plotly: 'https://cdn.plot.ly/plotly-latest.min'
+  },
+
+  shim: {
+    plotly: {
+      deps: ['jquery'],
+      exports: 'plotly'
+    }
+  }
+});
+</script>
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">RoundTable</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">What Uncertainties Do We Need in Bayesian Deep Learning for Computer Vision? 정리글</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2019-06-29T00:00:00-05:00" itemprop="datePublished">
+        Jun 29, 2019
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      8 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#uncertainty">uncertainty</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#computer_vision">computer_vision</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#epistemic-uncertainty">Epistemic uncertainty</a></li>
+<li class="toc-entry toc-h2"><a href="#aleatoric-uncertainty">Aleatoric uncertainty</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#heteroscedastic-aleatoric-uncertainty">Heteroscedastic Aleatoric uncertainty</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#related-work">Related work</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#21-epistemic-uncertainty-in-bayesian-deep-learning">2.1 Epistemic Uncertainty in Bayesian Deep Learning</a></li>
+<li class="toc-entry toc-h3"><a href="#2-2-heteroscedastic-aleatoric-uncertainty">2. 2 Heteroscedastic Aleatoric Uncertainty</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#-combining-aleatoric-and-epistemic-uncertainty-in-one-model"> Combining Aleatoric and Epistemic Uncertainty in One Model</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#31-combining-heteroscedastic-aleatoric-uncertainty-and-epistemic-uncertainty">3.1 Combining Heteroscedastic Aleatoric Uncertainty and Epistemic Uncertainty</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#experiment">Experiment</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#semantic-segmentation">Semantic Segmentation</a></li>
+<li class="toc-entry toc-h3"><a href="#pixel-wise-depth-regression">Pixel-wise Depth Regression</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#analysis-what-do-aleatoric-and-epistemic-uncertainties-capture">Analysis: What Do Aleatoric and Epistemic Uncertainties Capture?</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#51-quality-of-uncertainty-metric">5.1 Quality of Uncertainty Metric</a></li>
+<li class="toc-entry toc-h3"><a href="#52-uncertainty-with-distance-from-training-data">5.2 Uncertainty with Distance from Training Data</a></li>
+<li class="toc-entry toc-h3"><a href="#53-real-time-application">5.3 Real-Time Application</a></li>
+</ul>
+</li>
+</ul><p>이 논문에서는 epistemic uncertainty와 aleatoric uncertainty를 하나의 모델에서 측정하는 것을 제안하고 있습니다. (이전의 연구에서는 위의 uncertainty를 따로 분리하여 측정했다고 합니다.)</p>
+
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/uncertainty_types.jpg" alt="" title="aleatoric uncertainty와 epistemic uncertainty의 차이를 보여주고 있다. 주된 차이점은 aleatoric은 물체사이의 boundary에 주로 나타나는 것을 확인할 수 있다. 맨 밑의 라인은 실패한 케이스를 보여준다. 여기서는 epistemic uncertainty가 높아진 것을 확인할 수 있다."></p>
 
 <p>regression task에서 각각의 uncertainty에 대해서 알아보도록 하겠습니다.</p>
 
-<h2 id="epistemic-uncertainty">Epistemic uncertainty</h2>
+<h2 id="epistemic-uncertainty">
+<a class="anchor" href="#epistemic-uncertainty" aria-hidden="true"><span class="octicon octicon-link"></span></a>Epistemic uncertainty</h2>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/Deep-Learning-Uncertainty.png" alt="" title="Fig.1 - Gaussian Process" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/Deep-Learning-Uncertainty.png" alt="" title="Fig.1 - Gaussian Process"></p>
 
 <p>[Fig. 1]을 보면, 파란색 영역은 variance를 나타내며, observation(흑색 점)이 있는 data point에서는 낮은 unceratinty를 보이고 그렇지 않은 곳에서는 높은 uncertainty를 보인다.  만약 높은 variance를 보이는 영역에 data point가 더 있다면 uncertainty는 줄어들 것이다.</p>
 
@@ -21,15 +212,17 @@
 
 <p>만약, Gaussian Process에 대해서 더 자세히 알고 싶다면 <a href="https://distill.pub/2019/visual-exploration-gaussian-processes/">A Visual Exploration of Gaussian Process</a>를 참고하길 바랍니다.</p>
 
-<h2 id="aleatoric-uncertainty">Aleatoric uncertainty</h2>
+<h2 id="aleatoric-uncertainty">
+<a class="anchor" href="#aleatoric-uncertainty" aria-hidden="true"><span class="octicon octicon-link"></span></a>Aleatoric uncertainty</h2>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/borderline.png" alt="" title="Fig.2 - Data Noise" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/borderline.png" alt="" title="Fig.2 - Data Noise"></p>
 
 <p>Aleatoric uncertainty는 data point 자체의 noisy를 의미한다. 이는 epistemic uncertainty와 다르게 더 많은 data point가 추가되어도 줄어들 수 없는 특성을 가지고 있다.</p>
 
-<h3 id="heteroscedastic-aleatoric-uncertainty">Heteroscedastic Aleatoric uncertainty</h3>
+<h3 id="heteroscedastic-aleatoric-uncertainty">
+<a class="anchor" href="#heteroscedastic-aleatoric-uncertainty" aria-hidden="true"><span class="octicon octicon-link"></span></a>Heteroscedastic Aleatoric uncertainty</h3>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/gpr_heteroscedastic_noise.png" alt="" title="Fig.3 - Model comparision" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/gpr_heteroscedastic_noise.png" alt="" title="Fig.3 - Model comparision"></p>
 
 <p>heteroscedastic noise model은 homescedastic noise model과 다르게 data point마다 다른 uncertainty를 가지고 있습니다. 이를 바탕으로 Aleatoric heteroscedastic uncetainty를 생각해보면, input data에 따라서 달라지는 uncertainty를 가진다고 생각하면 될 것 같습니다. 이 논문에서는 ‘Heteroscedastic Aleatoric uncertainty’를 가정하고 문제를 풀고 있습니다.</p>
 
@@ -40,15 +233,17 @@
   <li>Real-time applications: Monte-Carlo sampling없이 aleatoric model을 만들수 있기 때문입니다.</li>
 </ul>
 
-<h2 id="related-work">Related work</h2>
+<h2 id="related-work">
+<a class="anchor" href="#related-work" aria-hidden="true"><span class="octicon octicon-link"></span></a>Related work</h2>
 
 <p>그럼 기존의 연구에서 어떻게 epistemic, aleatoric uncertainty를 접근했는지 살펴보겠습니다.</p>
 
-<h3 id="21-epistemic-uncertainty-in-bayesian-deep-learning">2.1 Epistemic Uncertainty in Bayesian Deep Learning</h3>
+<h3 id="21-epistemic-uncertainty-in-bayesian-deep-learning">
+<a class="anchor" href="#21-epistemic-uncertainty-in-bayesian-deep-learning" aria-hidden="true"><span class="octicon octicon-link"></span></a>2.1 Epistemic Uncertainty in Bayesian Deep Learning</h3>
 
 <p>우선, epistemic uncertainty는 model의 weight에 prior distribution을 가정합니다. 그리고 data에 따라서 weight가 변하는 양상을 측정합니다.</p>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/bayes_fig11.png" alt="" title="Fig.4 - Bayesian Neural Network" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/bayes_fig11.png" alt="" title="Fig.4 - Bayesian Neural Network"></p>
 
 <p>nueral network의 weight에 prior distribution을 설정하기 위해서 일반적으로 Gaussian prior distribution 을 사용합니다 ($W  \sim  \mathbf{N}(0, I) $) 그리고 이를 <strong>Bayesian neural network(BNN)</strong>라고 합니다.</p>
 
@@ -98,7 +293,7 @@ regression task에서 어떻게 적용되는지 아래의 수식을 보면 알 �
 
 <p>위에서 posterior <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo stretchy="false">(</mo><mi>W</mi><mo>∣</mo><mi>X</mi><mo separator="true">,</mo><mi>Y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">p(W \mid X, Y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mclose">)</span></span></span></span>를 계산하기 힘든 이유를 언급하였습니다. 이러한 문제를 해결하기 위해서 <strong>Variational inference</strong>라는 방법론을 사용합니다. 간단하게 생각하면, posterior <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo stretchy="false">(</mo><mi>W</mi><mo>∣</mo><mi>X</mi><mo separator="true">,</mo><mi>Y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">p(W \mid X, Y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mclose">)</span></span></span></span> 대신에 Simple distribution <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>q</mi><mi>θ</mi></msub><mo stretchy="false">(</mo><mi>W</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">q_{\theta}(W)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">q</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">θ</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mclose">)</span></span></span></span>을 가정하고 parameter $\theta$에 의해서 posterior <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>p</mi><mo stretchy="false">(</mo><mi>W</mi><mo>∣</mo><mi>X</mi><mo separator="true">,</mo><mi>Y</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">p(W \mid X, Y)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault">p</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∣</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mclose">)</span></span></span></span>와 유사한 분포를 가지도록 조정합니다.</p>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/dropout.png" alt="" title="Fig.6 - Dropout" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/dropout.png" alt="" title="Fig.6 - Dropout"></p>
 
 <p>일반적으로 dropout은 overfitting을 막는 방법론으로 사용되고 있습니다. 하지만, dropout은 BNN과 유사한 inference를 할 수 있습니다. 이는  <a href="https://arxiv.org/abs/1506.02142">Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning</a> 에서 확인할 수 있습니다. 간단하게 설명하면, 일반적으로 dropout은 train과정에서 적용하고 test과정에서는 제외하는데 반해서, bayesian inference를 하기 위해서 dropout을 train과 test과정에서 둘다 적용하여 사용합니다. 특히 test과정에서는 sampling을 하는데 dropout을 사용하고 있습니다. 이렇게 나온 sample을 바탕으로 inference를 진행합니다.</p>
 
@@ -134,9 +329,10 @@ regression task에서 어떻게 적용되는지 아래의 수식을 보면 알 �
 
 <p>참고로 aleatoric과 epistemic은 linear regression의 SSR, SSE의 개념과 유사합니다.</p>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/MLR_r2.png" alt="" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/MLR_r2.png" alt=""></p>
 
-<h3 id="2-2-heteroscedastic-aleatoric-uncertainty">2. 2 Heteroscedastic Aleatoric Uncertainty</h3>
+<h3 id="2-2-heteroscedastic-aleatoric-uncertainty">
+<a class="anchor" href="#2-2-heteroscedastic-aleatoric-uncertainty" aria-hidden="true"><span class="octicon octicon-link"></span></a>2. 2 Heteroscedastic Aleatoric Uncertainty</h3>
 
 <p>Aleatoric uncertainty는 model의 output에 distribution을 가정합니다. 그리고 이를 위해서 ‘observation noise parameter $\theta$’를 학습시킵니다.</p>
 
@@ -148,11 +344,14 @@ regression task에서 어떻게 적용되는지 아래의 수식을 보면 알 �
 
 <p>참고로 이런 방법은 epistemic uncertainty를 측정하지 못하는데, 위의 접근방법은 data자체의 uncertainty를 구하는 방법이기 때문입니다.</p>
 
-<h2 id="-combining-aleatoric-and-epistemic-uncertainty-in-one-model"><span style="color:blue"> Combining Aleatoric and Epistemic Uncertainty in One Model</span></h2>
+<h2 id="-combining-aleatoric-and-epistemic-uncertainty-in-one-model">
+<a class="anchor" href="#-combining-aleatoric-and-epistemic-uncertainty-in-one-model" aria-hidden="true"><span class="octicon octicon-link"></span></a><span style="color:blue"> Combining Aleatoric and Epistemic Uncertainty in One Model</span>
+</h2>
 
 <p><em>aleatoric uncertainty가 noisy data에 더 robust하게 만드는 과정으로 해석될 수 있다는 발견이 두 과정을 합칠 수 있게 하였습니다.</em> (일종의 regularization term으로 해석)</p>
 
-<h3 id="31-combining-heteroscedastic-aleatoric-uncertainty-and-epistemic-uncertainty">3.1 Combining Heteroscedastic Aleatoric Uncertainty and Epistemic Uncertainty</h3>
+<h3 id="31-combining-heteroscedastic-aleatoric-uncertainty-and-epistemic-uncertainty">
+<a class="anchor" href="#31-combining-heteroscedastic-aleatoric-uncertainty-and-epistemic-uncertainty" aria-hidden="true"><span class="octicon octicon-link"></span></a>3.1 Combining Heteroscedastic Aleatoric Uncertainty and Epistemic Uncertainty</h3>
 
 <p>Epistemic uncertainty와 aleatoric uncertainty를 함께 구하기 위해서 <strong>[2. 2 Heteroscedastic Aleatoric Uncertainty]</strong>을 bayesian NN에 적용하였습니다. 본 논문에서는 BNN의 posterior를 dropout variational distribution으로 근사하였습니다. (<strong>2.1 Epistemic Uncertainty in Bayesian Deep Learning의 dropout 참고</strong>)</p>
 
@@ -190,36 +389,41 @@ regression task에서 어떻게 적용되는지 아래의 수식을 보면 알 �
 
 <p>위에서의 설명을 이해하셨다면, 첫번째 term은 epistemic을 두번째 term은 aleatoric을 의미한다는 것을 알 수 있습니다.</p>
 
-<h2 id="experiment">Experiment</h2>
+<h2 id="experiment">
+<a class="anchor" href="#experiment" aria-hidden="true"><span class="octicon octicon-link"></span></a>Experiment</h2>
 
-<h3 id="semantic-segmentation">Semantic Segmentation</h3>
+<h3 id="semantic-segmentation">
+<a class="anchor" href="#semantic-segmentation" aria-hidden="true"><span class="octicon octicon-link"></span></a>Semantic Segmentation</h3>
 <p>table1.png</p>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/table1.png" alt="" title="Table1" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/table1.png" alt="" title="Table1"></p>
 
 <p>[Table 1 - a]Semantic segmentation task에서 실험한 결과 새로운 new state-of-the-art의 결과를 내었습니다. (IOU 67.5%)</p>
 
 <p>[Table 1 - b] NYUv2는 위의 a의 dataset보다 더 어려운 task이다. (더 많은 class를 가지고 있다.)  결과는 아래의 이미지에서 확인할 수 있습니다.</p>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/figure4.png" alt="" title="figure4" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/figure4.png" alt="" title="figure4"></p>
 
-<h3 id="pixel-wise-depth-regression">Pixel-wise Depth Regression</h3>
+<h3 id="pixel-wise-depth-regression">
+<a class="anchor" href="#pixel-wise-depth-regression" aria-hidden="true"><span class="octicon octicon-link"></span></a>Pixel-wise Depth Regression</h3>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/table2.png" alt="" title="Table2" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/table2.png" alt="" title="Table2"></p>
 
 <p>pixel의 depth regression task에서도 실험을 진행하였습니다. 실험결과 aleatoric uncertainty는 depth-regression task에서 많은 부분 기여할 수 있었습니다.  다음 이미지들을 보면 확인할 수 있습니다.</p>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/figure5.png" alt="" title="figure5" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/figure5.png" alt="" title="figure5"></p>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/figure6.png" alt="" title="figure6" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/figure6.png" alt="" title="figure6"></p>
 
 <p>위의 이미지를 보면, aleatoric uncertainty는 depth가 깊을수록, 반사되는 표면을 가질수록, occlusion boundary일수록 높아지는 것을 확인할 수 있습니다. 이는 monocular depth algorithm들이 겪는 어려움들입니다. 반면에 epistemic uncertainty는 data가 부족한 점을 이용하여 이런 어려움들을 잡아냅니다. 예를 들어서 [Figure 5]에서 맨밑의 예를 보면, 사람이 있습니다.  이는 train data에 거의 없는 data로 epistemic uncertainty가 높아짐을 확인할 수 있습니다.</p>
 
-<h2 id="analysis-what-do-aleatoric-and-epistemic-uncertainties-capture">Analysis: What Do Aleatoric and Epistemic Uncertainties Capture?</h2>
+<h2 id="analysis-what-do-aleatoric-and-epistemic-uncertainties-capture">
+<a class="anchor" href="#analysis-what-do-aleatoric-and-epistemic-uncertainties-capture" aria-hidden="true"><span class="octicon octicon-link"></span></a>Analysis: What Do Aleatoric and Epistemic Uncertainties Capture?</h2>
 
-<h3 id="51-quality-of-uncertainty-metric">5.1 Quality of Uncertainty Metric</h3>
+<h3 id="51-quality-of-uncertainty-metric">
+<a class="anchor" href="#51-quality-of-uncertainty-metric" aria-hidden="true"><span class="octicon octicon-link"></span></a>5.1 Quality of Uncertainty Metric</h3>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/Figure2.png" alt="" title="Figure 2" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/Figure2.png" alt="" title="Figure 2"></p>
 
 <p>위의 이미지는 precision-recall 그래프이다. 해당 그래프는 threshhold보다 높은 uncertainty를 가지는 pixel을 제거할 때마다 model의 performance가 증가하는 것을 보여주고 있다.  uncertainty가 높은 pixel을 제거하면 precision은 증가하지만, recall은 감소하게 된다.</p>
 
@@ -232,12 +436,13 @@ regression task에서 어떻게 적용되는지 아래의 수식을 보면 알 �
 
 <p>두번째로 epistemic uncertainty와 aleatoric uncertainty 그래프는 상당히 유사한 모양을 가지고 있다. 이것은 각 uncertainty가 다른 uncertainty와 비슷한 역할을 할 수 있다는 것을 의미한다.(다른 uncertainty가 없어도) 이는 하나의 uncertainty만 modeling하더라도 다른 uncertainty의 부족함을 채울려고 한다고 생각하면 된다.</p>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/figure3.png" alt="" title="figure3" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/figure3.png" alt="" title="figure3"></p>
 
 <p>위의 이미지는 test set에 대한 calibration plot을 나타낸다. calibration plot이란 예측하는 확률값이 실제의 확률과 얼마나 유사한지 나타내는 역할을 한다. 예를 들어서, softmax value= 0.7이 실제로 70%의 확률로 나타나는지 확인하는 것이다. discret한 확률구간을 정의하고 각 확률구간에 대한 빈도를 측정한다. $y=x$ 그래프와 유사할수록 더 정확한 calibration이라고 할 수 있습니다.</p>
-<h3 id="52-uncertainty-with-distance-from-training-data">5.2 Uncertainty with Distance from Training Data</h3>
+<h3 id="52-uncertainty-with-distance-from-training-data">
+<a class="anchor" href="#52-uncertainty-with-distance-from-training-data" aria-hidden="true"><span class="octicon octicon-link"></span></a>5.2 Uncertainty with Distance from Training Data</h3>
 
-<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/table3.png" alt="" title="Table3" /></p>
+<p><img src="/blog/images/2019-06-29-What-Uncertainties-Do-We-Need-in-Bayesian-Deep/table3.png" alt="" title="Table3"></p>
 
 <ul>
   <li><strong>Aleatoric uncertainty는 더 많은 데이터가 있어도 설명할 수 없습니다.</strong></li>
@@ -246,8 +451,50 @@ regression task에서 어떻게 적용되는지 아래의 수식을 보면 알 �
 
 <p>위의 실험결과는 epistemic uncertainty는 unseen data가 있는 상황에서 효과적이며 이는 safety-critical한 domain에서 효과적이라는 것을 보여줍니다.</p>
 
-<h3 id="53-real-time-application">5.3 Real-Time Application</h3>
+<h3 id="53-real-time-application">
+<a class="anchor" href="#53-real-time-application" aria-hidden="true"><span class="octicon octicon-link"></span></a>5.3 Real-Time Application</h3>
 
 <p>aleatoric 자체는 모델을 계산할 때 많은계산량을 요구하지 않는반면, epistemic은 Monte-Calro sampling을 이용해야하기 때문에 이는 계산량이 많습니다. 따라서 real-time이 요구되는 application에서는 alatoric uncertainty만 적용하는 것도 방법이 될 수 있습니다.</p>
 
 <p><em>현업에서 epistemic uncertainty를 적용하기에는 무리가 있는 상황입니다. 따라서 앞으로의 연구방향으로 real-time epistemic uncertainty을 deep learning에 적용하는 것은 중요한 이슈입니다.</em></p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="RoundTable/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/uncertainty/computer_vision/2019/06/29/What-Uncertainties-Do-We-Need-in-Bayesian-Deep.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>

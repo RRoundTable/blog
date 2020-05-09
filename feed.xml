@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://fastpages.fast.ai/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fastpages.fast.ai/blog/" rel="alternate" type="text/html" /><updated>2020-05-09T09:09:33-05:00</updated><id>https://fastpages.fast.ai/blog/feed.xml</id><title type="html">RoundTable</title><subtitle>An easy to use blogging platform with support for Jupyter Notebooks.</subtitle><entry><title type="html">Integrated Gradient 정리글</title><link href="https://fastpages.fast.ai/blog/deeplearning/xai/2020/05/05/integrated-gradient_.html" rel="alternate" type="text/html" title="Integrated Gradient 정리글" /><published>2020-05-05T00:00:00-05:00</published><updated>2020-05-05T00:00:00-05:00</updated><id>https://fastpages.fast.ai/blog/deeplearning/xai/2020/05/05/integrated-gradient_</id><content type="html" xml:base="https://fastpages.fast.ai/blog/deeplearning/xai/2020/05/05/integrated-gradient_.html">&lt;h1 id=&quot;integrated-gradient-정리글&quot;&gt;Integrated Gradient 정리글&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://fastpages.fast.ai/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fastpages.fast.ai/blog/" rel="alternate" type="text/html" /><updated>2020-05-09T09:18:22-05:00</updated><id>https://fastpages.fast.ai/blog/feed.xml</id><title type="html">RoundTable</title><subtitle>An easy to use blogging platform with support for Jupyter Notebooks.</subtitle><entry><title type="html">Integrated Gradient 정리글</title><link href="https://fastpages.fast.ai/blog/deeplearning/xai/2020/05/05/integrated-gradient_.html" rel="alternate" type="text/html" title="Integrated Gradient 정리글" /><published>2020-05-05T00:00:00-05:00</published><updated>2020-05-05T00:00:00-05:00</updated><id>https://fastpages.fast.ai/blog/deeplearning/xai/2020/05/05/integrated-gradient_</id><content type="html" xml:base="https://fastpages.fast.ai/blog/deeplearning/xai/2020/05/05/integrated-gradient_.html">&lt;h1 id=&quot;integrated-gradient-정리글&quot;&gt;Integrated Gradient 정리글&lt;/h1&gt;
 
 &lt;h2 id=&quot;abstract&quot;&gt;Abstract&lt;/h2&gt;
 
@@ -5604,126 +5604,7 @@ F는 두 vector의 차이를  받았기 때문에, 뺄셈에 대한 homomorphism
 
 &lt;p&gt;FastText는 단어를 구성하는 Subwords(substrings)의 vector 합으로 단어 vector를 표현합니다. 이 방법은 typo(오식)가 있는 단어라 할지라도 비슷한 representation을 얻을 수 있으며, 새로운 단어에 대해서도 형태적 유사성을 고려한 적당한 word representation을 얻도록 도와줍니다.&lt;/p&gt;
 
-&lt;p&gt;자연어 처리에서 자주 등장하는 문제는 (1) out of vocabulary, (2) infrequent words(모호성) 입니다. word2vec에서는 앞/뒤에 등장하는 단어로 가운데 단어를 예측하게 학습함으로서 문맥이 비슷한 단어를 유사한 vector로 표현합니다.&lt;/p&gt;</content><author><name></name></author><summary type="html">Word Representation 정리글</summary></entry><entry><title type="html">An Example Markdown Post</title><link href="https://fastpages.fast.ai/blog/markdown/2020/01/14/test-markdown-post.html" rel="alternate" type="text/html" title="An Example Markdown Post" /><published>2020-01-14T00:00:00-06:00</published><updated>2020-01-14T00:00:00-06:00</updated><id>https://fastpages.fast.ai/blog/markdown/2020/01/14/test-markdown-post</id><content type="html" xml:base="https://fastpages.fast.ai/blog/markdown/2020/01/14/test-markdown-post.html">&lt;h1 id=&quot;example-markdown-post&quot;&gt;Example Markdown Post&lt;/h1&gt;
-
-&lt;h2 id=&quot;basic-setup&quot;&gt;Basic setup&lt;/h2&gt;
-
-&lt;p&gt;Jekyll requires blog post files to be named according to the following format:&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;highlighter-rouge&quot;&gt;YEAR-MONTH-DAY-filename.md&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;Where &lt;code class=&quot;highlighter-rouge&quot;&gt;YEAR&lt;/code&gt; is a four-digit number, &lt;code class=&quot;highlighter-rouge&quot;&gt;MONTH&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;DAY&lt;/code&gt; are both two-digit numbers, and &lt;code class=&quot;highlighter-rouge&quot;&gt;filename&lt;/code&gt; is whatever file name you choose, to remind yourself what this post is about. &lt;code class=&quot;highlighter-rouge&quot;&gt;.md&lt;/code&gt; is the file extension for markdown files.&lt;/p&gt;
-
-&lt;p&gt;The first line of the file should start with a single hash character, then a space, then your title. This is how you create a “&lt;em&gt;level 1 heading&lt;/em&gt;” in markdown. Then you can create level 2, 3, etc headings as you wish but repeating the hash character, such as you see in the line &lt;code class=&quot;highlighter-rouge&quot;&gt;## File names&lt;/code&gt; above.&lt;/p&gt;
-
-&lt;h2 id=&quot;basic-formatting&quot;&gt;Basic formatting&lt;/h2&gt;
-
-&lt;p&gt;You can use &lt;em&gt;italics&lt;/em&gt;, &lt;strong&gt;bold&lt;/strong&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;code font text&lt;/code&gt;, and create &lt;a href=&quot;https://www.markdownguide.org/cheat-sheet/&quot;&gt;links&lt;/a&gt;. Here’s a footnote &lt;sup id=&quot;fnref:1&quot;&gt;&lt;a href=&quot;#fn:1&quot; class=&quot;footnote&quot;&gt;1&lt;/a&gt;&lt;/sup&gt;. Here’s a horizontal rule:&lt;/p&gt;
-
-&lt;hr /&gt;
-
-&lt;h2 id=&quot;lists&quot;&gt;Lists&lt;/h2&gt;
-
-&lt;p&gt;Here’s a list:&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;item 1&lt;/li&gt;
-  &lt;li&gt;item 2&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;And a numbered list:&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;item 1&lt;/li&gt;
-  &lt;li&gt;item 2&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;boxes-and-stuff&quot;&gt;Boxes and stuff&lt;/h2&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;This is a quotation&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;Toast Toast--warning googoo&quot;&gt;
-   &lt;span class=&quot;Toast-icon&quot;&gt;&lt;svg class=&quot;octicon octicon-alert&quot; viewBox=&quot;0 0 16 16&quot; version=&quot;1.1&quot; width=&quot;16&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M8.893 1.5c-.183-.31-.52-.5-.887-.5s-.703.19-.886.5L.138 13.499a.98.98 0 000 1.001c.193.31.53.501.886.501h13.964c.367 0 .704-.19.877-.5a1.03 1.03 0 00.01-1.002L8.893 1.5zm.133 11.497H6.987v-2.003h2.039v2.003zm0-3.004H6.987V5.987h2.039v4.006z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;
-   &lt;span class=&quot;Toast-content&quot;&gt;You can include alert boxes&lt;/span&gt;
-&lt;/div&gt;
-
-&lt;p&gt;…and…&lt;/p&gt;
-
-&lt;div class=&quot;Toast&quot;&gt;
-   &lt;span class=&quot;Toast-icon&quot;&gt;&lt;svg class=&quot;octicon octicon-info&quot; viewBox=&quot;0 0 14 16&quot; version=&quot;1.1&quot; width=&quot;14&quot; height=&quot;16&quot; aria-hidden=&quot;true&quot;&gt;&lt;path fill-rule=&quot;evenodd&quot; d=&quot;M6.3 5.69a.942.942 0 01-.28-.7c0-.28.09-.52.28-.7.19-.18.42-.28.7-.28.28 0 .52.09.7.28.18.19.28.42.28.7 0 .28-.09.52-.28.7a1 1 0 01-.7.3c-.28 0-.52-.11-.7-.3zM8 7.99c-.02-.25-.11-.48-.31-.69-.2-.19-.42-.3-.69-.31H6c-.27.02-.48.13-.69.31-.2.2-.3.44-.31.69h1v3c.02.27.11.5.31.69.2.2.42.31.69.31h1c.27 0 .48-.11.69-.31.2-.19.3-.42.31-.69H8V7.98v.01zM7 2.3c-3.14 0-5.7 2.54-5.7 5.68 0 3.14 2.56 5.7 5.7 5.7s5.7-2.55 5.7-5.7c0-3.15-2.56-5.69-5.7-5.69v.01zM7 .98c3.86 0 7 3.14 7 7s-3.14 7-7 7-7-3.12-7-7 3.14-7 7-7z&quot;&gt;&lt;/path&gt;&lt;/svg&gt;&lt;/span&gt;
-   &lt;span class=&quot;Toast-content&quot;&gt;You can include info boxes&lt;/span&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;images&quot;&gt;Images&lt;/h2&gt;
-
-&lt;p&gt;&lt;img src=&quot;/blog/images/logo.png&quot; alt=&quot;&quot; title=&quot;fast.ai's logo&quot; /&gt;&lt;/p&gt;
-
-&lt;h2 id=&quot;code&quot;&gt;Code&lt;/h2&gt;
-
-&lt;p&gt;You can format text and code per usual&lt;/p&gt;
-
-&lt;p&gt;General preformatted text:&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;# Do a thing
-do_thing()
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Python code and output:&lt;/p&gt;
-
-&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;# Prints '2'
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;2
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Formatting text as shell commands:&lt;/p&gt;
-
-&lt;div class=&quot;language-shell highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;hello world&quot;&lt;/span&gt;
-./some_script.sh &lt;span class=&quot;nt&quot;&gt;--option&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;value&quot;&lt;/span&gt;
-wget https://example.com/cat_photo1.png
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Formatting text as YAML:&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;value&lt;/span&gt;
-&lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;another_key&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;another&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;value&quot;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;tables&quot;&gt;Tables&lt;/h2&gt;
-
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Column 1&lt;/th&gt;
-      &lt;th&gt;Column 2&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;A thing&lt;/td&gt;
-      &lt;td&gt;Another thing&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;h2 id=&quot;tweetcards&quot;&gt;Tweetcards&lt;/h2&gt;
-
-&lt;div class=&quot;jekyll-twitter-plugin&quot;&gt;&lt;blockquote class=&quot;twitter-tweet&quot;&gt;&lt;p lang=&quot;en&quot; dir=&quot;ltr&quot;&gt;Altair 4.0 is released! &lt;a href=&quot;https://t.co/PCyrIOTcvv&quot;&gt;https://t.co/PCyrIOTcvv&lt;/a&gt;&lt;br /&gt;Try it with:&lt;br /&gt;&lt;br /&gt;  pip install -U altair&lt;br /&gt;&lt;br /&gt;The full list of changes is at &lt;a href=&quot;https://t.co/roXmzcsT58&quot;&gt;https://t.co/roXmzcsT58&lt;/a&gt; ...read on for some highlights. &lt;a href=&quot;https://t.co/vWJ0ZveKbZ&quot;&gt;pic.twitter.com/vWJ0ZveKbZ&lt;/a&gt;&lt;/p&gt;&amp;mdash; Jake VanderPlas (@jakevdp) &lt;a href=&quot;https://twitter.com/jakevdp/status/1204765621767901185?ref_src=twsrc%5Etfw&quot;&gt;December 11, 2019&lt;/a&gt;&lt;/blockquote&gt;
-&lt;script async=&quot;&quot; src=&quot;https://platform.twitter.com/widgets.js&quot; charset=&quot;utf-8&quot;&gt;&lt;/script&gt;
-&lt;/div&gt;
-
-&lt;h2 id=&quot;footnotes&quot;&gt;Footnotes&lt;/h2&gt;
-
-&lt;div class=&quot;footnotes&quot;&gt;
-  &lt;ol&gt;
-    &lt;li id=&quot;fn:1&quot;&gt;
-      &lt;p&gt;This is the footnote. &lt;a href=&quot;#fnref:1&quot; class=&quot;reversefootnote&quot;&gt;&amp;#8617;&lt;/a&gt;&lt;/p&gt;
-    &lt;/li&gt;
-  &lt;/ol&gt;
-&lt;/div&gt;</content><author><name></name></author><summary type="html">Example Markdown Post</summary></entry><entry><title type="html">BERT 정리글</title><link href="https://fastpages.fast.ai/blog/deeplearning/nlp/2019/12/30/BERT-%EC%A0%95%EB%A6%AC%EA%B8%80.html" rel="alternate" type="text/html" title="BERT 정리글" /><published>2019-12-30T00:00:00-06:00</published><updated>2019-12-30T00:00:00-06:00</updated><id>https://fastpages.fast.ai/blog/deeplearning/nlp/2019/12/30/BERT-%EC%A0%95%EB%A6%AC%EA%B8%80</id><content type="html" xml:base="https://fastpages.fast.ai/blog/deeplearning/nlp/2019/12/30/BERT-%EC%A0%95%EB%A6%AC%EA%B8%80.html">&lt;h1 id=&quot;bert-bidirectional-encoder-representations-from-transformers&quot;&gt;&lt;strong&gt;BERT, Bidirectional Encoder Representations from Transformers&lt;/strong&gt;&lt;/h1&gt;
+&lt;p&gt;자연어 처리에서 자주 등장하는 문제는 (1) out of vocabulary, (2) infrequent words(모호성) 입니다. word2vec에서는 앞/뒤에 등장하는 단어로 가운데 단어를 예측하게 학습함으로서 문맥이 비슷한 단어를 유사한 vector로 표현합니다.&lt;/p&gt;</content><author><name></name></author><summary type="html">Word Representation 정리글</summary></entry><entry><title type="html">BERT 정리글</title><link href="https://fastpages.fast.ai/blog/deeplearning/nlp/2019/12/30/BERT-%EC%A0%95%EB%A6%AC%EA%B8%80.html" rel="alternate" type="text/html" title="BERT 정리글" /><published>2019-12-30T00:00:00-06:00</published><updated>2019-12-30T00:00:00-06:00</updated><id>https://fastpages.fast.ai/blog/deeplearning/nlp/2019/12/30/BERT-%EC%A0%95%EB%A6%AC%EA%B8%80</id><content type="html" xml:base="https://fastpages.fast.ai/blog/deeplearning/nlp/2019/12/30/BERT-%EC%A0%95%EB%A6%AC%EA%B8%80.html">&lt;h1 id=&quot;bert-bidirectional-encoder-representations-from-transformers&quot;&gt;&lt;strong&gt;BERT, Bidirectional Encoder Representations from Transformers&lt;/strong&gt;&lt;/h1&gt;
 
 &lt;h2 id=&quot;abstract&quot;&gt;Abstract&lt;/h2&gt;
 
@@ -5942,4 +5823,28 @@ wget https://example.com/cat_photo1.png
 
 &lt;h3 id=&quot;53-feature-based-approach-with-bert&quot;&gt;5.3 Feature-based Approach with BERT&lt;/h3&gt;
 
-&lt;h2 id=&quot;6-conclusion&quot;&gt;6. Conclusion&lt;/h2&gt;</content><author><name></name></author><summary type="html">BERT, Bidirectional Encoder Representations from Transformers</summary></entry></feed>
+&lt;h2 id=&quot;6-conclusion&quot;&gt;6. Conclusion&lt;/h2&gt;</content><author><name></name></author><summary type="html">BERT, Bidirectional Encoder Representations from Transformers</summary></entry><entry><title type="html">Big-O notation 정리하기</title><link href="https://fastpages.fast.ai/blog/algorithm/2019/12/28/Big-O-notation-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0.html" rel="alternate" type="text/html" title="Big-O notation 정리하기" /><published>2019-12-28T00:00:00-06:00</published><updated>2019-12-28T00:00:00-06:00</updated><id>https://fastpages.fast.ai/blog/algorithm/2019/12/28/Big-O-notation-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0</id><content type="html" xml:base="https://fastpages.fast.ai/blog/algorithm/2019/12/28/Big-O-notation-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0.html">&lt;h1 id=&quot;big-o-notation-정리하기&quot;&gt;Big-O notation 정리하기&lt;/h1&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;In &lt;a href=&quot;https://en.wikipedia.org/wiki/Computer_science&quot;&gt;computer science&lt;/a&gt;, big O notation is used to &lt;a href=&quot;https://en.wikipedia.org/wiki/Computational_complexity_theory&quot;&gt;classify algorithms&lt;/a&gt; according to how their running time or space requirements grow as the input size grows.[&lt;a href=&quot;https://en.wikipedia.org/wiki/Big_O_notation#cite_note-quantumcomplexity-3&quot;&gt;3]&lt;/a&gt; In &lt;a href=&quot;https://en.wikipedia.org/wiki/Analytic_number_theory&quot;&gt;analytic number theory&lt;/a&gt;, big O notation is often used to express a bound on the difference between an &lt;a href=&quot;https://en.wikipedia.org/wiki/Arithmetic_function&quot;&gt;arithmetical function&lt;/a&gt; and a better understood approximation; a famous example of such a difference is the remainder term in the &lt;a href=&quot;https://en.wikipedia.org/wiki/Prime_number_theorem&quot;&gt;prime number theorem&lt;/a&gt;.&lt;/p&gt;
+
+  &lt;p&gt;reference: https://en.wikipedia.org/wiki/Big_O_notation&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;#&lt;/p&gt;
+
+&lt;h2 id=&quot;formal-definition&quot;&gt;Formal definition&lt;/h2&gt;
+
+&lt;p&gt;$F$ 는 real or complex valued function이며 , $g$는 real valued function이다. 두 함수는 무한한 양의 실수의 subset으로 정의된다. 따라서 $g(x)$는 x가 충분히 큰 값일때 항상 양수이다.&lt;/p&gt;
+
+&lt;span class=&quot;katex-display&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;g&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mtext&gt; as &lt;/mtext&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo&gt;→&lt;/mo&gt;&lt;mi mathvariant=&quot;normal&quot;&gt;∞&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;F(x) = O(g(x)) \ \text{as} \ x \rightarrow \infty&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.13889em;&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.02778em;&quot;&gt;O&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.03588em;&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mord text&quot;&gt;&lt;span class=&quot;mord&quot;&gt;as&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;→&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.43056em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;∞&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;p&gt;충분히 큰 x값을 가질 수 있을때만, $F(x)$의 절대값의 최대값이 $g(x)$에 양의 상수를 곱한 것을 넘지 못할 때, $F(x) = O(g(x))$라고 표현한다. (Upper Bound)이를 아래 식으로 표현한다.&lt;/p&gt;
+
+&lt;span class=&quot;katex-display&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mo stretchy=&quot;false&quot;&gt;∣&lt;/mo&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo stretchy=&quot;false&quot;&gt;∣&lt;/mo&gt;&lt;mo&gt;≤&lt;/mo&gt;&lt;mi&gt;M&lt;/mi&gt;&lt;mi&gt;g&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mtext&gt;for all &lt;/mtext&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo&gt;≥&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/msub&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;\rvert F(x) \rvert \le Mg(x) \text{for all } x \ge x_0&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;∣&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.13889em;&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;∣&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;≤&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.10903em;&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.03588em;&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mord text&quot;&gt;&lt;span class=&quot;mord&quot;&gt;for all &lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;≥&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.58056em;vertical-align:-0.15em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.30110799999999993em;&quot;&gt;&lt;span style=&quot;top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-s&quot;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.15em;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;p&gt;이를 간단하게 아래의 이미지로 확인할 수 있다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Big-O-notation.png/300px-Big-O-notation.png&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;파란색 선은 $Mg(x)$ 를 빨간색 선은 $F(x)$를 의미한다. $x_0$보다 큰 x값을 가지면, $F(x)$는 항상 $Mg(x)$보다 작으며, 이는 $F(x)$의 upper bound가 $Mg(x)$라는 것을 의미한다.&lt;/p&gt;</content><author><name></name></author><summary type="html">Big-O notation 정리하기</summary></entry></feed>
