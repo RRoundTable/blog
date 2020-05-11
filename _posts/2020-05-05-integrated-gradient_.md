@@ -115,8 +115,11 @@ implementation에 따라서 attribution이 달라진다면, 중요하지 않은 
 
 ## Integrated Gradients
 
-정리해보면, gradient는 sensitivity하지 않다. 이를 해결하기 위해서 discrete하게 gradient를 구하게 되면, implementation에 따라 다른 결과가 나올 수 있다. 이러한 문제를 해결하기 위해서 integrated gradient를 제안한다.
+![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/integrated_gradient.png)
 
+직관적으로 보면, 위의 이미지처럼 integrated gradient는 baseline에서 input까지의 gradient를 고려하게 된다.
+
+gradient는 sensitivity하지 않다. 이를 해결하기 위해서 discrete하게 gradient를 구하게 되면, implementation에 따라 다른 결과가 나올 수 있다. 이러한 문제를 해결하기 위해서 integrated gradient를 제안한다.
 
 $$
 IntegratedGrads_i(x) = (x_i - \acute{x}_i) \times \int_{\alpha=0}^1 \frac{\partial F(\acute{x} + \alpha(x-\acute{x}) )}{\partial x_i} d\alpha
@@ -129,8 +132,6 @@ $$
 $$
 
 각 dimension의 모든 integrated gradient값을 더하면, 함수값의 차이가 된다. 이는 결국 각 attribution의 합이 함수의 값의 차이와 동일하다는 것을 의미한다.
-
-
 
 
 
@@ -163,7 +164,7 @@ $$
 
 
 
-모든 path methods는 implementation invariance 성질을 만족한다. 그리고 integrated gradient도 path method중 하나이며,  위의 이미지에서 $P2$ linear combination의 path에 해당한다.
+모든 path methods는**implementation invariance** 성질을 만족한다. 그리고 integrated gradient도 path method중 하나이며,  위의 이미지에서 $P2$ linear combination의 path에 해당한다.
 
 ### Integrated Gradients is Symmetry-Preserving
 
@@ -185,3 +186,16 @@ $x_1, x_2$는 symmetric variable이고 input에서는 $x_1=x_2=1$ 이며, baslin
 
 ![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/proof1.png)
 
+
+
+## Computing Integrated Gradients
+
+$$
+IntegratedGrads_i^{approx}(x) = (x_i - \acute{x_i}) \times \sum_{k=1}^m \frac{\partial F(\acute{x} + \frac{k}{m} \times (x-\acute{x}) )}{\partial x_i} \times \frac{1}{m}
+$$
+
+- $m$: the number of steps in the Riemman approximation
+
+
+
+실제 어플리케이션에서는 위와 같은 과정을 통해서 근사한다.
