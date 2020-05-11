@@ -82,8 +82,8 @@ attribution이 두 개의 기능적으로 동일한 network상에서 항상 같�
 
 우선, gradient 자체로는 implementation invariant하다.  아래의 수식을 살펴보자. 
 
-- input: $f$
-- output: $g$
+- model output: $f$
+- model input: $g$
 - network: $h$
 
 $$
@@ -92,10 +92,10 @@ $$
 
 하지만, LRP 혹은 DeepLift와 같은 방법론에서는 변형된 discrete gradient를 사용한다. 하지만, 이와 같은 discrete gradient에서는 chain rule이 성립하지 않는다.
 
-
 $$
 \frac{f(x_1) - f(x_0)}{g(x_1) - g(x_0)} \ne \frac{f(x_1) - f(x_0)}{h(x_1) - h(x_0)} \cdot \frac{h(x_1) - h(x_0)}{g(x_1) - g(x_0)} \text{   for all  } x_1, x_0
 $$
+![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/figure7.png)
 ![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/figure7.png)
 
 
