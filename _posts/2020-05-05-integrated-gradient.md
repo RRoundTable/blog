@@ -57,7 +57,7 @@ baseline과 input과의 차이가 오직 하나의 feature이고 baseline의 예
 
 gradient는 model coefficient를 쉽게 알 수 있는 방법입니다. backpropagation을 통해서 작업하게 되면, 쉽게 input의 gradient값을 구할 수 있습니다. 하지만, sensitivity 하지 않다는 단점을 가집니다.
 
-![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/implementation_invariance.png)
+![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/gradient.png)
 
 위와 같은 함수가 있다고 가정해보겠습니다.  baseline $x=0$이 주어졌을때, input $x=2$의 gradient를 구해보겠습니다.  $x=2 $에서 함수는 평평하므로 gradient값은 0이 됩니다. 하지만, baseline을 고려해보면, 함수값의 차이는 1이 되므로, attribution은 non-zero여야 합니다.
 
