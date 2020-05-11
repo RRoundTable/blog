@@ -82,9 +82,13 @@ $$
 
 
 하지만, LRP 혹은 DeepLIFT와 같은 방법론은 chain rule이 성립하지 않습니다.
+
+
 $$
 \frac{f(x_1) - f(x_0)}{g(x_1) - g(x_0)} \ne \frac{f(x_1) - f(x_0)}{h(x_1) - h(x_0)} \cdot \frac{h(x_1) - h(x_0)}{g(x_1) - g(x_0)} \text{   for all  } x_1, x_0
 $$
+
+
 아래의 이미지는 이를 실험한 결과입니다.
 
 ![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/figure7.png)
