@@ -213,10 +213,6 @@ $$
 
 
 
-
-
-
-
 ## Reference
 
 - [1]  Axiomatic Attribution for Deep Networks  2017
