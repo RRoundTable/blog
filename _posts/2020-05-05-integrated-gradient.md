@@ -26,15 +26,15 @@ Attribution은 아래와 같이 정의될 수 있습니다.
 
 - deep network: $F: R^n \rightarrow [0, 1]$
 - input: $x = (x_1, \cdots, x_n) \in R^n$
-- baseline input: $\acute{x}$
+- baseline input: $\acute{x} = (\acute{x_1}, \cdots, \acute{x_n}) \in R^n$
 
 $$
 A_F(x, \acute{x}) = (a_1, \cdots, a_n) \in R^n
 $$
 
-$a_1, \cdots, a_n$은 feature importance와 같은 개념입니다.
+$a_1, \cdots, a_n$은 feature importance와 유사한 개념입니다.
 
-baseline이란, 일종의 비교대상입니다. 예를 들어, object recognition에 경우에 input image의 어느 pixel이 특정 class라고 판단하게 하는지 구할 수 있습니다.  일반적인 경우에는 baseline 이미지는 zero pixel로 두어 구하기도 합니다.
+해당 논문에서는 baseline과 input을 비교해서 attribution을 얻습니다. baseline이란, 일종의 비교대상입니다. 예를 들어, object recognition에 경우에 input image의 어느 pixel이 특정 class라고 판단하게 하는지 구할 수 있습니다.  일반적인 경우에는 baseline 이미지는 zero pixel로 두어 구하기도 합니다. 자세한 사항은 아래의 gradient 부분에서 다루도록 하겠습니다.
 
 ![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/ex1.png "Example")
 
@@ -69,7 +69,7 @@ gradient는 model coefficient를 쉽게 알 수 있는 방법입니다. backprop
 
 ![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/implementation_invariance.png)
 
-gradient는 sensitivity하지는 않지만, chain rule을 가지기 때문에, implementation invariant하다는 장점을 가지고 있습니다.  수식으로 살펴보겠습니다.
+gradient는 sensitivity하지는 않지만, chain rule이 성립하기 때문에, implementation invariant하다는 장점을 가지고 있습니다.  수식으로 살펴보겠습니다.
 
 - model output: $f$
 - model input: $g$
@@ -145,8 +145,6 @@ $$
 
 
 
-
-
 ### Path Methods
 
 모든 path methods는**implementation invariance** 성질을 만족합니다.  또한 path method만이 sensitivity와 implementation invariance를 모두 만족할 수 있다고 주장합니다.
@@ -156,7 +154,7 @@ $$
 > Path methods are the only attribution methods that always satisfy
 > Implementation Invariance, Sensitivity, Linearity, and Completeness.  
 
-integrated gradient도 path method중 하나이며,  위의 이미지에서 $P2$ linear combination의 path에 해당합니다.
+integrated gradient도 path method중 하나이며,  위의 이미지에서 $P2$ linear combination의 path에 해당합니다. 아래의 그림처럼 비선형적인 path도 path methods 중 일부입니다.
 
 ![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/figure1.png)
 
@@ -182,9 +180,15 @@ $x, y$가 $F$에 대해서 대칭이라면, 다음과 같이 나타낼 수 있�
 $$
 F(x, y) = F(y, x)
 $$
-attribution method는 동일한 symmetry value를 가지고 있고 baseline의 symmetric variable이 동일한 attribution을 가진다면, symmetry preserving하다고 합니다.
+attribution method는 다음과 같은 조건이 지켜지면 symmetry preserving하다고 표현합니다.
 
-예시) 
+- input: symmetric variable이 모두 동일한 값을 가진다.
+- baseline: symmetric variable이 모두 동일한 값을 가진다.
+- 각 symmetry variable은 모두 같은 attribution을 가져야한다.
+
+
+
+다음과 같은 예시를 통해서 이해해보겠습니다.
 $$
 Sigmoid(x1 + x2, \cdots)
 $$
@@ -192,7 +196,19 @@ $x_1, x_2$는 symmetric variable이고 input에서는 $x_1=x_2=1$ 이며, baslin
 
 
 
-그리고, integrated gradient는 이러한 조건을 만족합니다. 아래를 간략히 정리하면, non-straightline은 symmetry preserving하지 않다는 것입니다.
+그리고, integrated gradient는 이러한 조건을 만족합니다. integrated gradient 하에서는 path가 선형적이기 때문에, 동일한 값을 가지는 $x_1, x_2$는 동일한 attribution을 가지게 됩니다.
+
+하지만, path가 비선형적이라면 이는 성립하지 않습니다.  아래의 수식의 $\frac{\partial \gamma_i(\alpha)}{\partial \alpha}$ 부분을 고려해보면 알 수 있습니다.  integrated gradient의 경우 선형적이기때문에 이 값이 상수값이며 모든 dimension에서 동일합니다. 하지만 비선형적인 path를 가진다면 이 값은 dimension마다 다른 값을 가지게 될 것입니다.
+
+
+$$
+PathIntegratedGrads_i^\gamma(x) = \int_{\alpha=0}^1 \frac{\partial F(\gamma(\alpha))}{\partial \gamma_i(\alpha)} \frac{\partial \gamma_i(\alpha)}{\partial \alpha} d\alpha
+$$
+
+
+
+
+아래를 간략히 정리하면, non-straightline은 symmetry preserving하지 않다는 것입니다.
 
 ![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/proof1.png)
 
@@ -200,17 +216,12 @@ $x_1, x_2$는 symmetric variable이고 input에서는 $x_1=x_2=1$ 이며, baslin
 
 ## Computing Integrated Gradients
 
+실제로 적용단계에서 integral gradient를 수식대로 구하는 것은 매우 높은 비용을 치루거나 불가능합니다. 따라서 아래와 같은 근사하는 방법을 사용합니다.  직관적으로는 gradient를 구하는 경로를 m등분하여 각 gradient의 평균값을 구하는 것입니다.
 $$
 IntegratedGrads_i^{approx}(x) = (x_i - \acute{x_i}) \times \sum_{k=1}^m \frac{\partial F(\acute{x} + \frac{k}{m} \times (x-\acute{x}) )}{\partial x_i} \times \frac{1}{m}
 $$
 
 - $m$: the number of steps in the Riemman approximation
-
-실제 어플리케이션에서는 위와 같은 과정을 통해서 근사합니다.
-
-
-
-
 
 
 ## Reference
