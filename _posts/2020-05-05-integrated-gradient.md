@@ -158,7 +158,7 @@ $$
 
 integrated gradient도 path method중 하나이며,  위의 이미지에서 $P2$ linear combination의 path에 해당합니다.
 
-![](C:/Users/ryu07/OneDrive/sourceCode/blog/_posts/{{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/figure1.png)
+![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/figure1.png)
 
 - $\gamma = (\gamma_1, \cdots, \gamma_n) : [0, 1] \rightarrow R^n$
 - $\gamma(0) = \acute{x}$
