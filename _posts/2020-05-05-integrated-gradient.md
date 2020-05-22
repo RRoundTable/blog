@@ -42,17 +42,17 @@ baseline이란, 일종의 비교대상입니다. 아래의 gradient 이미지를
 
 예를 들어, object recognition에 경우에 input image의 어느 pixel이 특정 class라고 판단하게 하는지 구할 수 있습니다.  일반적인 경우에는 baseline 이미지는 zero pixel로 두어 구하기도 합니다. 자세한 사항은 아래의 gradient 부분에서 다루도록 하겠습니다.
 
-![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/ex1.png "Example")
+![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/ex1.png "Example1")
 
 
 
 ## Motivation: 정량적 평가가 아닌 Two Fundamental Axioms을 통해서 
 
-많은 attribution method의 문제는 평가하는 것이 어렵다는 것입니다. 정량적으로 평가하는 방법들이 있지만, 한계가 명확합니다. attribution이 높은 feature들을 제거하면서 모델의 성능이 얼마나 떨어지는지 파악하기도 합니다. 언뜻 생각해보면, 상당히 직관적인 방법입니다. 하지만, 일부 feature가 제거된 모델의 성능이 떨어지는 이유가 단지 중요한 feature여서이기보다는 모델이 학습시키지 않은 분포의 데이터이기 때문에 성능하락이 나타날 수 있습니다.
+ 많은 attribution method의 문제는 평가하는 것이 어렵다는 것입니다. 정량적으로 평가하는 방법들이 있지만, 한계가 명확합니다. attribution이 높은 feature들을 제거하면서 모델의 성능이 얼마나 떨어지는지 파악하기도 합니다. 언뜻 생각해보면, 상당히 직관적인 방법입니다. 하지만, 일부 feature가 제거된 모델의 성능이 떨어지는 이유가 단지 중요한 feature여서이기보다는 모델이 학습시키지 않은 분포의 데이터이기 때문에 성능하락이 나타날 수 있습니다.
 
 아래의 이미지를 예시로 설명드리겠습니다. input image를 개로 분류하는데 주요한 feauture가 코라고 가정해보겠습니다. 그럼 아래의 이미지처럼 코 부분을 zero-pixel로 만들고 model metric이 떨어지는지 파악합니다. 하지만, 코부분이 zero-pixel인 이미지는 인공적으로 만들어낸 데이터이기 때문에 좋지 않은 방법이라는 것입니다.
 
-![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/remove_feature.png "Example")
+![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/remove_feature.png "Example2")
 
 본 연구에서는 이런 한계를 극복하기 위해서 정량적인 평가보다는 정성적인 조건을 정의하고 이를 충족시키는 intergrated gradient라는 방법을 제안합니다.
 
@@ -61,10 +61,9 @@ baseline이란, 일종의 비교대상입니다. 아래의 gradient 이미지를
 - Sensitivity
 - Implementation Invariance
 
-### Sensitivity이란,
+### Sensitivity이란
 
 baseline과 input과의 차이가 오직 하나의 feature이고 baseline의 예측과 input의 예측이 다른경우를 가정해보겠습니다. 이런 상황에서는 차이나는 feature가 모델의 예측에 영향을 끼쳤다고 생각할 수 있습니다.  이렇게 차이나는 feature는 non-zero의 attribution의 값을 가져야합니다. 그리고 이러한 조건이 만족된다면, sensitivity 조건을 만족하게 됩니다.
-
 
 
 #### Gradients는 sensitivity를 충족하지 못합니다.
@@ -126,19 +125,7 @@ IntegratedGrads_i(x) = (x_i - \acute{x}_i) \times \int_{\alpha=0}^1 \frac{\parti
 $$
 
 
-### Completeness란?
-
-integrated gradient는 completeness라는 재밌는 특성을 가집니다.  integrated gradient로 나오는 attribution들을 모두 더하면, 결국은 두 모델의 예측값의 차이가 됩니다.
-$$
-\sum_{i=1}^n IntegratedGrads_i(x) = F(x) - F(\acute{x})
-$$
-
-
-참고로, Completness는 sensitivity를 내포하고 있습니다. Completeness는 함수값의 차이는 attribution의 합이어야 합니다. sensitivity는 한 feature가 예측값의 차이를 발생시켰다면 해당 attribution은 non-zero어야합니다. 
-
-
-
-### Uniqueness of Integrated Gradients
+### Integrated Gradients여야 하는 이유
 
 이미지 인식에서 attribution method를 평가하는 방법으로 다음과 같은 방법이 있습니다.
 
@@ -156,7 +143,7 @@ $$
 
 
 
-### Path Methods는 implementation invariance하다.
+### Path Methods는 implementation invariance합니다.
 
 모든 path methods는**implementation invariance** 성질을 만족합니다.  또한 path method만이 sensitivity와 implementation invariance를 모두 만족할 수 있다고 주장합니다.
 
@@ -182,14 +169,7 @@ PathIntegratedGrads_i^\gamma(x) = \int_{\alpha=0}^1 \frac{\partial F(\gamma(\alp
 $$
 
 
-
-#### Linearity란?
-
-$f_1, f_2$ 의 두 모델이 있다고 가정해보겠습니다. 그리고 이를 바탕으로 $f_3 = a \times f_1 + b \times f_2$를 만들었습니다. $f_3$에 대해서 attribution을 구하면, f1과 $f_2$의 attribution에서 각각 $a, b$만큼의 가중치를 부여해서 구할 수 있는 속성입니다.
-
-
-
-### Path method중에서 Integrated Gradients: Symmetry-Preserving
+### 많은 Path method중에서 Integrated Gradients: Symmetry-Preserving
 
 $x, y$가 함수 $F$에 대해서 대칭이라면, 다음과 같이 나타낼 수 있습니다.
 
@@ -229,6 +209,23 @@ $$
 ![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/proof1.png)
 
 
+### integrated gradient의 기타 특징들
+
+#### Completeness란?
+
+integrated gradient는 completeness라는 재밌는 특성을 가집니다.  integrated gradient로 나오는 attribution들을 모두 더하면, 결국은 두 모델의 예측값의 차이가 됩니다.
+
+$$
+\sum_{i=1}^n IntegratedGrads_i(x) = F(x) - F(\acute{x})
+$$
+
+
+참고로, Completness는 sensitivity를 내포하고 있습니다. Completeness는 함수값의 차이는 attribution의 합이어야 합니다. sensitivity는 한 feature가 예측값의 차이를 발생시켰다면 해당 attribution은 non-zero어야합니다. 
+
+#### Linearity란?
+
+$f_1, f_2$ 의 두 모델이 있다고 가정해보겠습니다. 그리고 이를 바탕으로 $f_3 = a \times f_1 + b \times f_2$를 만들었습니다. $f_3$에 대해서 attribution을 구하면, f1과 $f_2$의 attribution에서 각각 $a, b$만큼의 가중치를 부여해서 구할 수 있는 속성입니다.
+
 
 ## 실제로 Integrated Gradients 구하기
 
@@ -238,6 +235,12 @@ IntegratedGrads_i^{approx}(x) = (x_i - \acute{x_i}) \times \sum_{k=1}^m \frac{\p
 $$
 
 - $m$: the number of steps in the Riemman approximation
+
+
+## 마무리 하며...
+
+이번 글에서는 Attribution method가 갖춰야할 주요한 조건들과 integrated gradient라는 기법에 대해서 알아보았습니다. 추후에 이어질 포스팅에서는 다양한 XAI기법들에 대해서 다룰 예정입니다.
+
 
 
 ## Reference
