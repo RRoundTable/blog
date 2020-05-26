@@ -54,7 +54,7 @@ baseline이란, 일종의 비교대상입니다. 아래의 gradient 이미지를
 
 ![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/remove_feature.png "Example2")
 
-본 연구에서는 이런 한계를 극복하기 위해서 정량적인 평가보다는 정성적인 조건을 정의하고 이를 충족시키는 intergrated gradient라는 방법을 제안합니다.
+본 연구에서는 이런 한계를 극복하기 위해서 정량적인 평가보다는 주요한 성질(axioms)을 정의하고 이를 충족시키는 intergrated gradient라는 방법을 제안합니다.
 
 그리고 그 두가지 조건은 아래와 같습니다.
 
