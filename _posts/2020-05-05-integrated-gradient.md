@@ -145,29 +145,32 @@ $$
 
 ### Path Methods는 implementation invariance합니다.
 
-모든 path methods(path integrated gradient)는 **implementation invariance** 성질을 만족합니다. 또한 path method만이 sensitivity와 implementation invariance를 모두 만족할 수 있다고 주장합니다. 
+모든 path integrated gradient는 **implementation invariance** 성질을 만족합니다. 또한 path integrated gradient만이 sensitivity와 implementation invariance를 모두 만족할 수 있다고 주장합니다. 
 
 > Theorem 1 (Friedman, 2004))  
 >
 > Path methods are the only attribution methods that always satisfy
 > Implementation Invariance, Sensitivity, Linearity, and Completeness.  
 
-integrated gradient도 path method중 하나이며, 아래의 이미지에서 $P2$ linear combination의 path에 해당합니다. 아래의 그림처럼 비선형적인 path도 path methods 중 일부입니다.
+integrated gradient는 baseline과 input사이의 직선 상에 존재하는 feature들의 gradient값을 모으는 방법입니다. 하지만, 아래의 그림처럼 baseline과 input사이의 path는 직선 뿐만 아니라 비선형적인 path도 있습니다. 이렇게 다른 path들은 서로 다른 attribution 방법이 됩니다.  
 
 ![]({{ site.baseurl }}/images/2020-05-05-Integrated-gradient-정리글/figure1.png)
 
-아래의 $\gamma$는 path를 정의하는 함수 입니다. $\gamma(0)$은 baseline을 의미하고, $\gamma(1)$은 input을 의미합니다. 데이터의 차원은 n이고 $\gamma_i$는 각 데이터 차원 중 i index의 path를 의미합니다.
+path integrated gradient는 직선 path 뿐만 아니라 general path에 대해서 다룹니다. 수식을 통해서 정리해보겠습니다.
+
+$\gamma$는 path를 정의하는 함수 입니다. $\gamma(0)$은 baseline을 의미하고, $\gamma(1)$은 input을 의미합니다. 데이터의 차원은 n이고 $\gamma_i$는 i 차원의 path를 의미합니다. $(\gamma_1, \cdots, \gamma_n)$ 이 모여서 데이터의 path를 정의합니다.
 
 - $\gamma = (\gamma_1, \cdots, \gamma_n) : [0, 1] \rightarrow R^n$
 - $\gamma(0) = \acute{x}$
 - $\gamma(1) = x$
 
-따라서, $\gamma$의 path integrated gradient는 아래와 정리할 수 있습니다.
+$\gamma$의 path integrated gradient는 아래와 정리할 수 있습니다.
 
 $$
 PathIntegratedGrads_i^\gamma(x) = \int_{\alpha=0}^1 \frac{\partial F(\gamma(\alpha))}{\partial \gamma_i(\alpha)} \frac{\partial \gamma_i(\alpha)}{\partial \alpha} d\alpha
 $$
 
+덧붙여서, 세션 제목에서 언급한 path method라는 표현은 path integrated gradient를 의미합니다.
 
 ### 많은 Path method중에서 Integrated Gradients: Symmetry-Preserving
 
