@@ -36,7 +36,7 @@ layout: post
 
 Residual Connection은 아래의 그림을 통해서 확인할 수 있습니다.
 
-![](../images/2020-06-05-Residual-Variational-Autoencoder/residual_learning.png)
+![]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/residual_learning.png)
 
 이미지 영역에서 Resnet은 Residual connection을 통해서 Degradation 문제를 효과적으로 해결했습니다.[4]
 
@@ -106,7 +106,7 @@ AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다
 
 이상적으로 AE의 최적의 레이어수가 있다하더라도, 레이어가 깊어지면 최적의 레이어수의 train loss와 같아야 합니다.
 
-![Degradation](../images/2020-06-05-Residual-Variational-Autoencoder/degradation_ae.png)
+![Degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/degradation_ae.png)
 
 위의 실험은 MNIST 데이터셋을 바탕으로 anomaly detection의 환경에서 진행하였습니다. n_layer당 실험세팅은 총 10개입니다. (0 을 제외하고 학습, 1을 제외하고 학습, ..., 9를 제외하고 학습) 학습에서 제외된 클레스는 추후에 anomaly detection에서 anomaly가 됩니다. n_layers는 각 인코더, 디코더의 layer의 수를 의미합니다. 우리는 대칭적인 AE를 사용했으므로, 총 레이어의 수는 n_layers x 2 입니다.
 
@@ -130,7 +130,7 @@ Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였
 
 우리가 사용한 Residual connection 구조는 (a) original과 (b) identity입니다.[8]
 
-![structure](../images/2020-06-05-Residual-Variational-Autoencoder/original-identity.png)
+![structure]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/original-identity.png)
 
 (b) proposed는 해당 identity 구조입니다. 위의 이미지에서 알 수 있듯이 단지 각 모듈의 순서의 변경만으로 성능차이가 나는 것을 확인할 수 있습니다. 하지만, 이론적으로 증명된 것이 아니고 AE 구조에서는 original과 identity 둘 중에 어떤 것이 더 좋은 성능을 보일지 알 수 없기 때문에 두 모델을 비교해봤습니다. 결과적으로 identity가 더 우수한 성능을 보여줬습니다. 자세한 내용은 Experiments에서 다루겠습니다.
 
@@ -142,7 +142,7 @@ residual connection을 적용하기 위해서는 서로 연결되는 영역의 �
 
 AE의 구조 특성상 residual connection을 바로 적용할 수 없었습니다. 
 
-![직관적인 그림](../images/2020-06-05-Residual-Variational-Autoencoder/residual_ae.jpeg)
+![직관적인 그림]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/residual_ae.jpeg)
 
 이러한 문제를 해결하기 위해서 트릭을 사용했습니다. 선형레이어는 유의미한 학습에 도움이 되지 않습니다.[9] 이러한 정보를 바탕으로, **선형레이어**를 차원을 축소하는 용도로 사용하였습니다. 
 
@@ -152,7 +152,7 @@ AE의 구조 특성상 residual connection을 바로 적용할 수 없었습니�
 
 위의 과정을 거쳐서 residual AE/VAE가 완성되었지만, 해결해야 할 문제가 생겼습니다. 더 깊은 모델을 학습하는 과정에서 gradient explosion현상이 발생했습니다.[10] 이로 인해서 Residual Autoencoder를 학습할 때 아래와 같이 학습이 매우 불안정적으로 진행되었습니다. (g_norm은 gradient의 norm을 의미합니다.)
 
-![gradient explosion](../images/2020-06-05-Residual-Variational-Autoencoder/gradient_explosion.png)
+![gradient explosion]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/gradient_explosion.png)
 
 해당 그래프는 Residual AE를 MNIST데이터 셋을 학습시킨 결과입니다.
 
@@ -160,7 +160,7 @@ AE의 구조 특성상 residual connection을 바로 적용할 수 없었습니�
 
 이해를 돕기 위해서 모델의 파라미터가 $W \in R, b \in R$ 만 존재하는 경우의 loss surface입니다. [7]
 
-![loss surface](../images/2020-06-05-Residual-Variational-Autoencoder/ExplodingGradient_Razvan.png)
+![loss surface]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/ExplodingGradient_Razvan.png)
 
 이를 해결하기 위해서 graidient를 clipping하여 사용했습니다. gradient clipping을 한다는 것은 weight가 학습되는 폭을 강제로 제한 하는 것입니다. 실제로 recurrent network를 학습시킬때 많이 활용하던 방법입니다. [12]
 
@@ -178,13 +178,13 @@ AE의 구조 특성상 residual connection을 바로 적용할 수 없었습니�
 
 #### Train loss
 
-![](../images/2020-06-05-Residual-Variational-Autoencoder/lower_trainloss.png)
+![]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/lower_trainloss.png)
 
 위의 그래프는 레이어의 수 당 평균 train loss를 나타냅니다. 해당 결과는 AE 구조에서 나타나던 degradation 문제를 경감시킨 것을 보여줍니다. 
 
 #### AUROC
 
-![](../images/2020-06-05-Residual-Variational-Autoencoder/auroc.png)
+![]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/auroc.png)
 
 위의 그래프는 레이어 수 당 auroc를 나타냅니다. degradation 문제를 경감시키고 나서 anomaly detection에서의 성능을 확인해봤습니다. 아쉽게도 감소시킨 train loss가 직접적으로 auroc성능에 도움을 주지 못했습니다. 
 
