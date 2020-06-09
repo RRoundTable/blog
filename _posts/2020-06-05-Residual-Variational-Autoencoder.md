@@ -133,8 +133,12 @@ Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였
 
 (b) proposed는 해당 identity 구조입니다. 위의 이미지에서 알 수 있듯이 단지 각 모듈의 순서의 변경만으로 성능차이가 나는 것을 확인할 수 있습니다. 하지만, 이론적으로 증명된 것이 아니고 AE 구조에서는 original과 identity 둘 중에 어떤 것이 더 좋은 성능을 보일지 알 수 없기 때문에 두 모델을 비교해봤습니다. 결과적으로 identity가 더 우수한 성능을 보여줬습니다. 자세한 내용은 Experiments에서 다루겠습니다.
 
+아래는 우리가 만든 Residual AE의 구조입니다.
 
+![직관적인 그림]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/residual_ae.jpeg)
 
+```
+지울예정
 ### Structure of Autoencoder: Projection Layer
 
 residual connection을 적용하기 위해서는 서로 연결되는 영역의 차원이 같아야 합니다. 
@@ -144,7 +148,7 @@ AE의 구조 특성상 residual connection을 바로 적용할 수 없었습니�
 ![직관적인 그림]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/residual_ae.jpeg)
 
 이러한 문제를 해결하기 위해서 트릭을 사용했습니다. 선형레이어는 유의미한 학습에 도움이 되지 않습니다.[9] 이러한 정보를 바탕으로, **선형레이어**를 차원을 축소하는 용도로 사용하였습니다. 
-
+```
 
 
 ### Gradient Explosion: Gradient Clipping
@@ -157,12 +161,11 @@ AE의 구조 특성상 residual connection을 바로 적용할 수 없었습니�
 
 발생하는 원인에 대해서 loss surface가 아래와 같이 매우 극단적으로 나오는 것으로 추론할 수 있습니다.
 
-이해를 돕기 위해서 모델의 파라미터가 $W \in R, b \in R$ 만 존재하는 경우의 loss surface입니다. [7]
+이해를 돕기 위해서 아래와 같은 이미지로 설명드리겠습니다. 모델의 파라미터가 $W \in R, b \in R$ 만 존재하는 경우의 loss surface입니다. [7]
 
 ![loss surface]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/ExplodingGradient_Razvan.png)
 
 이를 해결하기 위해서 graidient를 clipping하여 사용했습니다. gradient clipping을 한다는 것은 weight가 학습되는 폭을 강제로 제한 하는 것입니다. 실제로 recurrent network를 학습시킬때 많이 활용하던 방법입니다. [12]
-
 
 
 ## Experiments
