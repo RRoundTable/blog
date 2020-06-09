@@ -1,4 +1,300 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://fastpages.fast.ai/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fastpages.fast.ai/blog/" rel="alternate" type="text/html" /><updated>2020-05-26T23:33:34-05:00</updated><id>https://fastpages.fast.ai/blog/feed.xml</id><title type="html">RoundTable</title><subtitle>An easy to use blogging platform with support for Jupyter Notebooks.</subtitle><entry><title type="html">Integrated Gradient 정리글</title><link href="https://fastpages.fast.ai/blog/deeplearning/xai/2020/05/05/integrated-gradient.html" rel="alternate" type="text/html" title="Integrated Gradient 정리글" /><published>2020-05-05T00:00:00-05:00</published><updated>2020-05-05T00:00:00-05:00</updated><id>https://fastpages.fast.ai/blog/deeplearning/xai/2020/05/05/integrated-gradient</id><content type="html" xml:base="https://fastpages.fast.ai/blog/deeplearning/xai/2020/05/05/integrated-gradient.html">&lt;h1 id=&quot;integrated-gradient-정리글&quot;&gt;Integrated Gradient 정리글&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://fastpages.fast.ai/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fastpages.fast.ai/blog/" rel="alternate" type="text/html" /><updated>2020-06-09T01:24:18-05:00</updated><id>https://fastpages.fast.ai/blog/feed.xml</id><title type="html">RoundTable</title><subtitle>An easy to use blogging platform with support for Jupyter Notebooks.</subtitle><entry><title type="html">Residual Variational Autoencoder</title><link href="https://fastpages.fast.ai/blog/2020/06/05/Residual-Variational-Autoencoder.html" rel="alternate" type="text/html" title="Residual Variational Autoencoder" /><published>2020-06-05T00:00:00-05:00</published><updated>2020-06-05T00:00:00-05:00</updated><id>https://fastpages.fast.ai/blog/2020/06/05/Residual-Variational-Autoencoder</id><content type="html" xml:base="https://fastpages.fast.ai/blog/2020/06/05/Residual-Variational-Autoencoder.html">&lt;h1 id=&quot;residual-variational-autoencoder-anomaly-detection에-활용하기&quot;&gt;Residual Variational Autoencoder: Anomaly Detection에 활용하기&lt;/h1&gt;
+
+&lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
+
+&lt;p&gt;이번 포스팅은 마키나락스에서 내부적으로 개발한 Residual Variational Autoencoder에 대해서 작성하였습니다.&lt;/p&gt;
+
+&lt;p&gt;많은 딥러닝의 연구들은 비선형적인 레이어를 깊게 쌓으면서 좋은 성능을 보여줬습니다. 대표적인 예로, Resnet의 경우에 더 깊은 레이어를 효과적으로 쌓아 성능향상을 이루었습니다.&lt;/p&gt;
+
+&lt;p&gt;같은 맥락으로 Residual Variational Autoencoder은 레이어를 효과적으로 사용할 수 있도록 설계했습니다. 결과적으로 깊은 레이어를 통해 만들어진 정보압축을 통해서 anomaly detection을 뛰어난 성능을 보여줬습니다.&lt;/p&gt;
+
+&lt;p&gt;아래의 글에서는 RVAE(Residual Variational Autoencoder)의 동기와 직면하였던 문제들에 대해서 설명드리고, anomaly detection 실험결과를 공유드리면서 글을 마치려고 합니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;related-works&quot;&gt;Related Works&lt;/h2&gt;
+
+&lt;h3 id=&quot;degradation-and-residual-connection&quot;&gt;Degradation and Residual Connection&lt;/h3&gt;
+
+&lt;p&gt;딥러닝 모델이 깊어지게 되면, train loss는 더 작아져야합니다. 하지만, 모델이 깊어지게 되면서 &lt;strong&gt;train loss&lt;/strong&gt;가 더 감소하기도 하며, 이를 degradation이라고 정의합니다. [4]&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/images/2020-06-05-Residual-Variational-Autoencoder/degradation.png&quot; alt=&quot;degradation&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Residual Connection은 아래의 그림을 통해서 확인할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/2020-06-05-Residual-Variational-Autoencoder/residual_learning.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이미지 영역에서 Resnet은 Residual connection을 통해서 Degradation 문제를 효과적으로 해결했습니다.[4]&lt;/p&gt;
+
+&lt;h3 id=&quot;gradient-explosion-in-deep-network&quot;&gt;Gradient Explosion in deep network&lt;/h3&gt;
+
+&lt;p&gt;gradient explosion이란 backpropagation하는 과정에서 갑작스럽게 증가하는 현상을 의미합니다.&lt;/p&gt;
+
+&lt;p&gt;딥러닝 연구에서 일반적으로 비선형적인 레이어를 효과적으로 쌓으면, 모델 성능이 좋아지는 것을 보여줍니다.
+하지만, 레이어를 깊게 쌓을 때, graidnet vanishing/explosion 문제가 발생하여 오히려 모델 성능이 하락하는 문제가 발생됩니다. [4, 5, 6, 7]&lt;/p&gt;
+
+&lt;p&gt;또한, 깊은 fully connected network구조에서 batch normalization을 사용하게 되면, gradient explosion 현상이 발생하는 것이 증명되어있으며, 우리는 실제 실험으로도 확인할 수 있었습니다. [10]&lt;/p&gt;
+
+&lt;h3 id=&quot;anomaly-detection-based-on-autoencoder&quot;&gt;Anomaly detection based on Autoencoder&lt;/h3&gt;
+
+&lt;p&gt;anomaly detection에서 &lt;strong&gt;Autoencdoer&lt;/strong&gt;구조는 많이 활용되고 있습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://makinarocks.github.io/assets/images/20191215/1.png&quot; alt=&quot;autoencoder&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Autoencoder는 x 라는 고차원의 데이터를 저차원의 latent space(z)로 이를 다시 $\hat{x}$ 로 복원시키는 구조이며, 이때 MSE $\rVert x - \hat{x} \rVert^2$을 최소화하는 방향으로 학습이 진행됩니다. manifold 가설에 따르면, data의 noise를 제거하면서 의미있는 정보압축을 진행하는 방향으로 학습되었다고 해석할 수 있습니다. [2]&lt;/p&gt;
+
+&lt;p&gt;이렇게 학습된 Autoencoder는 다음과 같은 과정을 통해서 anomayl detection을 수행합니다. [1]&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;입력 샘플을 인코더를 통해 저차원으로 압축합니다.&lt;/li&gt;
+  &lt;li&gt;압축된 샘플을 디코더를 통과시켜 다시 원래의 차원으로 복원합니다.&lt;/li&gt;
+  &lt;li&gt;입력 샘플과 복원 샘플의 복원 오차(reconstruction error)를 구합니다.&lt;/li&gt;
+  &lt;li&gt;복원 오차는 이상 점수(anomaly score)가 되어 threshold와 비교를 통해 이상 여부를 결정합니다.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;anomaly-detection-based-on-variational-autoencoder&quot;&gt;Anomaly detection based on Variational Autoencoder&lt;/h2&gt;
+
+&lt;p&gt;variational autoencoder는 Kingma 2014년에 Auto-Encoding Variational Bayes [4]을 통해서 소개한 바 있습니다. reparameterization trick을 통해서 인코더가 뱉어내는 $m, \sigma$ 로 latent variable $z$를 샘플링하고 이로부터 posetrior distribuion $p(x | z)$ 를 근사하여 학습하게 됩니다. [1]
+&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://makinarocks.github.io/assets/images/20191215/5.png&quot; alt=&quot;vae&quot; /&gt;&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;$x \in R^n$ : input data&lt;/li&gt;
+  &lt;li&gt;$z \in R^m$ : latent variable&lt;/li&gt;
+  &lt;li&gt;$\hat{x} \in R^n$: reconstructed data&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;autoencoder의 objective와 다르게 variational autoencoder의 objective kld term이 추가됩니다.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;autoencoder&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;span class=&quot;katex-display&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;o&lt;/mi&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;j&lt;/mi&gt;&lt;mrow&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mo stretchy=&quot;false&quot;&gt;∥&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo&gt;−&lt;/mo&gt;&lt;mover accent=&quot;true&quot;&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo&gt;^&lt;/mo&gt;&lt;/mover&gt;&lt;msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;∥&lt;/mo&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;obj_{ae} = \rVert x - \hat{x} \rVert ^ 2&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.8888799999999999em;vertical-align:-0.19444em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.05724em;&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.151392em;&quot;&gt;&lt;span style=&quot;top:-2.5500000000000003em;margin-left:-0.05724em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mathdefault mtight&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;mord mathdefault mtight&quot;&gt;e&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-s&quot;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.15em;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;=&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;∥&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mbin&quot;&gt;−&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1.1141079999999999em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord accent&quot;&gt;&lt;span class=&quot;vlist-t&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.69444em;&quot;&gt;&lt;span style=&quot;top:-3em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:3em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;top:-3em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:3em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;accent-body&quot; style=&quot;left:-0.22222em;&quot;&gt;^&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;&lt;span class=&quot;mclose&quot;&gt;∥&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.8641079999999999em;&quot;&gt;&lt;span style=&quot;top:-3.113em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;variational autoencoder&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;MSE(reconstruction error)와 kld term을 더한 형태입니다.&lt;/p&gt;
+
+&lt;span class=&quot;katex-display&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;o&lt;/mi&gt;&lt;mi&gt;b&lt;/mi&gt;&lt;msub&gt;&lt;mi&gt;j&lt;/mi&gt;&lt;mrow&gt;&lt;mi&gt;v&lt;/mi&gt;&lt;mi&gt;a&lt;/mi&gt;&lt;mi&gt;e&lt;/mi&gt;&lt;/mrow&gt;&lt;/msub&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mo stretchy=&quot;false&quot;&gt;∥&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo&gt;−&lt;/mo&gt;&lt;mover accent=&quot;true&quot;&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo&gt;^&lt;/mo&gt;&lt;/mover&gt;&lt;msup&gt;&lt;mo stretchy=&quot;false&quot;&gt;∥&lt;/mo&gt;&lt;mn&gt;2&lt;/mn&gt;&lt;/msup&gt;&lt;mo&gt;+&lt;/mo&gt;&lt;mi&gt;K&lt;/mi&gt;&lt;mi&gt;L&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi mathvariant=&quot;script&quot;&gt;N&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;m&lt;/mi&gt;&lt;mo separator=&quot;true&quot;&gt;,&lt;/mo&gt;&lt;mi&gt;σ&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo separator=&quot;true&quot;&gt;,&lt;/mo&gt;&lt;mi mathvariant=&quot;script&quot;&gt;N&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;mo separator=&quot;true&quot;&gt;,&lt;/mo&gt;&lt;mi&gt;I&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;obj_{vae} = \rVert x - \hat{x} \rVert ^ 2 + KL( \mathcal{N} (m, \sigma), \mathcal{N}(0, I))&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.8888799999999999em;vertical-align:-0.19444em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;o&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.05724em;&quot;&gt;j&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.151392em;&quot;&gt;&lt;span style=&quot;top:-2.5500000000000003em;margin-left:-0.05724em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;&lt;span class=&quot;mord mathdefault mtight&quot; style=&quot;margin-right:0.03588em;&quot;&gt;v&lt;/span&gt;&lt;span class=&quot;mord mathdefault mtight&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;mord mathdefault mtight&quot;&gt;e&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-s&quot;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.15em;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;=&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;∥&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mbin&quot;&gt;−&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1.1141079999999999em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord accent&quot;&gt;&lt;span class=&quot;vlist-t&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.69444em;&quot;&gt;&lt;span style=&quot;top:-3em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:3em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span style=&quot;top:-3em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:3em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;accent-body&quot; style=&quot;left:-0.22222em;&quot;&gt;^&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;&lt;span class=&quot;mclose&quot;&gt;∥&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.8641079999999999em;&quot;&gt;&lt;span style=&quot;top:-3.113em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;2&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mbin&quot;&gt;+&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2222222222222222em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.07153em;&quot;&gt;K&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;L&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathcal&quot; style=&quot;margin-right:0.14736em;&quot;&gt;N&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;m&lt;/span&gt;&lt;span class=&quot;mpunct&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.16666666666666666em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.03588em;&quot;&gt;σ&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mpunct&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.16666666666666666em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathcal&quot; style=&quot;margin-right:0.14736em;&quot;&gt;N&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;mpunct&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.16666666666666666em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.07847em;&quot;&gt;I&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
+
+&lt;p&gt;결론적으로 VAE는 MSE(reconstruction error)를 최소화하는 과정에서 KLD도 감소시켜야합니다. reconstruction error와 kld term은 서로 반대방향으로 움직이는 경향이 있습니다. KLD이 0이 된다면 input data에 대해서 독립적인 latent variable을 생성하게 됩니다. 그렇게 되면, reconstruction error가 높아집니다. 반대로, reconstruction error가 0이 된다면, KLD의 값이 커지게 됩니다. 정리하면, KLD의 역할은 VAE 모델이 x와 z가 적당히 연관되면서 reconstruction과 상관없는 정보를 더 잘 버릴수 있도록 하는데 있습니다. [1]&lt;/p&gt;
+
+&lt;p&gt;이처럼 KLD는 훌륭한 regularizer로 오버피팅을 막아주며, 결과적으로 이것은 마치 주어진 상황에서 최적의 병목 구간 크기를 갖게 하는 효과를 갖습니다. KLD를 통해 VAE는 vanilla autoencoder에 비해 훨씬 나은 성능의 이상탐지(anomaly detection) 성능을 제공합니다. 실험을 통해 우리는 기존의 autoencoder는 너무 큰 bottleneck을 가지면 identity function이 되며 이상탐지 성능이 떨어지는 것에 반해, VAE는 bottleneck의 크기가 커질수록 이상탐지 성능이 오르는 효과를 갖는 것을 확인할 수 있었습니다. 따라서 AE 기반의 anomaly detection을 수행할 때, 기존에는 bottleneck의 크기를 hyper-parameter로 튜닝해야 했던 반면에, VAE의 경우에는 튜닝을 할 필요가 거의 없어졌습니다. [1]&lt;/p&gt;
+
+&lt;h2 id=&quot;motivation&quot;&gt;Motivation&lt;/h2&gt;
+
+&lt;p&gt;AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다. 하지만, 레이어를 깊게 쌓을 수 없다는 한계가 있었습니다. 실험을 통해서, 레이어의 수가 특정 임계치를 넘어가면 레이어의 수가 늘어날 수록 train loss가 증가하는 현상이 발생하는 것을 확인했습니다. 우리는 이것을 &lt;strong&gt;degradation&lt;/strong&gt; 문제로 정의했습니다. [4]&lt;/p&gt;
+
+&lt;p&gt;이상적으로 AE의 최적의 레이어수가 있다하더라도, 레이어가 깊어지면 최적의 레이어수의 train loss와 같아야 합니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/2020-06-05-Residual-Variational-Autoencoder/degradation_ae.png&quot; alt=&quot;Degradation&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위의 실험은 MNIST 데이터셋을 바탕으로 anomaly detection의 환경에서 진행하였습니다. n_layer당 실험세팅은 총 10개입니다. (0 을 제외하고 학습, 1을 제외하고 학습, …, 9를 제외하고 학습) 학습에서 제외된 클레스는 추후에 anomaly detection에서 anomaly가 됩니다. n_layers는 각 인코더, 디코더의 layer의 수를 의미합니다. 우리는 대칭적인 AE를 사용했으므로, 총 레이어의 수는 n_layers x 2 입니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;더 깊은 레이어&lt;/strong&gt;의 AE 혹은 VAE 구조를 안정적으로 학습하기 위해서 Residual connection을 고려하게 되었습니다. [4]&lt;/p&gt;
+
+&lt;h2 id=&quot;method&quot;&gt;Method&lt;/h2&gt;
+
+&lt;p&gt;본 섹션은 크게 3가지로 나누어서 설명드리겠습니다. 우리가 겪은 문제는 크게 3가지 입니다.&lt;/p&gt;
+
+&lt;ol&gt;
+  &lt;li&gt;Degradation을 어떻게 해결할 것인가?&lt;/li&gt;
+  &lt;li&gt;AE 구조에서 residual connection을 어떻게 구현할 것인가?&lt;/li&gt;
+  &lt;li&gt;Residual AE에서 발생하는 gradient explosion은 어떻게 해결할 것인가?&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;h3 id=&quot;degradation-residual-connection&quot;&gt;Degradation: Residual Connection&lt;/h3&gt;
+
+&lt;p&gt;&lt;img src=&quot;&quot; alt=&quot;residual connection 직관적인 그림 추가&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였습니다.[4] 일반적으로 residual connection을 사용하게 되면, gradient의 지름길이 뚫려서 멀리까지 전달되는 효과가 있습니다. 이는 gradient vanishing 문제를 효과적으로 해결할 수 있습니다. 하지만, 내부적으로 이런 특징이 성능을 개선했다고 생각하지 않습니다. (gradient vanishing을 확인하지 못했습니다.) 또한, resnet 연구에서도 degradation의 원인이 gradient vanishing이 아니였다고 주장합니다.[4]&lt;/p&gt;
+
+&lt;p&gt;우리가 사용한 Residual connection 구조는 (a) original과 (b) identity입니다.[8]&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/2020-06-05-Residual-Variational-Autoencoder/original-identity.png&quot; alt=&quot;structure&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(b) proposed는 해당 identity 구조입니다. 위의 이미지에서 알 수 있듯이 단지 각 모듈의 순서의 변경만으로 성능차이가 나는 것을 확인할 수 있습니다. 하지만, 이론적으로 증명된 것이 아니고 AE 구조에서는 original과 identity 둘 중에 어떤 것이 더 좋은 성능을 보일지 알 수 없기 때문에 두 모델을 비교해봤습니다. 결과적으로 identity가 더 우수한 성능을 보여줬습니다. 자세한 내용은 Experiments에서 다루겠습니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;structure-of-autoencoder-projection-layer&quot;&gt;Structure of Autoencoder: Projection Layer&lt;/h3&gt;
+
+&lt;p&gt;residual connection을 적용하기 위해서는 서로 연결되는 영역의 차원이 같아야 합니다.&lt;/p&gt;
+
+&lt;p&gt;AE의 구조 특성상 residual connection을 바로 적용할 수 없었습니다.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/2020-06-05-Residual-Variational-Autoencoder/residual_ae.jpeg&quot; alt=&quot;직관적인 그림&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이러한 문제를 해결하기 위해서 트릭을 사용했습니다. 선형레이어는 유의미한 학습에 도움이 되지 않습니다.[9] 이러한 정보를 바탕으로, &lt;strong&gt;선형레이어&lt;/strong&gt;를 차원을 축소하는 용도로 사용하였습니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;gradient-explosion-gradient-clipping&quot;&gt;Gradient Explosion: Gradient Clipping&lt;/h3&gt;
+
+&lt;p&gt;위의 과정을 거쳐서 residual AE/VAE가 완성되었지만, 해결해야 할 문제가 생겼습니다. 더 깊은 모델을 학습하는 과정에서 gradient explosion현상이 발생했습니다.[10] 이로 인해서 Residual Autoencoder를 학습할 때 아래와 같이 학습이 매우 불안정적으로 진행되었습니다. (g_norm은 gradient의 norm을 의미합니다.)&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/2020-06-05-Residual-Variational-Autoencoder/gradient_explosion.png&quot; alt=&quot;gradient explosion&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;해당 그래프는 Residual AE를 MNIST데이터 셋을 학습시킨 결과입니다.&lt;/p&gt;
+
+&lt;p&gt;발생하는 원인에 대해서 loss surface가 아래와 같이 매우 극단적으로 나오는 것으로 추론할 수 있습니다.&lt;/p&gt;
+
+&lt;p&gt;이해를 돕기 위해서 모델의 파라미터가 $W \in R, b \in R$ 만 존재하는 경우의 loss surface입니다. [7]&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/2020-06-05-Residual-Variational-Autoencoder/ExplodingGradient_Razvan.png&quot; alt=&quot;loss surface&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;이를 해결하기 위해서 graidient를 clipping하여 사용했습니다. gradient clipping을 한다는 것은 weight가 학습되는 폭을 강제로 제한 하는 것입니다. 실제로 recurrent network를 학습시킬때 많이 활용하던 방법입니다. [12]&lt;/p&gt;
+
+&lt;h2 id=&quot;experiments&quot;&gt;Experiments&lt;/h2&gt;
+
+&lt;p&gt;실험은 Residual AE/VAE 모델의 성능을 검증하기 위해서 설계되었습니다. 모델 성능은 train loss와 anomaly detection의 auroc를 통해서 검증하였습니다.&lt;/p&gt;
+
+&lt;p&gt;실험파트는 크게 두 가지 내용을 검증합니다. 첫 번째로 AE 구조에서 Residual Connection이 degradation 문제를 해결하였는지 검증하였습니다. 이러한 결과를 바탕으로 anomaly detection에서 긍정적인 방향으로 적용되는지 실험하였습니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;rae-vs-ae&quot;&gt;RAE vs AE&lt;/h3&gt;
+
+&lt;p&gt;동일한 레이어의 대비 RAE와 AE 성능을 살펴보고, 각 모델의 최고 성능을 비교해보겠습니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;train-loss&quot;&gt;Train loss&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/2020-06-05-Residual-Variational-Autoencoder/lower_trainloss.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위의 그래프는 레이어의 수 당 평균 train loss를 나타냅니다. 해당 결과는 AE 구조에서 나타나던 degradation 문제를 경감시킨 것을 보여줍니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;auroc&quot;&gt;AUROC&lt;/h4&gt;
+
+&lt;p&gt;&lt;img src=&quot;../images/2020-06-05-Residual-Variational-Autoencoder/auroc.png&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;위의 그래프는 레이어 수 당 auroc를 나타냅니다. degradation 문제를 경감시키고 나서 anomaly detection에서의 성능을 확인해봤습니다. 아쉽게도 감소시킨 train loss가 직접적으로 auroc성능에 도움을 주지 못했습니다.&lt;/p&gt;
+
+&lt;p&gt;우리는 이것을 anomaly detection에서의 오버피팅이라고 생각하고 있습니다. 해석하자면, 모델이 정보를 압축 후 복원하는 것은 잘 하지만, 압축시킨 정보가 복원하는 것만 잘 하도록 학습이 되어 있는 것입니다.&lt;/p&gt;
+
+&lt;h3 id=&quot;rvae-vs-vae&quot;&gt;RVAE vs VAE&lt;/h3&gt;
+
+&lt;p&gt;Variational AE, RAE 같은 경우에는 KLD 값의 영향으로 train loss를 비교하는 것은 어렵습니다. 따라서 AUROC 성능으로 검증하도록 하겠습4니다.&lt;/p&gt;
+
+&lt;h4 id=&quot;auroc-1&quot;&gt;AUROC&lt;/h4&gt;
+
+&lt;p&gt;아래의 실험은 SEED를 고정시키고 실험을 진행했습니다. 다른 논문의 VAE의 벤치마크 성능[13]과 비교해봤을 때, 큰 차이가 없는 것을 확인했습니다.&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;novelty class&lt;/th&gt;
+      &lt;th&gt;RVAE-identity&lt;/th&gt;
+      &lt;th&gt;RVAE-original&lt;/th&gt;
+      &lt;th&gt;VAE&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;0&lt;/td&gt;
+      &lt;td&gt;0.99&lt;/td&gt;
+      &lt;td&gt;0.987&lt;/td&gt;
+      &lt;td&gt;0.98&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;1&lt;/td&gt;
+      &lt;td&gt;0.408&lt;/td&gt;
+      &lt;td&gt;0.396&lt;/td&gt;
+      &lt;td&gt;0.38&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;2&lt;/td&gt;
+      &lt;td&gt;0.99&lt;/td&gt;
+      &lt;td&gt;0.991&lt;/td&gt;
+      &lt;td&gt;0.99&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;3&lt;/td&gt;
+      &lt;td&gt;0.969&lt;/td&gt;
+      &lt;td&gt;0.97&lt;/td&gt;
+      &lt;td&gt;0.967&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;4&lt;/td&gt;
+      &lt;td&gt;0.944&lt;/td&gt;
+      &lt;td&gt;0.935&lt;/td&gt;
+      &lt;td&gt;0.929&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;5&lt;/td&gt;
+      &lt;td&gt;0.968&lt;/td&gt;
+      &lt;td&gt;0.969&lt;/td&gt;
+      &lt;td&gt;0.96&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;6&lt;/td&gt;
+      &lt;td&gt;0.962&lt;/td&gt;
+      &lt;td&gt;0.943&lt;/td&gt;
+      &lt;td&gt;0.956&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;7&lt;/td&gt;
+      &lt;td&gt;0.909&lt;/td&gt;
+      &lt;td&gt;0.91&lt;/td&gt;
+      &lt;td&gt;0.90&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;8&lt;/td&gt;
+      &lt;td&gt;0.974&lt;/td&gt;
+      &lt;td&gt;0.972&lt;/td&gt;
+      &lt;td&gt;0.973&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;9&lt;/td&gt;
+      &lt;td&gt;0.848&lt;/td&gt;
+      &lt;td&gt;0.833&lt;/td&gt;
+      &lt;td&gt;0.81&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;위의 실험결과를 통해서 RVAE 모델이 VAE모델보다 AUROC 성능을 향상 시킨 것을 확인했습니다. 실험결과를 보면 이렇게 해석할 수 있습니다. Residual Connection의 영향으로 모델의 capacity를 증가시켰습니다. KLD를 활용한 regularization과 합쳐지면서 모델은 더 효과적인 압축을 진행할 수 있게 됩니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;summary&quot;&gt;Summary&lt;/h2&gt;
+
+&lt;p&gt;더 깊은 레이어를 쌓으면서 발생했던 degradation 문제와 이를 해결하기 위한 residual connection에 대해서 다뤄습니다. 또한, AE 구조에 residual connection을 적용하기 위한 노력들과 깊은 fully connected layer와 batch normalization을 같이 사용하면서 발생한 gradient explosion 현상을 해결하기 위해서 gradient clipping을 적용하였습니다.&lt;/p&gt;
+
+&lt;p&gt;결과적으로 RAE를 통해서 깊은 레이어의 모델에서 발생하는 degradation문제를 해결할 수 있었고, 이를 그대로 RVAE에 적용하여, AUROC(anomaly detection 성능)을 높였습니다.&lt;/p&gt;
+
+&lt;h2 id=&quot;references&quot;&gt;References&lt;/h2&gt;
+
+&lt;p&gt;[1] &lt;a href=&quot;https://makinarocks.github.io/Autoencoder-based-anomaly-detection/&quot;&gt;Makinarocks: Autoencoder based Anomaly Detection&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;[2] Stanislav Pidhorskyi et al., Generative Probabilistic Novelty Detection with Adversarial Autoencoders, NeurIPS, 2018&lt;/p&gt;
+
+&lt;p&gt;[3] Kingma et al., Auto-Encoding Variational Bayes, ICLR, 2014&lt;/p&gt;
+
+&lt;p&gt;[4] K. He, X. Zhang, S. Ren, and J. Sun. Deep residual learning
+for image recognition. In CVPR, 2016&lt;/p&gt;
+
+&lt;p&gt;[5] Y. Bengio, P. Simard, and P. Frasconi. Learning long-term dependencies with gradient descent is difficult. IEEE Transactions on Neural
+Networks, 5(2):157–166, 1994.&lt;/p&gt;
+
+&lt;p&gt;[6] S. Hochreiter. Untersuchungen zu dynamischen neuronalen netzen.
+Diploma thesis, TU Munich, 1991.&lt;/p&gt;
+
+&lt;p&gt;[7] X. Glorot and Y. Bengio. Understanding the difficulty of training
+deep feedforward neural networks. In AISTATS, 2010&lt;/p&gt;
+
+&lt;p&gt;[8] K. He, X. Zhang, S. Ren, and J. Sun. Identity mappings in
+deep residual networks. In ECCV, 2016&lt;/p&gt;
+
+&lt;p&gt;[9] https://colah.github.io/posts/2014-03-NN-Manifolds-Topology/&lt;/p&gt;
+
+&lt;p&gt;[10] Song Mei, Andrea Montanari, and Phan-Minh Nguyen. A mean field view of the landscape
+of two-layer neural networks. Proceedings of the National Academy of Sciences, 115(33):
+E7665–E7671, 2018.&lt;/p&gt;
+
+&lt;p&gt;[11] A. Veit, M. Wilber, and S. Belongie. Residual networks
+behave like ensembles of relatively shallow network. In
+NIPS, 2016.&lt;/p&gt;
+
+&lt;p&gt;[12] Pascanu, R., Mikolov, T., and Bengio, Y. (2013b). On the difficulty of training recurrent neural
+networks. In Proceedings of the 30th International Conference on Machine Learning (ICML
+2013).&lt;/p&gt;
+
+&lt;p&gt;[13] Kim, K., Shim, S., Lim, Y., Jeon, J., Choi, J., Kim, B., Yoon, A., 2020. Rapp: Novelty
+Detection With Reconstruction Along Projection Pathway. ICLR 2020&lt;/p&gt;</content><author><name></name></author><summary type="html">Residual Variational Autoencoder: Anomaly Detection에 활용하기</summary></entry><entry><title type="html">Integrated Gradient 정리글</title><link href="https://fastpages.fast.ai/blog/deeplearning/xai/2020/05/05/integrated-gradient.html" rel="alternate" type="text/html" title="Integrated Gradient 정리글" /><published>2020-05-05T00:00:00-05:00</published><updated>2020-05-05T00:00:00-05:00</updated><id>https://fastpages.fast.ai/blog/deeplearning/xai/2020/05/05/integrated-gradient</id><content type="html" xml:base="https://fastpages.fast.ai/blog/deeplearning/xai/2020/05/05/integrated-gradient.html">&lt;h1 id=&quot;integrated-gradient-정리글&quot;&gt;Integrated Gradient 정리글&lt;/h1&gt;
 
 &lt;p&gt;XAI을 위한 다양한 방법론들이 있습니다. 그 중 input feature의 attribution을 파악하는 다양한 기법들이 있습니다. attribution이란 input feature가 모델의 예측에 영향을 끼쳤는지 나타내주는 값입니다.&lt;/p&gt;
 
@@ -5892,28 +6188,4 @@ F는 두 vector의 차이를  받았기 때문에, 뺄셈에 대한 homomorphism
 
 &lt;h3 id=&quot;53-feature-based-approach-with-bert&quot;&gt;5.3 Feature-based Approach with BERT&lt;/h3&gt;
 
-&lt;h2 id=&quot;6-conclusion&quot;&gt;6. Conclusion&lt;/h2&gt;</content><author><name></name></author><summary type="html">BERT, Bidirectional Encoder Representations from Transformers</summary></entry><entry><title type="html">Big-O notation 정리하기</title><link href="https://fastpages.fast.ai/blog/algorithm/2019/12/28/Big-O-notation-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0.html" rel="alternate" type="text/html" title="Big-O notation 정리하기" /><published>2019-12-28T00:00:00-06:00</published><updated>2019-12-28T00:00:00-06:00</updated><id>https://fastpages.fast.ai/blog/algorithm/2019/12/28/Big-O-notation-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0</id><content type="html" xml:base="https://fastpages.fast.ai/blog/algorithm/2019/12/28/Big-O-notation-%EC%A0%95%EB%A6%AC%ED%95%98%EA%B8%B0.html">&lt;h1 id=&quot;big-o-notation-정리하기&quot;&gt;Big-O notation 정리하기&lt;/h1&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;In &lt;a href=&quot;https://en.wikipedia.org/wiki/Computer_science&quot;&gt;computer science&lt;/a&gt;, big O notation is used to &lt;a href=&quot;https://en.wikipedia.org/wiki/Computational_complexity_theory&quot;&gt;classify algorithms&lt;/a&gt; according to how their running time or space requirements grow as the input size grows.[&lt;a href=&quot;https://en.wikipedia.org/wiki/Big_O_notation#cite_note-quantumcomplexity-3&quot;&gt;3]&lt;/a&gt; In &lt;a href=&quot;https://en.wikipedia.org/wiki/Analytic_number_theory&quot;&gt;analytic number theory&lt;/a&gt;, big O notation is often used to express a bound on the difference between an &lt;a href=&quot;https://en.wikipedia.org/wiki/Arithmetic_function&quot;&gt;arithmetical function&lt;/a&gt; and a better understood approximation; a famous example of such a difference is the remainder term in the &lt;a href=&quot;https://en.wikipedia.org/wiki/Prime_number_theorem&quot;&gt;prime number theorem&lt;/a&gt;.&lt;/p&gt;
-
-  &lt;p&gt;reference: https://en.wikipedia.org/wiki/Big_O_notation&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;#&lt;/p&gt;
-
-&lt;h2 id=&quot;formal-definition&quot;&gt;Formal definition&lt;/h2&gt;
-
-&lt;p&gt;$F$ 는 real or complex valued function이며 , $g$는 real valued function이다. 두 함수는 무한한 양의 실수의 subset으로 정의된다. 따라서 $g(x)$는 x가 충분히 큰 값일때 항상 양수이다.&lt;/p&gt;
-
-&lt;span class=&quot;katex-display&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo&gt;=&lt;/mo&gt;&lt;mi&gt;O&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;g&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mtext&gt; as &lt;/mtext&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo&gt;→&lt;/mo&gt;&lt;mi mathvariant=&quot;normal&quot;&gt;∞&lt;/mi&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;F(x) = O(g(x)) \ \text{as} \ x \rightarrow \infty&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.13889em;&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.02778em;&quot;&gt;O&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.03588em;&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mord text&quot;&gt;&lt;span class=&quot;mord&quot;&gt;as&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mspace&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;→&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.43056em;vertical-align:0em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;∞&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
-
-&lt;p&gt;충분히 큰 x값을 가질 수 있을때만, $F(x)$의 절대값의 최대값이 $g(x)$에 양의 상수를 곱한 것을 넘지 못할 때, $F(x) = O(g(x))$라고 표현한다. (Upper Bound)이를 아래 식으로 표현한다.&lt;/p&gt;
-
-&lt;span class=&quot;katex-display&quot;&gt;&lt;span class=&quot;katex&quot;&gt;&lt;span class=&quot;katex-mathml&quot;&gt;&lt;math xmlns=&quot;http://www.w3.org/1998/Math/MathML&quot;&gt;&lt;semantics&gt;&lt;mrow&gt;&lt;mo stretchy=&quot;false&quot;&gt;∣&lt;/mo&gt;&lt;mi&gt;F&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mo stretchy=&quot;false&quot;&gt;∣&lt;/mo&gt;&lt;mo&gt;≤&lt;/mo&gt;&lt;mi&gt;M&lt;/mi&gt;&lt;mi&gt;g&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;(&lt;/mo&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo stretchy=&quot;false&quot;&gt;)&lt;/mo&gt;&lt;mtext&gt;for all &lt;/mtext&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mo&gt;≥&lt;/mo&gt;&lt;msub&gt;&lt;mi&gt;x&lt;/mi&gt;&lt;mn&gt;0&lt;/mn&gt;&lt;/msub&gt;&lt;/mrow&gt;&lt;annotation encoding=&quot;application/x-tex&quot;&gt;\rvert F(x) \rvert \le Mg(x) \text{for all } x \ge x_0&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&lt;span class=&quot;katex-html&quot; aria-hidden=&quot;true&quot;&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;∣&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.13889em;&quot;&gt;F&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;∣&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;≤&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:1em;vertical-align:-0.25em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.10903em;&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot; style=&quot;margin-right:0.03588em;&quot;&gt;g&lt;/span&gt;&lt;span class=&quot;mopen&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mclose&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;mord text&quot;&gt;&lt;span class=&quot;mord&quot;&gt;for all &lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mrel&quot;&gt;≥&lt;/span&gt;&lt;span class=&quot;mspace&quot; style=&quot;margin-right:0.2777777777777778em;&quot;&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;base&quot;&gt;&lt;span class=&quot;strut&quot; style=&quot;height:0.58056em;vertical-align:-0.15em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;mord&quot;&gt;&lt;span class=&quot;mord mathdefault&quot;&gt;x&lt;/span&gt;&lt;span class=&quot;msupsub&quot;&gt;&lt;span class=&quot;vlist-t vlist-t2&quot;&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.30110799999999993em;&quot;&gt;&lt;span style=&quot;top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;&quot;&gt;&lt;span class=&quot;pstrut&quot; style=&quot;height:2.7em;&quot;&gt;&lt;/span&gt;&lt;span class=&quot;sizing reset-size6 size3 mtight&quot;&gt;&lt;span class=&quot;mord mtight&quot;&gt;0&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-s&quot;&gt;​&lt;/span&gt;&lt;/span&gt;&lt;span class=&quot;vlist-r&quot;&gt;&lt;span class=&quot;vlist&quot; style=&quot;height:0.15em;&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;&lt;/span&gt;
-
-&lt;p&gt;이를 간단하게 아래의 이미지로 확인할 수 있다.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://upload.wikimedia.org/wikipedia/commons/thumb/8/89/Big-O-notation.png/300px-Big-O-notation.png&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;파란색 선은 $Mg(x)$ 를 빨간색 선은 $F(x)$를 의미한다. $x_0$보다 큰 x값을 가지면, $F(x)$는 항상 $Mg(x)$보다 작으며, 이는 $F(x)$의 upper bound가 $Mg(x)$라는 것을 의미한다.&lt;/p&gt;</content><author><name></name></author><summary type="html">Big-O notation 정리하기</summary></entry></feed>
+&lt;h2 id=&quot;6-conclusion&quot;&gt;6. Conclusion&lt;/h2&gt;</content><author><name></name></author><summary type="html">BERT, Bidirectional Encoder Representations from Transformers</summary></entry></feed>
