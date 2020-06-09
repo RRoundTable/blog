@@ -56,7 +56,7 @@ anomaly detection에서 **Autoencdoer**구조는 많이 활용되고 있습니�
 
 ![autoencoder](https://makinarocks.github.io/assets/images/20191215/1.png)
 
-Autoencoder는 x 라는 고차원의 데이터를 저차원의 latent space(z)로 압축하고 이를 다시 $\hat{x}$ 로 복원시키는 구조이며, 이때 MSE(Mean Squared Error) $\rVert x - \hat{x} \rVert^2$을 최소화하는 방향으로 학습이 진행됩니다. manifold 가설에 따르면, Autoencoder는 input data의 noise를 제거하면서 의미있는 정보압축을 진행하는 방향으로 학습되었다고 해석할 수 있습니다. [2]
+Autoencoder는 x 라는 고차원의 데이터를 저차원의 latent space(z)로 압축하고 이를 다시 $\hat{x}$ 로 복원시키는 구조이며, 이때 MSE(Mean Squared Error) $\rVert x - \hat{x} \rVert^2$을 최소화하는 방향으로 학습이 진행됩니다. manifold 가설에 따르면, Autoencoder는 input data의 noise를 제거하면서 의미있는 정보압축을 진행하는 방향으로 학습됩니다. [2]
 
 
 이렇게 학습된 Autoencoder는 다음과 같은 과정을 통해서 anomayl detection을 수행합니다. [1]
@@ -92,13 +92,13 @@ $$
 
 AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다. 하지만, 레이어를 깊게 쌓을 수 없다는 한계가 있었습니다. 실험을 통해서, 레이어의 수가 특정 임계치를 넘어가면 레이어의 수가 늘어날 수록 train loss가 증가하는 현상이 발생하는 것을 확인했습니다. 우리는 이것을 **degradation** 문제로 정의했습니다. [4] 
 
-이상적으로 AE의 최적의 레이어수가 있다하더라도, 레이어가 깊어지면 최적의 레이어수의 train loss와 같아야 합니다.
+이상적으로 AE의 최적의 레이어수가 있다하더라도, 레이어가 깊어지면 최적의 레이어수의 train loss와 같아야 합니다. 
 
 ![Degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/degradation_ae.png)
 
 위의 실험은 MNIST 데이터셋을 바탕으로 anomaly detection의 환경에서 진행하였습니다. n_layer당 실험세팅은 총 10개입니다. (0 을 제외하고 학습, 1을 제외하고 학습, ..., 9를 제외하고 학습) 학습에서 제외된 클레스는 추후에 anomaly detection에서 anomaly가 됩니다. n_layers는 각 인코더, 디코더의 layer의 수를 의미합니다. 우리는 대칭적인 AE를 사용했으므로, 총 레이어의 수는 n_layers x 2 입니다.
 
-위의 실험으로 더 깊은 레이어를 사용할 때, train loss가 더 증가하는 것을 확인할 수 있었습니다. 이는 레이어를 더 효과적으로 학습시킬 여지가 있음을 의미합니다. **더 깊은 레이어**의 AE 혹은 VAE 구조를 안정적으로 학습하기 위해서 Residual connection을 고려하게 되었습니다. [4]
+위의 실험으로 더 깊은 레이어를 사용할 때, train loss가 더 증가하는 것을 확인할 수 있었습니다. 이는 레이어를 더 효과적으로 학습시킬 여지가 있음을 의미합니다. **더 깊은 레이어**의 AE 혹은 VAE 구조를 효과적으로 학습하기 위해서 Residual connection을 고려하게 되었습니다. [4]
 
 
 ## Method
@@ -112,13 +112,17 @@ AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다
 
 ### Degradation: Residual Connection
 
-Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였습니다.[4] 일반적으로 residual connection을 사용하게 되면, gradient의 지름길이 뚫려서 멀리까지 전달되는 효과가 있습니다. 이는 gradient vanishing 문제를 효과적으로 해결할 수 있습니다. 하지만, 내부적으로 이런 특징이 성능을 개선했다고 생각하지 않습니다. (gradient vanishing을 확인하지 못했습니다.) 또한, resnet 연구에서도 degradation의 원인이 gradient vanishing이 아니였다고 주장합니다.[4]
+Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였습니다.[4] 일반적으로 residual connection을 사용하게 되면, gradient의 지름길이 뚫려서 멀리까지 전달되는 효과가 있습니다. residual connection은 결과적으로 gradient vanishing 문제를 효과적으로 해결 할 수 있으며 모델의 효과적인 학습에 기여합니다. 
+
+```
+하지만, 내부적으로 이런 특징이 성능을 개선했다고 생각하지 않습니다. (gradient vanishing을 확인하지 못했습니다.) 또한, resnet 연구에서도 degradation의 원인이 gradient vanishing이 아니였다고 주장합니다.[4]
+```
 
 우리가 사용한 Residual connection 구조는 (a) original과 (b) identity입니다.[8]
 
 ![structure]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/original-identity.png)
 
-(b) proposed는 해당 identity 구조입니다. 위의 이미지에서 알 수 있듯이 단지 각 모듈의 순서의 변경만으로 성능차이가 나는 것을 확인할 수 있습니다. 하지만, 이론적으로 증명된 것이 아니고 AE 구조에서는 original과 identity 둘 중에 어떤 것이 더 좋은 성능을 보일지 알 수 없기 때문에 두 모델을 비교해봤습니다. 결과적으로 identity가 더 우수한 성능을 보여줬습니다. 자세한 내용은 Experiments에서 다루겠습니다.
+(b) proposed는 해당 identity 구조입니다. 위의 이미지에서 알 수 있듯이, original과 identity는 각 모듈의 순서만 다릅니다. 그럼에도 유의미한 성능차이가 나는 것을 확인할 수 있습니다. 하지만, 이론적으로 증명된 것이 아니고 AE 구조에서는 original과 identity 둘 중에 어떤 것이 더 좋은 성능을 보일지 알 수 없기 때문에 두 모델을 비교해봤습니다. 결과적으로 identity가 더 우수한 성능을 보여줬습니다. 자세한 내용은 Experiments에서 다루겠습니다.
 
 아래는 우리가 만든 Residual AE의 구조입니다.
 
@@ -137,7 +141,7 @@ Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였
 
 발생하는 원인에 대해서 loss surface가 아래와 같이 매우 극단적으로 나오는 것으로 추론할 수 있습니다.
 
-이해를 돕기 위해서 아래와 같은 이미지로 설명드리겠습니다. 아래의 이미지는 모델의 파라미터가 $W \in R, b \in R$ 만 존재하는 경우의 loss surface입니다. 검은색 점은 모델의 파라미터에 대응하는 loss를 의미합니다. 학습이 진행되다가 loss surface가 매우 가파른 곳을 만나게되면, gradient의 값이 매우 커지게 됩니다. [7]
+이해를 돕기 위해서 아래와 같은 이미지로 설명드리겠습니다. 아래의 이미지는 모델의 파라미터가 $W \in R, b \in R$ 만 존재하는 경우의 loss surface입니다. 파란색 점은 모델의 파라미터에 대응하는 loss를 의미합니다. 학습이 진행되다가 loss surface가 매우 가파른 곳을 만나게되면, gradient의 값이 매우 커지게 됩니다. [7]
 
 ![loss surface]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/ExplodingGradient_Razvan.png)
 
@@ -166,7 +170,7 @@ Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였
 
 위의 그래프는 레이어 수 당 auroc를 나타냅니다. degradation 문제를 경감시키고 나서 anomaly detection에서의 성능을 확인해봤습니다. 아쉽게도 감소시킨 train loss가 직접적으로 auroc성능에 도움을 주지 못했습니다. 
 
-우리는 이것을 anomaly detection에서의 오버피팅이라고 생각하고 있습니다. 해석하자면, 모델이 정보를 압축 후 복원하는 것은 잘 하지만, 압축시킨 정보가 복원하는 것만 잘 하도록 학습이 되어 있는 것입니다.
+우리는 이것을 anomaly detection에서의 오버피팅이라고 생각하고 있습니다. 모델이 복원에 필요한 압축은 잘하지만, 정상과 비정상을 나눌 수 있는 압축의 능력은 떨어졌습니다.
 
 
 ### RVAE vs VAE 
