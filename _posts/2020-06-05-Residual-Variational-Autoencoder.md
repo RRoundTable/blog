@@ -1,3 +1,14 @@
+---
+title: "Residual Variational Autoencoder: Anomaly Detection에 활용하기"
+toc: true
+branch: master
+badges: true
+comments: true
+categories: ['deeplearning', 'anomayl detection']
+layout: post
+---
+
+
 
 # Residual Variational Autoencoder: Anomaly Detection에 활용하기
 
