@@ -19,7 +19,7 @@ layout: post
 
 많은 딥러닝의 연구들은 비선형적인 레이어를 깊게 쌓으면서 좋은 성능을 보여줬습니다. 대표적인 예로, Resnet의 경우에 더 깊은 레이어를 효과적으로 쌓아 성능향상을 이루었습니다.
 
-같은 맥락으로 Residual Variational Autoencoder은 레이어를 효과적으로 사용할 수 있도록 설계했습니다. 결과적으로 깊은 레이어를 통해 만들어진 정보압축을 통해서 anomaly detection을 뛰어난 성능을 보여줬습니다.
+같은 맥락으로 Residual Variational Autoencoder은 레이어를 효과적으로 사용할 수 있도록 설계했습니다. 결과적으로 깊은 레이어를 통해 만들어진 정보압축을 통해서 anomaly detection에서 뛰어난 성능을 보여줬습니다.
 
 아래의 글에서는 RVAE(Residual Variational Autoencoder)의 동기와 직면하였던 문제들에 대해서 설명드리고, anomaly detection 실험결과를 공유드리면서 글을 마치려고 합니다.
 
@@ -27,28 +27,27 @@ layout: post
 ## Related Works
 
 
-### Degradation and Residual Connection
+### Residual Connection
 
-딥러닝 모델이 깊어지게 되면, train loss는 더 작아져야합니다. 하지만, 모델이 깊어지게 되면서 **train loss**가 더 감소하기도 하며, 이를 degradation이라고 정의합니다. [4] 
+딥러닝 모델이 깊어지게 되면, 모델의 표현능력이 커지게 되며 train loss는 더 작아져야합니다. 하지만, 모델이 깊어지게 되면서 **train loss**가 더 증가하기도 하며, 이를 degradation이라고 정의합니다. 아래의 이미지는 degradation 문제를 보여줍니다. [4] 
 
 ![degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/degradation.png)
 
+Resnet은 Residual connection을 통해서 Degradation 문제를 효과적으로 해결했습니다.[4]
 
-Residual Connection은 아래의 그림을 통해서 확인할 수 있습니다.
+Residual Connection은 직관적으로는 레이어간의 지름길을 뚫어주는 효과를 줍니다. Residual Connection의 구조는 아래의 그림을 통해서 확인할 수 있습니다.
 
 ![]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/residual_learning.png)
 
-이미지 영역에서 Resnet은 Residual connection을 통해서 Degradation 문제를 효과적으로 해결했습니다.[4]
 
 
 ### Gradient Explosion in deep network
 
-gradient explosion이란 backpropagation하는 과정에서 갑작스럽게 증가하는 현상을 의미합니다.
+gradient explosion이란 학습과정에서 backpropagation 도중에 gradient가 갑작스럽게 증가하는 현상을 의미합니다.
 
 딥러닝 연구에서 일반적으로 비선형적인 레이어를 효과적으로 쌓으면, 모델 성능이 좋아지는 것을 보여줍니다.
-하지만, 레이어를 깊게 쌓을 때, graidnet vanishing/explosion 문제가 발생하여 오히려 모델 성능이 하락하는 문제가 발생됩니다. [4, 5, 6, 7]
+하지만, 레이어를 깊게 쌓을 때, graidnet vanishing/explosion 문제가 발생하여 오히려 모델 성능이 하락하는 문제가 발생됩니다. [4, 5, 6, 7, 10]
 
-또한, 깊은 fully connected network구조에서 batch normalization을 사용하게 되면, gradient explosion 현상이 발생하는 것이 증명되어있으며, 우리는 실제 실험으로도 확인할 수 있었습니다. [10]
 
 
 ### Anomaly detection based on Autoencoder
@@ -57,7 +56,7 @@ anomaly detection에서 **Autoencdoer**구조는 많이 활용되고 있습니�
 
 ![autoencoder](https://makinarocks.github.io/assets/images/20191215/1.png)
 
-Autoencoder는 x 라는 고차원의 데이터를 저차원의 latent space(z)로 이를 다시 $\hat{x}$ 로 복원시키는 구조이며, 이때 MSE $\rVert x - \hat{x} \rVert^2$을 최소화하는 방향으로 학습이 진행됩니다. manifold 가설에 따르면, data의 noise를 제거하면서 의미있는 정보압축을 진행하는 방향으로 학습되었다고 해석할 수 있습니다. [2]
+Autoencoder는 x 라는 고차원의 데이터를 저차원의 latent space(z)로 압축하고 이를 다시 $\hat{x}$ 로 복원시키는 구조이며, 이때 MSE(Mean Squared Error) $\rVert x - \hat{x} \rVert^2$을 최소화하는 방향으로 학습이 진행됩니다. manifold 가설에 따르면, Autoencoder는 input data의 noise를 제거하면서 의미있는 정보압축을 진행하는 방향으로 학습되었다고 해석할 수 있습니다. [2]
 
 
 이렇게 학습된 Autoencoder는 다음과 같은 과정을 통해서 anomayl detection을 수행합니다. [1]
@@ -70,35 +69,24 @@ Autoencoder는 x 라는 고차원의 데이터를 저차원의 latent space(z)�
 
 ## Anomaly detection based on Variational Autoencoder
 
-variational autoencoder는 Kingma 2014년에 Auto-Encoding Variational Bayes [4]을 통해서 소개한 바 있습니다. reparameterization trick을 통해서 인코더가 뱉어내는 $m, \sigma$ 로 latent variable $z$를 샘플링하고 이로부터 posetrior distribuion $p(x | z)$ 를 근사하여 학습하게 됩니다. [1]
+variational autoencoder는 저자 Kingma가 2014년에 Auto-Encoding Variational Bayes [4]을 통해서 소개한 바 있습니다. variational autoencoder는 해당 논문에서 소개한 reparameterization trick을 통해서 인코더가 생성하는 $m, \sigma$ 로 latent variable $z$를 샘플링하고 이로부터 posterior distribuion $p(x | z)$ 를 근사하여 학습하게 됩니다. [1]
 
 
 ![vae](https://makinarocks.github.io/assets/images/20191215/5.png)
 
-- $x \in R^n$ : input data
-- $z \in R^m$ : latent variable
+- $x \in R^n$: input data
+- $z \in R^m$: latent variable
 - $\hat{x} \in R^n$: reconstructed data
 
-
-autoencoder의 objective와 다르게 variational autoencoder의 objective kld term이 추가됩니다.
-
-- autoencoder
-  
-$$
-obj_{ae} = \rVert x - \hat{x} \rVert ^ 2
-$$
-
-- variational autoencoder
-
-MSE(reconstruction error)와 kld term을 더한 형태입니다.
+variational autoencoder에서는 MSE(Mean Squared Error)에 KLD 항을 더하여 loss function이 정의됩니다.
 
 $$
-obj_{vae} = \rVert x - \hat{x} \rVert ^ 2 + KL( \mathcal{N} (m, \sigma), \mathcal{N}(0, I))
+loss_{vae} = \rVert x - \hat{x} \rVert ^ 2 + KL( \mathcal{N} (m, \sigma), \mathcal{N}(0, I))
 $$
 
-결론적으로 VAE는 MSE(reconstruction error)를 최소화하는 과정에서 KLD도 감소시켜야합니다. reconstruction error와 kld term은 서로 반대방향으로 움직이는 경향이 있습니다. KLD이 0이 된다면 input data에 대해서 독립적인 latent variable을 생성하게 됩니다. 그렇게 되면, reconstruction error가 높아집니다. 반대로, reconstruction error가 0이 된다면, KLD의 값이 커지게 됩니다. 정리하면, KLD의 역할은 VAE 모델이 x와 z가 적당히 연관되면서 reconstruction과 상관없는 정보를 더 잘 버릴수 있도록 하는데 있습니다. [1]
+결론적으로 VAE는 MSE(reconstruction error)를 최소화하는 과정에서 KLD도 감소시켜야합니다. reconstruction error와 KLD는 서로 반대방향으로 움직이는 경향이 있습니다. KLD이 0이 된다면 input data에 대해서 독립적인 latent variable을 생성하게 됩니다. 그렇게 되면, reconstruction error가 높아집니다. 반대로, reconstruction error가 0이 된다면, KLD의 값이 커지게 됩니다. 정리하면, KLD의 역할은 VAE 모델이 x와 z가 적당히 연관되면서 reconstruction과 상관없는 정보를 더 잘 버릴수 있도록 하는데 있습니다. [1]
 
-이처럼 KLD는 훌륭한 regularizer로 오버피팅을 막아주며, 결과적으로 이것은 마치 주어진 상황에서 최적의 병목 구간 크기를 갖게 하는 효과를 갖습니다. KLD를 통해 VAE는 vanilla autoencoder에 비해 훨씬 나은 성능의 이상탐지(anomaly detection) 성능을 제공합니다. 실험을 통해 우리는 기존의 autoencoder는 너무 큰 bottleneck을 가지면 identity function이 되며 이상탐지 성능이 떨어지는 것에 반해, VAE는 bottleneck의 크기가 커질수록 이상탐지 성능이 오르는 효과를 갖는 것을 확인할 수 있었습니다. 따라서 AE 기반의 anomaly detection을 수행할 때, 기존에는 bottleneck의 크기를 hyper-parameter로 튜닝해야 했던 반면에, VAE의 경우에는 튜닝을 할 필요가 거의 없어졌습니다. [1] 
+이처럼 KLD는 훌륭하게 regularizer의 역할을 하며 오버피팅을 막아줍니다. 결과적으로 이것은 마치 주어진 상황에서 최적의 병목 구간 크기를 갖게 하는 효과를 갖습니다. KLD를 통해 VAE는 vanilla autoencoder에 비해 훨씬 나은 성능의 이상탐지(anomaly detection) 성능을 제공합니다. 실험을 통해 우리는 기존의 autoencoder는 너무 큰 bottleneck을 가지면 identity function이 되며 이상탐지 성능이 떨어지는 것에 반해, VAE는 bottleneck의 크기가 커질수록 이상탐지 성능이 오르는 효과를 갖는 것을 확인할 수 있었습니다. 따라서 AE 기반의 anomaly detection을 수행할 때, 기존에는 bottleneck의 크기를 hyper-parameter로 튜닝해야 했던 반면에, VAE의 경우에는 튜닝을 할 필요가 거의 없어졌습니다. [1] 
 
 ## Motivation
 
@@ -110,7 +98,7 @@ AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다
 
 위의 실험은 MNIST 데이터셋을 바탕으로 anomaly detection의 환경에서 진행하였습니다. n_layer당 실험세팅은 총 10개입니다. (0 을 제외하고 학습, 1을 제외하고 학습, ..., 9를 제외하고 학습) 학습에서 제외된 클레스는 추후에 anomaly detection에서 anomaly가 됩니다. n_layers는 각 인코더, 디코더의 layer의 수를 의미합니다. 우리는 대칭적인 AE를 사용했으므로, 총 레이어의 수는 n_layers x 2 입니다.
 
-**더 깊은 레이어**의 AE 혹은 VAE 구조를 안정적으로 학습하기 위해서 Residual connection을 고려하게 되었습니다. [4]
+위의 실험으로 더 깊은 레이어를 사용할 때, train loss가 더 증가하는 것을 확인할 수 있었습니다. 이는 레이어를 더 효과적으로 학습시킬 여지가 있음을 의미합니다. **더 깊은 레이어**의 AE 혹은 VAE 구조를 안정적으로 학습하기 위해서 Residual connection을 고려하게 되었습니다. [4]
 
 
 ## Method
@@ -124,7 +112,6 @@ AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다
 
 ### Degradation: Residual Connection
 
-
 Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였습니다.[4] 일반적으로 residual connection을 사용하게 되면, gradient의 지름길이 뚫려서 멀리까지 전달되는 효과가 있습니다. 이는 gradient vanishing 문제를 효과적으로 해결할 수 있습니다. 하지만, 내부적으로 이런 특징이 성능을 개선했다고 생각하지 않습니다. (gradient vanishing을 확인하지 못했습니다.) 또한, resnet 연구에서도 degradation의 원인이 gradient vanishing이 아니였다고 주장합니다.[4]
 
 우리가 사용한 Residual connection 구조는 (a) original과 (b) identity입니다.[8]
@@ -137,18 +124,7 @@ Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였
 
 ![직관적인 그림]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/residual_ae.jpeg)
 
-```
-지울예정
-### Structure of Autoencoder: Projection Layer
 
-residual connection을 적용하기 위해서는 서로 연결되는 영역의 차원이 같아야 합니다. 
-
-AE의 구조 특성상 residual connection을 바로 적용할 수 없었습니다. 
-
-![직관적인 그림]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/residual_ae.jpeg)
-
-이러한 문제를 해결하기 위해서 트릭을 사용했습니다. 선형레이어는 유의미한 학습에 도움이 되지 않습니다.[9] 이러한 정보를 바탕으로, **선형레이어**를 차원을 축소하는 용도로 사용하였습니다. 
-```
 
 
 ### Gradient Explosion: Gradient Clipping
@@ -161,7 +137,7 @@ AE의 구조 특성상 residual connection을 바로 적용할 수 없었습니�
 
 발생하는 원인에 대해서 loss surface가 아래와 같이 매우 극단적으로 나오는 것으로 추론할 수 있습니다.
 
-이해를 돕기 위해서 아래와 같은 이미지로 설명드리겠습니다. 모델의 파라미터가 $W \in R, b \in R$ 만 존재하는 경우의 loss surface입니다. [7]
+이해를 돕기 위해서 아래와 같은 이미지로 설명드리겠습니다. 아래의 이미지는 모델의 파라미터가 $W \in R, b \in R$ 만 존재하는 경우의 loss surface입니다. 검은색 점은 모델의 파라미터에 대응하는 loss를 의미합니다. 학습이 진행되다가 loss surface가 매우 가파른 곳을 만나게되면, gradient의 값이 매우 커지게 됩니다. [7]
 
 ![loss surface]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/ExplodingGradient_Razvan.png)
 
@@ -215,14 +191,14 @@ Variational AE, RAE 같은 경우에는 KLD 값의 영향으로 train loss를 �
 |   8|   0.974|   0.972|   0.973|
 |   9|   0.848|   0.833|   0.81|
 
-위의 실험결과를 통해서 RVAE 모델이 VAE모델보다 AUROC 성능을 향상 시킨 것을 확인했습니다. 실험결과를 보면 이렇게 해석할 수 있습니다. Residual Connection의 영향으로 모델의 capacity를 증가시켰습니다. KLD를 활용한 regularization과 합쳐지면서 모델은 더 효과적인 압축을 진행할 수 있게 됩니다.
+위의 실험결과를 통해서 RVAE 모델이 VAE모델보다 AUROC 성능을 향상 시킨 것을 확인했습니다. 실험결과를 보면 이렇게 해석할 수 있습니다. Residual Connection의 영향으로 모델의 표현능력을 증가시켰습니다. KLD를 활용한 regularization과 합쳐지면서 모델은 더 효과적인 압축을 진행할 수 있게 됩니다.
 
 
 ## Summary
 
 더 깊은 레이어를 쌓으면서 발생했던 degradation 문제와 이를 해결하기 위한 residual connection에 대해서 다뤄습니다. 또한, AE 구조에 residual connection을 적용하기 위한 노력들과 깊은 fully connected layer와 batch normalization을 같이 사용하면서 발생한 gradient explosion 현상을 해결하기 위해서 gradient clipping을 적용하였습니다.
 
-결과적으로 RAE를 통해서 깊은 레이어의 모델에서 발생하는 degradation문제를 해결할 수 있었고, 이를 그대로 RVAE에 적용하여, AUROC(anomaly detection 성능)을 높였습니다.
+결과적으로 RAE를 통해서 깊은 레이어의 모델에서 발생하는 degradation문제를 해결할 수 있었고, 여기에 KLD regularization을 적용하여 AUROC(anomaly detection 성능)을 높였습니다.
 
 
 ## References
