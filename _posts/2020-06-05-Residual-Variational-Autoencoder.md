@@ -31,7 +31,7 @@ layout: post
 
 딥러닝 모델이 깊어지게 되면, train loss는 더 작아져야합니다. 하지만, 모델이 깊어지게 되면서 **train loss**가 더 감소하기도 하며, 이를 degradation이라고 정의합니다. [4] 
 
-![degradation](/images/2020-06-05-Residual-Variational-Autoencoder/degradation.png)
+![degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/degradation.png)
 
 
 Residual Connection은 아래의 그림을 통해서 확인할 수 있습니다.
@@ -124,7 +124,6 @@ AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다
 
 ### Degradation: Residual Connection
 
-![residual connection 직관적인 그림 추가]()
 
 Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였습니다.[4] 일반적으로 residual connection을 사용하게 되면, gradient의 지름길이 뚫려서 멀리까지 전달되는 효과가 있습니다. 이는 gradient vanishing 문제를 효과적으로 해결할 수 있습니다. 하지만, 내부적으로 이런 특징이 성능을 개선했다고 생각하지 않습니다. (gradient vanishing을 확인하지 못했습니다.) 또한, resnet 연구에서도 degradation의 원인이 gradient vanishing이 아니였다고 주장합니다.[4]
 
