@@ -118,13 +118,50 @@ Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였
 하지만, 내부적으로 이런 특징이 성능을 개선했다고 생각하지 않습니다. (gradient vanishing을 확인하지 못했습니다.) 또한, resnet 연구에서도 degradation의 원인이 gradient vanishing이 아니였다고 주장합니다.[4]
 ```
 
-우리가 사용한 Residual connection 구조는 (a) original과 (b) identity입니다.[8]
+우리가 사용한 Residual connection 구조는 (b) proposed(identity)입니다.[8]
 
 ![structure]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/original-identity.png)
 
-(b) proposed는 해당 identity 구조입니다. 위의 이미지에서 알 수 있듯이, original과 identity는 각 모듈의 순서만 다릅니다. 그럼에도 유의미한 성능차이가 나는 것을 확인할 수 있습니다. 하지만, 이론적으로 증명된 것이 아니고 AE 구조에서는 original과 identity 둘 중에 어떤 것이 더 좋은 성능을 보일지 알 수 없기 때문에 두 모델을 비교해봤습니다. 결과적으로 identity가 더 우수한 성능을 보여줬습니다. 자세한 내용은 Experiments에서 다루겠습니다.
+(b) proposed는 해당 identity 구조입니다. 
 
-아래는 우리가 만든 Residual AE의 구조입니다.
+
+residual connection을 수식으로 나타내면 아래와 같습니다. [4]
+
+$$
+y_l = h(x_l) + \mathcal{F}(x_l, W_l) \\
+x_{l+1} = f(y_l)
+$$
+
+- $x_l$: l-th residual unit
+- $W_l = \{w_{l, k} \mid 1 \le k \le K\}$: l-th layer weight and bias 
+- $K$: the number of layers in reisudal unit
+- $F$: reisdual function
+- $f$: activation function
+
+여기서, **identity mapping**이 되기 위해서는 다음과 같은 관계를 가지면 됩니다.
+
+$$
+x_{l+1} = x_l + \mathcal{F}(x_l, W_l)
+$$
+
+이를 재귀적으로 풀어보면 아래와 같습니다. 
+
+$$
+x_{L} = x_l + \sum_{i=l}^{L-1}\mathcal{F}(x_i, W_i)
+$$
+
+
+이처럼 identity mapping은 현재 레이어를 거쳐온 모든 레이어의 정보를 가지고 있다고 볼 수 있습니다. 그리고 이러한 관계는 backpropagation에서 근사한 특징을 가집니다. 미분하는 과정을 생각해보면, $x_L$이 $x_l$을 포함하기 때문에 $\frac{\partial x_L}{\partial x_l}$ 을 계산할 때, $\frac{Loss}{\partial x_L}$은 보존되게 됩니다.
+
+
+$$
+\frac{\partial Loss}{\partial x_l} = \frac{\partial Loss}{\partial x_L} \frac{\partial x_L}{\partial x_l} = \frac{\partial Loss}{\partial x_L}(1 + \frac{\partial}{\partial x_l}\sum_{i = l + 1}^{L-1}\mathcal{F}(x_i, W_i))
+$$
+
+이러한 특징은 **gradient vanishing** 문제를 매우 효과적으로 해결해줍니다.
+
+
+우리는 이러한 identity mapping의 효과를 기대하며, 이를 AE에 적용했습니다.
 
 ![직관적인 그림]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/residual_ae.jpeg)
 
@@ -163,6 +200,7 @@ Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였
 ![]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/lower_trainloss.png)
 
 위의 그래프는 레이어의 수 당 평균 train loss를 나타냅니다. 해당 결과는 AE 구조에서 나타나던 degradation 문제를 경감시킨 것을 보여줍니다. 
+
 
 #### AUROC
 
