@@ -280,7 +280,7 @@ window.onload = wrap_img;
 
 <p><img src="/blog/images/2020-06-05-Residual-Variational-Autoencoder/degradation_ae.png" alt="Degradation"></p>
 
-<p>위의 실험은 MNIST 데이터셋을 바탕으로 anomaly detection의 환경에서 진행하였습니다. n_layer당 실험세팅은 총 10개입니다. (0 을 제외하고 학습, 1을 제외하고 학습, …, 9를 제외하고 학습) 학습에서 제외된 클레스는 추후에 anomaly detection에서 anomaly가 됩니다. n_layers는 각 인코더, 디코더의 layer의 수를 의미합니다. 우리는 대칭적인 AE를 사용했으므로, 총 레이어의 수는 n_layers x 2 입니다.</p>
+<p>위의 실험은 EMNIST 데이터셋을 바탕으로 anomaly detection의 실험환경에서 진행하였습니다. n_layers는 각 인코더, 디코더의 layer의 수를 의미합니다. 우리는 대칭적인 AE를 사용했으므로, 총 레이어의 수는 n_layers x 2 입니다.</p>
 
 <p>위의 실험으로 더 깊은 레이어를 사용할 때, train loss가 더 증가하는 것을 확인할 수 있었습니다. 이는 레이어를 더 효과적으로 학습시킬 여지가 있음을 의미합니다. <strong>더 깊은 레이어</strong>의 AE 혹은 VAE 구조를 효과적으로 학습하기 위해서 Residual connection을 고려하게 되었습니다. [4]</p>
 
@@ -300,15 +300,6 @@ window.onload = wrap_img;
 
 <p>Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였습니다.[4] 일반적으로 residual connection을 사용하게 되면, gradient의 지름길이 뚫려서 멀리까지 전달되는 효과가 있습니다. residual connection은 결과적으로 gradient vanishing 문제를 효과적으로 해결 할 수 있으며 모델의 효과적인 학습에 기여합니다.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>하지만, 내부적으로 이런 특징이 성능을 개선했다고 생각하지 않습니다. (gradient vanishing을 확인하지 못했습니다.) 또한, resnet 연구에서도 degradation의 원인이 gradient vanishing이 아니였다고 주장합니다.[4]
-</code></pre></div></div>
-
-<p>우리가 사용한 Residual connection 구조는 (b) proposed(identity)입니다.[8]</p>
-
-<p><img src="/blog/images/2020-06-05-Residual-Variational-Autoencoder/original-identity.png" alt="structure"></p>
-
-<p>(b) proposed는 해당 identity 구조입니다.</p>
-
 <p>residual connection을 수식으로 나타내면 아래와 같습니다. [4]</p>
 
 <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>y</mi><mi>l</mi></msub><mo>=</mo><mi>h</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>l</mi></msub><mo stretchy="false">)</mo><mo>+</mo><mi mathvariant="script">F</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>l</mi></msub><mo separator="true">,</mo><msub><mi>W</mi><mi>l</mi></msub><mo stretchy="false">)</mo><mspace linebreak="newline"></mspace><msub><mi>x</mi><mrow><mi>l</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><mi>f</mi><mo stretchy="false">(</mo><msub><mi>y</mi><mi>l</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">y_l = h(x_l) + \mathcal{F}(x_l, W_l) \\
@@ -322,7 +313,13 @@ x_{l+1} = f(y_l)</annotation></semantics></math></span><span class="katex-html" 
   <li>$f$: activation function</li>
 </ul>
 
-<p>여기서, <strong>identity mapping</strong>이 되기 위해서는 다음과 같은 관계를 가지면 됩니다.</p>
+<p>우리가 사용한 Residual connection 구조는 (b) proposed(identity)입니다.[8]</p>
+
+<p><img src="/blog/images/2020-06-05-Residual-Variational-Autoencoder/original-identity.png" alt="structure"></p>
+
+<p>(b) proposed는 해당 identity 구조입니다.</p>
+
+<p><strong>identity mapping</strong>은 아래와 같은 관계를 가집니다.</p>
 
 <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>x</mi><mrow><mi>l</mi><mo>+</mo><mn>1</mn></mrow></msub><mo>=</mo><msub><mi>x</mi><mi>l</mi></msub><mo>+</mo><mi mathvariant="script">F</mi><mo stretchy="false">(</mo><msub><mi>x</mi><mi>l</mi></msub><mo separator="true">,</mo><msub><mi>W</mi><mi>l</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">x_{l+1} = x_l + \mathcal{F}(x_l, W_l)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.638891em;vertical-align:-0.208331em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3361079999999999em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span><span class="mbin mtight">+</span><span class="mord mtight">1</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.208331em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.73333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.09931em;">F</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">W</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.33610799999999996em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.01968em;">l</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>
 
@@ -367,28 +364,28 @@ x_{l+1} = f(y_l)</annotation></semantics></math></span><span class="katex-html" 
 <h3 id="rae-vs-ae">
 <a class="anchor" href="#rae-vs-ae" aria-hidden="true"><span class="octicon octicon-link"></span></a>RAE vs AE</h3>
 
-<p>동일한 레이어의 대비 RAE와 AE 성능을 살펴보고, 각 모델의 최고 성능을 비교해보겠습니다.</p>
+<p>동일한 레이어의 대비 RAE와 AE 성능을 살펴보고, 각 모델의 최고 성능을 비교해보겠습니다. 실험에서 사용한 데이터셋은 <a href="https://www.nist.gov/itl/products-and-services/emnist-dataset">EMNIST</a> 이며, byclass의 데이터셋에서 0번 클레스를 anomaly class로 설정하였습니다. [14] 또한 anomaly class의 비율은 전체 데이터셋의 0.35로 고정시킨채 실험을 진행했습니다.</p>
 
 <h4 id="train-loss">
 <a class="anchor" href="#train-loss" aria-hidden="true"><span class="octicon octicon-link"></span></a>Train loss</h4>
 
-<p><img src="/blog/images/2020-06-05-Residual-Variational-Autoencoder/lower_trainloss.png" alt=""></p>
+<p><img src="/blog/images/2020-06-05-Residual-Variational-Autoencoder/rae_train_loss.png" alt=""></p>
 
-<p>위의 그래프는 레이어의 수 당 평균 train loss를 나타냅니다. 해당 결과는 AE 구조에서 나타나던 degradation 문제를 경감시킨 것을 보여줍니다.</p>
+<p>위의 그래프는 레이어의 수에 따른 train loss를 나타냅니다. 해당 결과는 AE 구조에서 나타나던 degradation 문제를 경감시킨 것을 보여줍니다.</p>
 
 <h4 id="auroc">
 <a class="anchor" href="#auroc" aria-hidden="true"><span class="octicon octicon-link"></span></a>AUROC</h4>
 
-<p><img src="/blog/images/2020-06-05-Residual-Variational-Autoencoder/auroc.png" alt=""></p>
+<p><img src="/blog/images/2020-06-05-Residual-Variational-Autoencoder/rae_auroc.png" alt=""></p>
 
-<p>위의 그래프는 레이어 수 당 auroc를 나타냅니다. degradation 문제를 경감시키고 나서 anomaly detection에서의 성능을 확인해봤습니다. 아쉽게도 감소시킨 train loss가 직접적으로 auroc성능에 도움을 주지 못했습니다.</p>
+<p>위의 그래프는 레이어 수 당 auroc를 나타냅니다. degradation 문제를 경감시키고 나서 anomaly detection에서의 성능을 확인해봤습니다. 아쉽게도 감소시킨 train loss가 auroc 성능향상에 도움을 줬으나, 일관성은 부족했습니다.</p>
 
-<p>우리는 이것을 anomaly detection에서의 오버피팅이라고 생각하고 있습니다. 모델이 복원에 필요한 압축은 잘하지만, 정상과 비정상을 나눌 수 있는 압축의 능력은 떨어졌습니다.</p>
+<p>우리는 이것을 anomaly detection에서의 오버피팅이라고 생각하고 있습니다. n_layers = 6인 모델이 n_layers=4인 모델보다 복원에 필요한 압축은 잘하지만, 정상과 비정상을 나눌 수 있는 압축의 능력은 떨어졌습니다. 적절한 regularization이 더해진다면, 일관성있는 결과가 나올 것으로 기대할 수 있습니다.</p>
 
 <h3 id="rvae-vs-vae">
 <a class="anchor" href="#rvae-vs-vae" aria-hidden="true"><span class="octicon octicon-link"></span></a>RVAE vs VAE</h3>
 
-<p>Variational AE, RAE 같은 경우에는 KLD 값의 영향으로 train loss를 비교하는 것은 어렵습니다. 따라서 AUROC 성능으로 검증하도록 하겠습4니다.</p>
+<p>위에서 residual connection이 degradation 문제를 효과적으로 해결했음을 보였습니다. 이런 효과를 바탕으로 Residual VAE를 구현하여 실험했습니다. Variational AE, RVAE 같은 경우에는 KLD 값의 영향으로 train loss를 비교하는 것은 어렵습니다. 따라서 AUROC 성능으로 검증하도록 하겠습니다.</p>
 
 <h4 id="auroc-1">
 <a class="anchor" href="#auroc-1" aria-hidden="true"><span class="octicon octicon-link"></span></a>AUROC</h4>
@@ -398,9 +395,8 @@ x_{l+1} = f(y_l)</annotation></semantics></math></span><span class="katex-html" 
 <table>
   <thead>
     <tr>
-      <th>novelty class</th>
-      <th>RVAE-identity</th>
-      <th>RVAE-original</th>
+      <th>n_layers</th>
+      <th>RVAE</th>
       <th>VAE</th>
     </tr>
   </thead>
@@ -409,61 +405,51 @@ x_{l+1} = f(y_l)</annotation></semantics></math></span><span class="katex-html" 
       <td>0</td>
       <td>0.99</td>
       <td>0.987</td>
-      <td>0.98</td>
     </tr>
     <tr>
       <td>1</td>
       <td>0.408</td>
       <td>0.396</td>
-      <td>0.38</td>
     </tr>
     <tr>
       <td>2</td>
       <td>0.99</td>
       <td>0.991</td>
-      <td>0.99</td>
     </tr>
     <tr>
       <td>3</td>
       <td>0.969</td>
       <td>0.97</td>
-      <td>0.967</td>
     </tr>
     <tr>
       <td>4</td>
       <td>0.944</td>
       <td>0.935</td>
-      <td>0.929</td>
     </tr>
     <tr>
       <td>5</td>
       <td>0.968</td>
       <td>0.969</td>
-      <td>0.96</td>
     </tr>
     <tr>
       <td>6</td>
       <td>0.962</td>
       <td>0.943</td>
-      <td>0.956</td>
     </tr>
     <tr>
       <td>7</td>
       <td>0.909</td>
       <td>0.91</td>
-      <td>0.90</td>
     </tr>
     <tr>
       <td>8</td>
       <td>0.974</td>
       <td>0.972</td>
-      <td>0.973</td>
     </tr>
     <tr>
       <td>9</td>
       <td>0.848</td>
       <td>0.833</td>
-      <td>0.81</td>
     </tr>
   </tbody>
 </table>
@@ -517,6 +503,8 @@ networks. In Proceedings of the 30th International Conference on Machine Learnin
 
 <p>[13] Kim, K., Shim, S., Lim, Y., Jeon, J., Choi, J., Kim, B., Yoon, A., 2020. Rapp: Novelty
 Detection With Reconstruction Along Projection Pathway. ICLR 2020</p>
+
+<p>[14] Cohen, G., Afshar, S., Tapson, J., &amp; van Schaik, A. (2017). EMNIST: an extension of MNIST to handwritten letters. Retrieved from http://arxiv.org/abs/1702.05373</p>
 
 
   </div><!-- from https://github.com/utterance/utterances -->
