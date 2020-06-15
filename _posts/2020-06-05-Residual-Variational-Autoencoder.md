@@ -96,7 +96,7 @@ AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다
 
 ![Degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/degradation_ae.png)
 
-위의 실험은 MNIST 데이터셋을 바탕으로 anomaly detection의 환경에서 진행하였습니다. n_layer당 실험세팅은 총 10개입니다. (0 을 제외하고 학습, 1을 제외하고 학습, ..., 9를 제외하고 학습) 학습에서 제외된 클레스는 추후에 anomaly detection에서 anomaly가 됩니다. n_layers는 각 인코더, 디코더의 layer의 수를 의미합니다. 우리는 대칭적인 AE를 사용했으므로, 총 레이어의 수는 n_layers x 2 입니다.
+위의 실험은 EMNIST 데이터셋을 바탕으로 anomaly detection의 실험환경에서 진행하였습니다. n_layers는 각 인코더, 디코더의 layer의 수를 의미합니다. 우리는 대칭적인 AE를 사용했으므로, 총 레이어의 수는 n_layers x 2 입니다. 
 
 위의 실험으로 더 깊은 레이어를 사용할 때, train loss가 더 증가하는 것을 확인할 수 있었습니다. 이는 레이어를 더 효과적으로 학습시킬 여지가 있음을 의미합니다. **더 깊은 레이어**의 AE 혹은 VAE 구조를 효과적으로 학습하기 위해서 Residual connection을 고려하게 되었습니다. [4]
 
@@ -114,17 +114,6 @@ AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다
 
 Degradation 문제를 해결하기 위해서 Residual Connection을 활용하였습니다.[4] 일반적으로 residual connection을 사용하게 되면, gradient의 지름길이 뚫려서 멀리까지 전달되는 효과가 있습니다. residual connection은 결과적으로 gradient vanishing 문제를 효과적으로 해결 할 수 있으며 모델의 효과적인 학습에 기여합니다. 
 
-```
-하지만, 내부적으로 이런 특징이 성능을 개선했다고 생각하지 않습니다. (gradient vanishing을 확인하지 못했습니다.) 또한, resnet 연구에서도 degradation의 원인이 gradient vanishing이 아니였다고 주장합니다.[4]
-```
-
-우리가 사용한 Residual connection 구조는 (b) proposed(identity)입니다.[8]
-
-![structure]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/original-identity.png)
-
-(b) proposed는 해당 identity 구조입니다. 
-
-
 residual connection을 수식으로 나타내면 아래와 같습니다. [4]
 
 $$
@@ -138,7 +127,13 @@ $$
 - $F$: reisdual function
 - $f$: activation function
 
-여기서, **identity mapping**이 되기 위해서는 다음과 같은 관계를 가지면 됩니다.
+우리가 사용한 Residual connection 구조는 (b) proposed(identity)입니다.[8]
+
+![structure]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/original-identity.png)
+
+(b) proposed는 해당 identity 구조입니다. 
+
+**identity mapping**은 아래와 같은 관계를 가집니다.
 
 $$
 x_{l+1} = x_l + \mathcal{F}(x_l, W_l)
@@ -193,45 +188,45 @@ $$
 
 ### RAE vs AE
 
-동일한 레이어의 대비 RAE와 AE 성능을 살펴보고, 각 모델의 최고 성능을 비교해보겠습니다.
+동일한 레이어의 대비 RAE와 AE 성능을 살펴보고, 각 모델의 최고 성능을 비교해보겠습니다. 실험에서 사용한 데이터셋은 [EMNIST](https://www.nist.gov/itl/products-and-services/emnist-dataset) 이며, byclass의 데이터셋에서 0번 클레스를 anomaly class로 설정하였습니다. [14] 또한 anomaly class의 비율은 전체 데이터셋의 0.35로 고정시킨채 실험을 진행했습니다.
 
 #### Train loss
 
-![]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/lower_trainloss.png)
+![]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/rae_train_loss.png)
 
-위의 그래프는 레이어의 수 당 평균 train loss를 나타냅니다. 해당 결과는 AE 구조에서 나타나던 degradation 문제를 경감시킨 것을 보여줍니다. 
+위의 그래프는 레이어의 수에 따른 train loss를 나타냅니다. 해당 결과는 AE 구조에서 나타나던 degradation 문제를 경감시킨 것을 보여줍니다. 
 
 
 #### AUROC
 
-![]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/auroc.png)
+![]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/rae_auroc.png)
 
-위의 그래프는 레이어 수 당 auroc를 나타냅니다. degradation 문제를 경감시키고 나서 anomaly detection에서의 성능을 확인해봤습니다. 아쉽게도 감소시킨 train loss가 직접적으로 auroc성능에 도움을 주지 못했습니다. 
+위의 그래프는 레이어 수 당 auroc를 나타냅니다. degradation 문제를 경감시키고 나서 anomaly detection에서의 성능을 확인해봤습니다. 아쉽게도 감소시킨 train loss가 auroc 성능향상에 도움을 줬으나, 일관성은 부족했습니다.
 
-우리는 이것을 anomaly detection에서의 오버피팅이라고 생각하고 있습니다. 모델이 복원에 필요한 압축은 잘하지만, 정상과 비정상을 나눌 수 있는 압축의 능력은 떨어졌습니다.
+우리는 이것을 anomaly detection에서의 오버피팅이라고 생각하고 있습니다. n_layers = 6인 모델이 n_layers=4인 모델보다 복원에 필요한 압축은 잘하지만, 정상과 비정상을 나눌 수 있는 압축의 능력은 떨어졌습니다. 적절한 regularization이 더해진다면, 일관성있는 결과가 나올 것으로 기대할 수 있습니다.
 
 
 ### RVAE vs VAE 
 
-Variational AE, RAE 같은 경우에는 KLD 값의 영향으로 train loss를 비교하는 것은 어렵습니다. 따라서 AUROC 성능으로 검증하도록 하겠습4니다.
+위에서 residual connection이 degradation 문제를 효과적으로 해결했음을 보였습니다. 이런 효과를 바탕으로 Residual VAE를 구현하여 실험했습니다. Variational AE, RVAE 같은 경우에는 KLD 값의 영향으로 train loss를 비교하는 것은 어렵습니다. 따라서 AUROC 성능으로 검증하도록 하겠습니다.
 
 
 #### AUROC
 
 아래의 실험은 SEED를 고정시키고 실험을 진행했습니다. 다른 논문의 VAE의 벤치마크 성능[13]과 비교해봤을 때, 큰 차이가 없는 것을 확인했습니다.
 
-| novelty class  |  RVAE-identity | RVAE-original  | VAE  |
-|---|---|---|---|
-|   0|  0.99|   0.987|  0.98 |
-|   1|   0.408|   0.396|   0.38|
-|   2|   0.99|  0.991 |   0.99|
-|   3|   0.969|   0.97|   0.967|
-|   4|   0.944|   0.935|   0.929|
-|   5|   0.968|   0.969|   0.96|
-|   6|   0.962|   0.943|   0.956|
-|   7|   0.909|   0.91|   0.90|
-|   8|   0.974|   0.972|   0.973|
-|   9|   0.848|   0.833|   0.81|
+| n_layers  |  RVAE |  VAE  |
+|---|---|---|
+|   0|  0.99|   0.987|
+|   1|   0.408|   0.396|
+|   2|   0.99|  0.991 |
+|   3|   0.969|   0.97|
+|   4|   0.944|   0.935|
+|   5|   0.968|   0.969|
+|   6|   0.962|   0.943|
+|   7|   0.909|   0.91| 
+|   8|   0.974|   0.972|
+|   9|   0.848|   0.833|
 
 위의 실험결과를 통해서 RVAE 모델이 VAE모델보다 AUROC 성능을 향상 시킨 것을 확인했습니다. 실험결과를 보면 이렇게 해석할 수 있습니다. Residual Connection의 영향으로 모델의 표현능력을 증가시켰습니다. KLD를 활용한 regularization과 합쳐지면서 모델은 더 효과적인 압축을 진행할 수 있게 됩니다.
 
@@ -283,4 +278,5 @@ networks. In Proceedings of the 30th International Conference on Machine Learnin
 [13] Kim, K., Shim, S., Lim, Y., Jeon, J., Choi, J., Kim, B., Yoon, A., 2020. Rapp: Novelty
 Detection With Reconstruction Along Projection Pathway. ICLR 2020
 
+[14] Cohen, G., Afshar, S., Tapson, J., & van Schaik, A. (2017). EMNIST: an extension of MNIST to handwritten letters. Retrieved from http://arxiv.org/abs/1702.05373
 
