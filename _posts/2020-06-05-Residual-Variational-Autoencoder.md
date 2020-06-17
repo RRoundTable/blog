@@ -92,13 +92,21 @@ $$
 
 AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다. 하지만, 레이어를 깊게 쌓을 수 없다는 한계가 있었습니다. 실험을 통해서, 레이어의 수가 특정 임계치를 넘어가면 레이어의 수가 늘어날 수록 train loss가 증가하는 현상이 발생하는 것을 확인했습니다. 우리는 이것을 **degradation** 문제로 정의했습니다. [4] 
 
-이상적으로 AE의 최적의 레이어수가 있다하더라도, 레이어가 깊어지면 최적의 레이어수의 train loss와 같아야 합니다. 
 
-![Degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/degradation_ae.png)
+![Degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/emnist_train_loss.png)
+
+![Degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/emnist_auroc.png)
 
 위의 실험은 EMNIST 데이터셋을 바탕으로 anomaly detection의 실험환경에서 진행하였습니다. n_layers는 각 인코더, 디코더의 layer의 수를 의미합니다. 우리는 대칭적인 AE를 사용했으므로, 총 레이어의 수는 n_layers x 2 입니다. 
 
-위의 실험으로 더 깊은 레이어를 사용할 때, train loss가 더 증가하는 것을 확인할 수 있었습니다. 이는 레이어를 더 효과적으로 학습시킬 여지가 있음을 의미합니다. **더 깊은 레이어**의 AE 혹은 VAE 구조를 효과적으로 학습하기 위해서 Residual connection을 고려하게 되었습니다. [4]
+효과적인 anomaly detection을 위해서는 reconstruction train loss와 valid loss만 고려해서는 안됩니다. 위의 그래프를 보면, 레이어수가 많아질수록 train loss와 valid loss가 모두 증가하지만, auroc는 향상되는 것을 볼 수 있습니다. 이는 layer가 깊어질수록 더 많은 것을 고려한 압축과 복원작업을 학습하기 때문에, 더 의미있는 정보를 압축했다고 해석할 수 있습니다. 
+
+하지만, train loss가 임계치를 넘으면, auroc성능도 함께 하락합니다. 따라서 레이어를 쌓으면서 train loss를 줄이기 위한 방법이 필요합니다.
+
+이를 위해서 Residual Connection을 고려했습니다.
+ 
+
+위의 실험으로 레이어의 수가 임계치를 넘으면 오히려 train loss가 증가하는 것을 확인할 수 있었습니다. 그리고 train loss에 따라서 auroc가 감소되는 것도 확인할 수 있었습니다. **더 깊은 레이어**의 AE 혹은 VAE 구조를 효과적으로 학습하기 위해서 Residual connection을 고려하게 되었습니다. [4]
 
 
 ## Method
@@ -153,7 +161,7 @@ $$
 \frac{\partial Loss}{\partial x_l} = \frac{\partial Loss}{\partial x_L} \frac{\partial x_L}{\partial x_l} = \frac{\partial Loss}{\partial x_L}(1 + \frac{\partial}{\partial x_l}\sum_{i = l + 1}^{L-1}\mathcal{F}(x_i, W_i))
 $$
 
-이러한 특징은 **gradient vanishing** 문제를 매우 효과적으로 해결해줍니다.
+이러한 특징은 **degradation** 문제를 매우 효과적으로 해결해줍니다. 따라서, 레이어가 깊어지더라도 train loss가 증가하는 폭을 낮출 수 있습니다.
 
 
 우리는 이러한 identity mapping의 효과를 기대하며, 이를 AE에 적용했습니다.
@@ -228,7 +236,7 @@ $$
 |   8|   0.974|   0.972|
 |   9|   0.848|   0.833|
 
-위의 실험결과를 통해서 RVAE 모델이 VAE모델보다 AUROC 성능을 향상 시킨 것을 확인했습니다. 실험결과를 보면 이렇게 해석할 수 있습니다. Residual Connection의 영향으로 모델의 표현능력을 증가시켰습니다. KLD를 활용한 regularization과 합쳐지면서 모델은 더 효과적인 압축을 진행할 수 있게 됩니다.
+위의 실험결과를 통해서 RVAE 모델이 VAE모델보다 AUROC 성능을 향상 시킨 것을 확인했습니다. 실험결과를 보면 이렇게 해석할 수 있습니다. Residual Connection의 영향으로 레이어가 깊어져도 train loss는 낮게 유지할 수 있었습니다. 이는 상대적으로 큰 모델을 효과적으로 학습할 수 있음을 의미합니다. KLD를 활용한 regularization과 합쳐지면서 모델은 더 효과적인 압축을 진행할 수 있게 됩니다.
 
 
 ## Summary
