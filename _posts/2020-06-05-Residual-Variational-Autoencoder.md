@@ -92,8 +92,7 @@ $$
 
 AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다. 하지만, 레이어를 깊게 쌓을 수 없다는 한계가 있었습니다. 실험을 통해서, 레이어의 수가 특정 임계치를 넘어가면 레이어의 수가 늘어날 수록 train loss가 증가하는 현상이 발생하는 것을 확인했습니다. 우리는 이것을 **degradation** 문제로 정의했습니다. [4] 
 
-AE: train loss           |  AE: AUROC
-:-------------------------:|:-------------------------:
+
 ![Degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/emnist_train_loss.png)   |  ![Degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/emnist_auroc.png)
 
 
