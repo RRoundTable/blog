@@ -92,8 +92,11 @@ $$
 
 AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다. 하지만, 레이어를 깊게 쌓을 수 없다는 한계가 있었습니다. 실험을 통해서, 레이어의 수가 특정 임계치를 넘어가면 레이어의 수가 늘어날 수록 train loss가 증가하는 현상이 발생하는 것을 확인했습니다. 우리는 이것을 **degradation** 문제로 정의했습니다. [4] 
 
+AE: train loss           |  AE: AUROC
+:-------------------------:|:-------------------------:
+![Degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/emnist_train_loss.png)   |  ![Degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/emnist_auroc.png)
 
-![Degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/emnist_train_loss.png) ![Degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/emnist_auroc.png)
+
 
 위의 실험은 EMNIST 데이터셋을 바탕으로 anomaly detection의 실험환경에서 진행하였습니다. n_layers는 각 인코더, 디코더의 layer의 수를 의미합니다. 우리는 대칭적인 AE를 사용했으므로, 총 레이어의 수는 n_layers x 2 입니다. 
 
@@ -206,7 +209,7 @@ $$
 
 위의 그래프는 레이어 수 당 auroc를 나타냅니다. degradation 문제를 경감시키고 나서 anomaly detection에서의 성능을 확인해봤습니다. 아쉽게도 감소시킨 train loss가 auroc 성능향상에 도움을 줬으나, 일관성은 부족했습니다.
 
-우리는 이것을 anomaly detection에서의 오버피팅이라고 생각하고 있습니다. n_layers = 6인 모델이 n_layers=4인 모델보다 복원에 필요한 압축은 잘하지만, 정상과 비정상을 나눌 수 있는 압축의 능력은 떨어졌습니다. 적절한 regularization이 더해진다면, 일관성있는 결과가 나올 것으로 기대할 수 있습니다.
+우리는 이것을 anomaly detection에서의 오버피팅이라고 생각하고 있습니다. n_layers = 6인 모델이 n_layers=4인 모델보다 복원에 필요한 압축은 잘하지만, 정상과 비정상을 나눌 수 있는 압축의 능력은 떨어졌습니다. 적절한 regularization이 더해진다면, 일관성 있는 결과가 나올 것으로 기대할 수 있습니다.
 
 
 ### RVAE vs VAE 
