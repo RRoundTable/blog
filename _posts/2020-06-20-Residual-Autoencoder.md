@@ -76,7 +76,7 @@ AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다
 ![Degradation]({{ site.baseurl }}/images/2020-06-20-Residual-Autoencoder/robotarm_train_loss.png)
 
 
-위의 실험은 [Robotarm Demo]() 데이터셋을 바탕으로 anomaly detection의 실험환경에서 진행하였습니다. n_layers는 각 인코더, 디코더의 layer의 수를 의미합니다. 우리는 대칭적인 AE를 사용했으므로, 총 레이어의 수는 n_layers x 2 입니다. 
+위의 실험은 [Robotarm Demo](https://deview.kr/2019/schedule/286) 데이터셋을 바탕으로 anomaly detection의 실험환경에서 진행하였습니다. n_layers는 각 인코더, 디코더의 layer의 수를 의미합니다. 우리는 대칭적인 AE를 사용했으므로, 총 레이어의 수는 n_layers x 2 입니다. 
 
 효과적인 anomaly detection을 위해서는 일정수 이상의 레이어가 필요합니다. 이는 layer가 깊어질수록 더 많은 것을 고려한 압축과 복원작업을 학습하기 때문에, 더 의미있는 정보를 압축했다고 해석할 수 있습니다. 
 
@@ -236,3 +236,4 @@ Detection With Reconstruction Along Projection Pathway. ICLR 2020
 
 [14] Cohen, G., Afshar, S., Tapson, J., & van Schaik, A. (2017). EMNIST: an extension of MNIST to handwritten letters. Retrieved from http://arxiv.org/abs/1702.05373
 
+[15] https://deview.kr/2019/schedule/286
