@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://fastpages.fast.ai/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fastpages.fast.ai/blog/" rel="alternate" type="text/html" /><updated>2020-06-20T00:44:12-05:00</updated><id>https://fastpages.fast.ai/blog/feed.xml</id><title type="html">RoundTable</title><subtitle>An easy to use blogging platform with support for Jupyter Notebooks.</subtitle><entry><title type="html">Residual Autoencoder: Anomaly Detection에 활용하기</title><link href="https://fastpages.fast.ai/blog/deeplearning/anomayl%20detection/2020/06/20/Residual-Autoencoder.html" rel="alternate" type="text/html" title="Residual Autoencoder: Anomaly Detection에 활용하기" /><published>2020-06-20T00:00:00-05:00</published><updated>2020-06-20T00:00:00-05:00</updated><id>https://fastpages.fast.ai/blog/deeplearning/anomayl%20detection/2020/06/20/Residual-Autoencoder</id><content type="html" xml:base="https://fastpages.fast.ai/blog/deeplearning/anomayl%20detection/2020/06/20/Residual-Autoencoder.html">&lt;h1 id=&quot;residual-autoencoder-anomaly-detection에-활용하기&quot;&gt;Residual Autoencoder: Anomaly Detection에 활용하기&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://fastpages.fast.ai/blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://fastpages.fast.ai/blog/" rel="alternate" type="text/html" /><updated>2020-06-20T01:47:08-05:00</updated><id>https://fastpages.fast.ai/blog/feed.xml</id><title type="html">RoundTable</title><subtitle>An easy to use blogging platform with support for Jupyter Notebooks.</subtitle><entry><title type="html">Residual Autoencoder: Anomaly Detection에 활용하기</title><link href="https://fastpages.fast.ai/blog/deeplearning/anomayl%20detection/2020/06/20/Residual-Autoencoder.html" rel="alternate" type="text/html" title="Residual Autoencoder: Anomaly Detection에 활용하기" /><published>2020-06-20T00:00:00-05:00</published><updated>2020-06-20T00:00:00-05:00</updated><id>https://fastpages.fast.ai/blog/deeplearning/anomayl%20detection/2020/06/20/Residual-Autoencoder</id><content type="html" xml:base="https://fastpages.fast.ai/blog/deeplearning/anomayl%20detection/2020/06/20/Residual-Autoencoder.html">&lt;h1 id=&quot;residual-autoencoder-anomaly-detection에-활용하기&quot;&gt;Residual Autoencoder: Anomaly Detection에 활용하기&lt;/h1&gt;
 
 &lt;h2 id=&quot;introduction&quot;&gt;Introduction&lt;/h2&gt;
 
@@ -109,13 +109,13 @@ x_{l+1} = f(y_l)&lt;/annotation&gt;&lt;/semantics&gt;&lt;/math&gt;&lt;/span&gt;&
 
 &lt;p&gt;이러한 특징은 &lt;strong&gt;degradation&lt;/strong&gt; 문제를 매우 효과적으로 해결해줍니다. 따라서, 레이어가 깊어지더라도 train loss가 증가하는 폭을 낮출 수 있습니다.&lt;/p&gt;
 
-&lt;p&gt;우리는 이러한 identity mapping의 효과를 기대하며, 이를 AE에 적용했습니다.&lt;/p&gt;
+&lt;p&gt;우리는 이러한 identity mapping의 효과를 기대하며, 이를 AE에 적용했습니다. reisudal AE는 아래와 같이 구성됩니다.&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/blog/images/2020-06-20-Residual-Autoencoder/residual_ae.jpeg&quot; alt=&quot;직관적인 그림&quot; /&gt;&lt;/p&gt;
 
 &lt;h3 id=&quot;gradient-explosion-gradient-clipping&quot;&gt;Gradient Explosion: Gradient Clipping&lt;/h3&gt;
 
-&lt;p&gt;위의 과정을 거쳐서 residual AE/VAE가 완성되었지만, 해결해야 할 문제가 생겼습니다. 더 깊은 모델을 학습하는 과정에서 gradient explosion현상이 발생했습니다.[10] 이로 인해서 Residual Autoencoder를 학습할 때 아래와 같이 학습이 매우 불안정적으로 진행되었습니다. (g_norm은 gradient의 norm을 의미합니다.)&lt;/p&gt;
+&lt;p&gt;위의 과정을 거쳐서 residual AE가 완성되었지만, 해결해야 할 문제가 생겼습니다. 더 깊은 모델을 학습하는 과정에서 gradient explosion현상이 발생했습니다.[10] 이로 인해서 Residual Autoencoder를 학습할 때 아래와 같이 학습이 매우 불안정적으로 진행되었습니다. (g_norm은 gradient의 norm을 의미합니다.)&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/blog/images/2020-06-20-Residual-Autoencoder/gradient_explosion.png&quot; alt=&quot;gradient explosion&quot; /&gt;&lt;/p&gt;
 
