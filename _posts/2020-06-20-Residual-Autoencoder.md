@@ -1,5 +1,5 @@
 ---
-title: "Residual Variational Autoencoder: Anomaly Detection에 활용하기"
+title: "Residual Autoencoder: Anomaly Detection에 활용하기"
 toc: true
 branch: master
 badges: true
