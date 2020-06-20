@@ -31,13 +31,13 @@ layout: post
 
 딥러닝 모델이 깊어지게 되면, 모델의 표현능력이 커지게 되며 train loss는 더 작아져야합니다. 하지만, 모델이 깊어지게 되면서 **train loss**가 더 증가하기도 하며, 이를 degradation이라고 정의합니다. 아래의 이미지는 degradation 문제를 보여줍니다. [4] 
 
-![degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/degradation.png)
+![degradation]({{ site.baseurl }}/images/2020-06-20-Residual-Variational-Autoencoder/degradation.png)
 
 Resnet은 Residual connection을 통해서 Degradation 문제를 효과적으로 해결했습니다.[4]
 
 Residual Connection은 직관적으로는 레이어간의 지름길을 뚫어주는 효과를 줍니다. Residual Connection의 구조는 아래의 그림을 통해서 확인할 수 있습니다.
 
-![]({{ site.baseurl }}/images/2020-06-05-Residual-Variational-Autoencoder/residual_learning.png)
+![]({{ site.baseurl }}/images/2020-06-20-Residual-Variational-Autoencoder/residual_learning.png)
 
 
 
@@ -73,7 +73,7 @@ Autoencoder는 x 라는 고차원의 데이터를 저차원의 latent space(z)�
 AE(autoencoder)와 VAE(variational AE)는 휼륭한 결과를 보여줬습니다. 하지만, 레이어를 깊게 쌓을 수 없다는 한계가 있었습니다. 실험을 통해서, 레이어의 수가 특정 임계치를 넘어가면 레이어의 수가 늘어날 수록 train loss가 증가하는 현상이 발생하는 것을 확인했습니다. 우리는 이것을 **degradation** 문제로 정의했습니다. [4] 
 
 
-![Degradation]({{ site.baseurl }}/images/2020-06-05-Residual-Autoencoder/robotarm_train_loss.png)
+![Degradation]({{ site.baseurl }}/images/2020-06-20-Residual-Autoencoder/robotarm_train_loss.png)
 
 
 위의 실험은 [Robotarm Demo]() 데이터셋을 바탕으로 anomaly detection의 실험환경에서 진행하였습니다. n_layers는 각 인코더, 디코더의 layer의 수를 의미합니다. 우리는 대칭적인 AE를 사용했으므로, 총 레이어의 수는 n_layers x 2 입니다. 
@@ -113,7 +113,7 @@ $$
 
 우리가 사용한 Residual connection 구조는 (b) proposed(identity)입니다.[8]
 
-![structure]({{ site.baseurl }}/images/2020-06-05-Residual-Autoencoder/original-identity.png)
+![structure]({{ site.baseurl }}/images/2020-06-20-Residual-Autoencoder/original-identity.png)
 
 (b) proposed는 해당 identity 구조입니다. 
 
@@ -142,14 +142,14 @@ $$
 
 우리는 이러한 identity mapping의 효과를 기대하며, 이를 AE에 적용했습니다.
 
-![직관적인 그림]({{ site.baseurl }}/images/2020-06-05-Residual-Autoencoder/residual_ae.jpeg)
+![직관적인 그림]({{ site.baseurl }}/images/2020-06-20-Residual-Autoencoder/residual_ae.jpeg)
 
 
 ### Gradient Explosion: Gradient Clipping
 
 위의 과정을 거쳐서 residual AE/VAE가 완성되었지만, 해결해야 할 문제가 생겼습니다. 더 깊은 모델을 학습하는 과정에서 gradient explosion현상이 발생했습니다.[10] 이로 인해서 Residual Autoencoder를 학습할 때 아래와 같이 학습이 매우 불안정적으로 진행되었습니다. (g_norm은 gradient의 norm을 의미합니다.)
 
-![gradient explosion]({{ site.baseurl }}/images/2020-06-05-Residual-Autoencoder/gradient_explosion.png)
+![gradient explosion]({{ site.baseurl }}/images/2020-06-20-Residual-Autoencoder/gradient_explosion.png)
 
 해당 그래프는 Residual AE를 MNIST데이터 셋을 학습시킨 결과입니다.
 
@@ -157,7 +157,7 @@ $$
 
 이해를 돕기 위해서 아래와 같은 이미지로 설명드리겠습니다. 아래의 이미지는 모델의 파라미터가 $W \in R, b \in R$ 만 존재하는 경우의 loss surface입니다. 파란색 점은 모델의 파라미터에 대응하는 loss를 의미합니다. 학습이 진행되다가 loss surface가 매우 가파른 곳을 만나게되면, gradient의 값이 매우 커지게 됩니다. [7]
 
-![loss surface]({{ site.baseurl }}/images/2020-06-05-Residual-Autoencoder/ExplodingGradient_Razvan.png)
+![loss surface]({{ site.baseurl }}/images/2020-06-20-Residual-Autoencoder/ExplodingGradient_Razvan.png)
 
 이를 해결하기 위해서 graidient를 clipping하여 사용했습니다. gradient clipping을 한다는 것은 weight가 학습되는 폭을 강제로 제한 하는 것입니다. 실제로 recurrent network를 학습시킬때 많이 활용하던 방법입니다. [12]
 
@@ -170,18 +170,18 @@ $$
 
 ### RAE vs AE
 
-동일한 레이어의 대비 RAE와 AE 성능을 살펴보고, 각 모델의 최고 성능을 비교해보겠습니다. 실험에서 사용한 데이터셋은 [EMNIST](https://www.nist.gov/itl/products-and-services/emnist-dataset) 이며, byclass의 데이터셋에서 0번 클레스를 anomaly class로 설정하였습니다. [14] 또한 anomaly class의 비율은 전체 데이터셋의 0.35로 고정시킨채 실험을 진행했습니다.
+동일한 레이어의 대비 RAE와 AE 성능을 살펴보고, 각 모델의 최고 성능을 비교해보겠습니다. 실험에서 사용한 데이터셋은 [Robotarm Demo](https://deview.kr/2019/schedule/286) 이며, anomaly detection task를 수행하기 위해서 만들어진 데이터입니다.
 
 #### Train loss
 
-![]({{ site.baseurl }}/images/2020-06-05-Residual-Autoencoder/rae_train_loss.png)
+![]({{ site.baseurl }}/images/2020-06-20-Residual-Autoencoder/rae_train_loss.png)
 
 위의 그래프는 레이어의 수에 따른 train loss를 나타냅니다. 해당 결과는 AE 구조에서 나타나던 degradation 문제를 경감시킨 것을 보여줍니다. 
 
 
 #### AUROC
 
-![]({{ site.baseurl }}/images/2020-06-05-Residual-Autoencoder/rae_auroc.png)
+![]({{ site.baseurl }}/images/2020-06-20-Residual-Autoencoder/rae_auroc.png)
 
 위의 그래프는 레이어 수 당 auroc를 나타냅니다. degradation 문제를 경감시키고 나서 anomaly detection에서의 성능을 확인해봤습니다. 기존의 AE와 비교해봤을 때, 뛰어난 성능을 보여줍니다.
 
