@@ -140,14 +140,14 @@ $$
 이러한 특징은 **degradation** 문제를 매우 효과적으로 해결해줍니다. 따라서, 레이어가 깊어지더라도 train loss가 증가하는 폭을 낮출 수 있습니다.
 
 
-우리는 이러한 identity mapping의 효과를 기대하며, 이를 AE에 적용했습니다.
+우리는 이러한 identity mapping의 효과를 기대하며, 이를 AE에 적용했습니다. reisudal AE는 아래와 같이 구성됩니다.
 
 ![직관적인 그림]({{ site.baseurl }}/images/2020-06-20-Residual-Autoencoder/residual_ae.jpeg)
 
 
 ### Gradient Explosion: Gradient Clipping
 
-위의 과정을 거쳐서 residual AE/VAE가 완성되었지만, 해결해야 할 문제가 생겼습니다. 더 깊은 모델을 학습하는 과정에서 gradient explosion현상이 발생했습니다.[10] 이로 인해서 Residual Autoencoder를 학습할 때 아래와 같이 학습이 매우 불안정적으로 진행되었습니다. (g_norm은 gradient의 norm을 의미합니다.)
+위의 과정을 거쳐서 residual AE가 완성되었지만, 해결해야 할 문제가 생겼습니다. 더 깊은 모델을 학습하는 과정에서 gradient explosion현상이 발생했습니다.[10] 이로 인해서 Residual Autoencoder를 학습할 때 아래와 같이 학습이 매우 불안정적으로 진행되었습니다. (g_norm은 gradient의 norm을 의미합니다.)
 
 ![gradient explosion]({{ site.baseurl }}/images/2020-06-20-Residual-Autoencoder/gradient_explosion.png)
 
