@@ -31,13 +31,13 @@ layout: post
 
 딥러닝 모델이 깊어지게 되면, 모델의 표현능력이 커지게 되며 train loss는 더 작아져야합니다. 하지만, 모델이 깊어지게 되면서 **train loss**가 더 증가하기도 하며, 이를 degradation이라고 정의합니다. 아래의 이미지는 degradation 문제를 보여줍니다. [4] 
 
-![degradation]({{ site.baseurl }}/images/2020-06-20-Residual-Variational-Autoencoder/degradation.png)
+![degradation]({{ site.baseurl }}/images/2020-06-20-Residual-Autoencoder/degradation.png)
 
 Resnet은 Residual connection을 통해서 Degradation 문제를 효과적으로 해결했습니다.[4]
 
 Residual Connection은 직관적으로는 레이어간의 지름길을 뚫어주는 효과를 줍니다. Residual Connection의 구조는 아래의 그림을 통해서 확인할 수 있습니다.
 
-![]({{ site.baseurl }}/images/2020-06-20-Residual-Variational-Autoencoder/residual_learning.png)
+![]({{ site.baseurl }}/images/2020-06-20-Residual-Autoencoder/residual_learning.png)
 
 
 
