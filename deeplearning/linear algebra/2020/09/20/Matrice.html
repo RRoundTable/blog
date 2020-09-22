@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Matrix 정리글 | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Matrix 정리글" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Matrix" />
+<meta property="og:description" content="Matrix" />
+<link rel="canonical" href="https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/09/20/Matrice.html" />
+<meta property="og:url" content="https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/09/20/Matrice.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-09-20T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Matrix","mainEntityOfPage":{"@type":"WebPage","@id":"https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/09/20/Matrice.html"},"@type":"BlogPosting","url":"https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/09/20/Matrice.html","headline":"Matrix 정리글","dateModified":"2020-09-20T00:00:00-05:00","datePublished":"2020-09-20T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://fastpages.fast.ai/blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-5','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+<link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Matrix 정리글 | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Matrix 정리글" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Matrix" />
+<meta property="og:description" content="Matrix" />
+<link rel="canonical" href="https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/09/20/Matrice.html" />
+<meta property="og:url" content="https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/09/20/Matrice.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-09-20T00:00:00-05:00" />
+<script type="application/ld+json">
+{"description":"Matrix","mainEntityOfPage":{"@type":"WebPage","@id":"https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/09/20/Matrice.html"},"@type":"BlogPosting","url":"https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/09/20/Matrice.html","headline":"Matrix 정리글","dateModified":"2020-09-20T00:00:00-05:00","datePublished":"2020-09-20T00:00:00-05:00","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://fastpages.fast.ai/blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
+
+
+
+<script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create','UA-57531313-5','auto');ga('require','displayfeatures');ga('send','pageview');</script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script type="text/javascript">
+require.config({
+  paths: {
+    jquery: 'https://code.jquery.com/jquery-3.5.0.min',
+    plotly: 'https://cdn.plot.ly/plotly-latest.min'
+  },
+
+  shim: {
+    plotly: {
+      deps: ['jquery'],
+      exports: 'plotly'
+    }
+  }
+});
+</script>
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">RoundTable</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Matrix 정리글</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-09-20T00:00:00-05:00" itemprop="datePublished">
+        Sep 20, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      1 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#deeplearning">deeplearning</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#linear algebra">linear algebra</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#matrix">Matrix</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#definition">Definition</a></li>
+<li class="toc-entry toc-h3"><a href="#matrix-addition-and-multiplication">Matrix Addition and Multiplication</a></li>
+<li class="toc-entry toc-h3"><a href="#inverse-and-transpose">Inverse and Transpose</a></li>
+<li class="toc-entry toc-h3"><a href="#multiplication-by-scalars">Multiplication by scalars</a></li>
+<li class="toc-entry toc-h3"><a href="#compact-representations-of-systems-of-linear-equations">Compact Representations of Systems of Linear Equations</a></li>
+</ul>
+</li>
+</ul><h2 id="matrix">
+<a class="anchor" href="#matrix" aria-hidden="true"><span class="octicon octicon-link"></span></a>Matrix</h2>
+
+<p>matrix 는  두 가지 의미로 해석될 수 있다.</p>
+
+<ul>
+  <li>
+    <p>linear equations</p>
+  </li>
+  <li>
+    <p>linear mapping</p>
+  </li>
+</ul>
+
+<h3 id="definition">
+<a class="anchor" href="#definition" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definition</h3>
+
+<ul>
+  <li>
+    <p>$n, m \in R$</p>
+  </li>
+  <li>
+    <p>matrix A 는 $n \cdot m$ tuple of elements: $a_{ij}, i = 1, 2, \cdots, n,  j =1, 2, /cdots, m$</p>
+  </li>
+  <li>
+    <span class="katex-error" title="ParseError: KaTeX parse error: No such environment: equation* at position 7: \begin{̲e̲q̲u̲a̲t̲i̲o̲n̲*̲}̲
+A_{m,n} = 
+\be…" style="color:#cc0000">\begin{equation*}
+A_{m,n} = 
+\begin{pmatrix}
+a_{1,1} &amp; a_{1,2} &amp; \cdots &amp; a_{1,n} \\
+a_{2,1} &amp; a_{2,2} &amp; \cdots &amp; a_{2,n} \\
+\vdots  &amp; \vdots  &amp; \ddots &amp; \vdots  \\
+a_{m,1} &amp; a_{m,2} &amp; \cdots &amp; a_{m,n} 
+\end{pmatrix}
+\end{equation*}</span>
+  </li>
+  <li>column: (1, m)</li>
+  <li>row: (1, n)</li>
+</ul>
+
+<h3 id="matrix-addition-and-multiplication">
+<a class="anchor" href="#matrix-addition-and-multiplication" aria-hidden="true"><span class="octicon octicon-link"></span></a>Matrix Addition and Multiplication</h3>
+
+<ul>
+  <li>Addition</li>
+</ul>
+
+<p><img src="https://i1.faceprep.in/Companies-1/matrix-addition-in-python.png" style="zoom: 25%;"></p>
+
+<ul>
+  <li>Multiplication(Hadamard product)
+    <ul>
+      <li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Hadamard_product_qtl1.svg/440px-Hadamard_product_qtl1.svg.png" alt=""></li>
+    </ul>
+  </li>
+  <li>Multiplication(dot product)
+    <ul>
+      <li><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/Matrix_multiplication_qtl1.svg/2880px-Matrix_multiplication_qtl1.svg.png" style="zoom:15%;"></li>
+      <li>Associativity
+        <ul>
+          <li>$A(BC) = (AB)C.$</li>
+        </ul>
+      </li>
+      <li>Distributivity
+        <ul>
+          <li>$A(B + C) = AB + AC$</li>
+        </ul>
+      </li>
+      <li>Multiplication with identity matrix
+        <ul>
+          <li>$IA = AI = A$</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="inverse-and-transpose">
+<a class="anchor" href="#inverse-and-transpose" aria-hidden="true"><span class="octicon octicon-link"></span></a>Inverse and Transpose</h3>
+
+<ul>
+  <li>identity matrix</li>
+</ul>
+
+<p><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/1ddcce6e94168a17461071c7df28eb2804dfd157" alt=""></p>
+
+<ul>
+  <li>
+    <p>Inverse</p>
+
+    <ul>
+      <li>$A, B \in R^{nxn}$</li>
+    </ul>
+
+    <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>A</mi><mi>B</mi><mo>=</mo><msub><mi>I</mi><mi>n</mi></msub><mo>=</mo><mi>B</mi><mi>A</mi></mrow><annotation encoding="application/x-tex">AB = I_n = BA</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault">A</span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.83333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.151392em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">n</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05017em;">B</span><span class="mord mathdefault">A</span></span></span></span></span>
+  </li>
+  <li>
+    <p>Transpose</p>
+
+    <ul>
+      <li>$A \in R^{nxm}, B \in R^{mxn}$</li>
+      <li>$b_{ij} = a_{ij}$</li>
+      <li>$A^T = B$</li>
+      <li>$B^T = A$</li>
+    </ul>
+  </li>
+  <li>Symmetric matrix
+    <ul>
+      <li>$A^T = A$</li>
+    </ul>
+  </li>
+  <li>Some properties
+    <ul>
+      <li>$AA^{-1} = I = A^{-1}A$</li>
+      <li>$(AB)^{-1} = B^{-1}A^{-1}$</li>
+      <li>$(A+B)^{-1} \neq A^{-1} + B^{-1}$</li>
+      <li>$(A^T)^T=A$</li>
+      <li>$(A+B)^T = A^T + B^T$</li>
+      <li>$(AB)^T = B^TA^T$</li>
+      <li>$(A^{-1})^T = (A^T)^{-1}$</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="multiplication-by-scalars">
+<a class="anchor" href="#multiplication-by-scalars" aria-hidden="true"><span class="octicon octicon-link"></span></a>Multiplication by scalars</h3>
+
+<ul>
+  <li>
+    <p>Associativity</p>
+
+    <ul>
+      <li>$\lambda(\phi C) = (\lambda \phi)C$</li>
+    </ul>
+  </li>
+  <li>
+    <p>Distributivity</p>
+
+    <ul>
+      <li>$\lambda(B + C) = \lambda B + \lambda C$</li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="compact-representations-of-systems-of-linear-equations">
+<a class="anchor" href="#compact-representations-of-systems-of-linear-equations" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>Compact Representations of Systems of Linear Equations</strong>
+</h3>
+
+<ul>
+  <li>linear equation</li>
+</ul>
+
+<p><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/f50252ba5f1e440c6323e52462ebcd22d1aa7716" alt=""></p>
+
+<ul>
+  <li>Vector</li>
+</ul>
+
+<p><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/27012bec5c523ae61a7a760cbf383e2962ede481" alt=""></p>
+
+<ul>
+  <li>Matrix</li>
+</ul>
+
+<p><img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/85b8cb94702eb575b664969060eb077ab8ac37a6" alt=""></p>
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="RoundTable/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/deeplearning/linear%20algebra/2020/09/20/Matrice.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
