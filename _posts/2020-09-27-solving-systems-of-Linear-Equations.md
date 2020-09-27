@@ -28,9 +28,13 @@ x_4\\
 42 \\8
 \end{bmatrix}
 $$
+
+
 위와 같은 linear equation이 있다고 생각해보겠습니다.
 
 우선 particular solution을 구해보겠습니다.  우선 column의 linear combination으로 다음과 같이 해를 구할 수 있습니다.
+
+
 $$
 b =\begin{bmatrix}
 42 \\
@@ -51,6 +55,8 @@ $$
 
 
 그리고, 위의 matrix를 잘 살펴보면, 일부 column의 linear combination을 통해서 다른 column vector를 표현할 수 있음을 알 수 있습니다.
+
+
 $$
 \begin{bmatrix}
 8 \\
@@ -77,7 +83,13 @@ $$
 \end{bmatrix}
 $$
 
+
+
+
+
 이것을 바탕으로 $Ax=0$인 해와 $Ax = b$의 해를 결합한 general solution을 구할 수 있습니다.
+
+
 $$
 [42, 8, 0, 0] ^T + \lambda_1 [8, 2, -1, 0] ^T + \lambda_2[-4, 12, 0, -1]^T
 $$
@@ -121,6 +133,8 @@ Matrix는 row chelon form이라고 정의할 수 있다.
 
 
 Row echelon form은 particular solution을 구하는데 유용하다.
+
+
 $$
 \lambda_1 \begin{bmatrix}
 1 \\
@@ -145,6 +159,8 @@ $$
 0
 \end{bmatrix}
 $$
+
+
 먼저, $\lambda_3$을 쉽게 구할 수 있으며, 연쇄적으로 $\lambda_2, \lambda_1$을 계산할 수 있다.
 
 
