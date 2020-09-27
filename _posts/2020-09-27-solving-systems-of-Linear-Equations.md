@@ -14,8 +14,6 @@ layout: post
 
 
 $$
-\begin{equation*}
-
 \begin{bmatrix}
 1 & 0 &  8 & -4\\
 0 & 1 &  2 &  12\\
@@ -29,7 +27,6 @@ x_4\\
 \begin{bmatrix}
 42 \\8
 \end{bmatrix}
-\end{equation*}
 $$
 위와 같은 linear equation이 있다고 생각해보겠습니다.
 
