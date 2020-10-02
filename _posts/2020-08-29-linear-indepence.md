@@ -49,11 +49,15 @@ $$
 ## More
 
 다음과 같이 $b_1, b_2, \cdots, b_k$의 linear independent vectors가 있고, m개의 linear combination이 있다면 다음과 같이 표현할 수 있다.
+
+
 $$
 x_1 = \sum_{i=1}^k \lambda_{i1}b_i\\
 \vdots \\
 x_m = \sum_{i=1}^k \lambda_{im}b_i\\
 $$
+
+
 그리고, $x_j$는 다음과 같이 나타낼 수 있다.
 $$
 x_j = B\lambda_j
@@ -103,7 +107,7 @@ V가 vector subpace임을 보여보자. vector subpace 연산에 대해서 닫�
 $$
 v1, v2 \in V , \ \alpha, \beta \in R ,\  x_0 \in C
 $$
-$\alpha v_1 + \beta v_2 + x_0 $ 가 affine set이라면, $alpha v_1 + \beta v_2 $는 vector subspace이다.
+$ \alpha v_1 + \beta v_2 + x_0 $ 가 affine set이라면, $alpha v_1 + \beta v_2 $는 vector subspace이다.
 $$
 \alpha v_1 + \beta v_2 + x_0 = \alpha (v_1 + x_0) + \beta (v_2 + x_0) + (1 - \alpha - \beta) x_0 \in C
 $$
@@ -123,7 +127,7 @@ $$
 
 이를 조금 다른 표현으로 나타내보면,
 
-- \${ x - x_0 \phantom{1} | \phantom{1} x \in C \}$ 이 linear independent하다.
+- \${ x - x_0 \phantom{1} \mid  \phantom{1} x \in C \}$ 이 linear independent하다.
 
 - 아래의 vector가 linear independent하다.
 
