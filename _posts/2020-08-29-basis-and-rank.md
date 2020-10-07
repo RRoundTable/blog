@@ -59,7 +59,7 @@ Rank는 아래와 같은 성질을 가진다.
 - $A \in R^{mn}$의 column의 subspace의 차원과 rank(A)는 같으며, subspace는 image또는 range라고 부른다.
 - $A \in R^{mn}$의 row의 subspace의 차원과 rank(A)는 같다.
 - A는 full rank일때만, 역행렬을 가진다. (rk(A) = min(m, n))
-- linear equation system $Ax = B$가 해를 가질려면, $rank(A) = rank(A \mid B)$이어야 한다. ('|'은  augmented system을 의미)
+- linear equation system $Ax = B$가 해를 가질려면, $rank(A) = rank(A \mid B)$이어야 한다. (augmented system을 의미)
 - linear equation system $Ax=0$의 해는 n - rank(A)만큼의 null space를 가진다.
 - full rank: rk(A) = min(m, n)
 
