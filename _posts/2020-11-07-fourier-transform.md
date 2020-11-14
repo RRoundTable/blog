@@ -143,13 +143,19 @@ $$
 A_n = \lim_{T \rightarrow \infty} \frac{1}{T}\int_{-\frac{T}{2}}^{\frac{T}{2}}f(x) \cos nx dx
 $$
 
+
+
 $\int_{-\frac{T}{2}}^{\frac{T}{2}}f(x) \cos nx dx$은 수렴하므로, $A_n$은 0에 수렴한다.
+
+
 
 ### 주기가 무한대일 때, $T A_n$은?
 
 $$
 T A_n = \lim_{T \rightarrow \infty} \int_{-\frac{T}{2}}^{\frac{T}{2}}f(x) \cos nx dx
 $$
+
+
 
 0이 아닌 값에 수렴한다.
 
@@ -162,6 +168,8 @@ $$
 $$
 T A_n =  \int_{-\frac{T}{2}}^{\frac{T}{2}}f_T(x)_n e^{-jw_0t} dx
 $$
+
+
 
 T가 무한대로 간다면? 다음과 같이 치환할 수 있습니다.
 $$
@@ -176,16 +184,22 @@ $$
 nw_0 \triangleq w
 $$
 
+
+
 이를 바탕으로 위의 식을 다시 작성해보면,
 $$
 X(w) = \int_{-\infty}^{\infty} f(x)e^{-jwt} dt
 $$
+
+
 $X(w)$는 주파수 도메인의 입력을 받게 됩니다. $\int_{-\infty}^{\infty} f(x)e^{-jwt} dt$는 시간도메인의 함수를 적분을 통하여 주파수 도메인의 함수로 바꿉니다.
 
 그렇다면, 주파수 도메인에서 시간 도메인으로는 어떻게 변환할까? 
 $$
 f(x) = \frac{1}{2\pi}\int_{-\infty}^{\infty} X(w)e^{-jwt} dt
 $$
+
+
 위와 같이, 주파수 도메인의 함수를 주파수를 기준으로 적분하면, 시간 도메인의 함수가 된다.
 
 
@@ -194,5 +208,5 @@ $$
 
 ## Reference
 
-https://www.youtube.com/watch?v=KueJtenJ2SI&ab_channel=%ED%98%81%ED%8E%9C%ED%95%98%EC%9E%84
+[1] [헥펜파임](https://www.youtube.com/watch?v=KueJtenJ2SI&ab_channel=%ED%98%81%ED%8E%9C%ED%95%98%EC%9E%84)
 
