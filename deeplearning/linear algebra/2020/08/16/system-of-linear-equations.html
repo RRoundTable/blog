@@ -9,15 +9,15 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="직관적인 개념을 정리할 때, 일반적인 방법은 object 집합을 정의하고 그 object를 조작하는 방법에 대해서 서술하는 것이다. 이런 방법이 바로 ‘algebra’ (대수학)이다. 그 중 linear algebra는 vector에 대한 것이며, vector를 조작하는 것에 대해서 서술한다." />
 <meta property="og:description" content="직관적인 개념을 정리할 때, 일반적인 방법은 object 집합을 정의하고 그 object를 조작하는 방법에 대해서 서술하는 것이다. 이런 방법이 바로 ‘algebra’ (대수학)이다. 그 중 linear algebra는 vector에 대한 것이며, vector를 조작하는 것에 대해서 서술한다." />
-<link rel="canonical" href="https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html" />
-<meta property="og:url" content="https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html" />
+<link rel="canonical" href="https://rroundtable.github.io//blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html" />
+<meta property="og:url" content="https://rroundtable.github.io//blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html" />
 <meta property="og:site_name" content="RoundTable" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-08-16T00:00:00-05:00" />
 <script type="application/ld+json">
-{"description":"직관적인 개념을 정리할 때, 일반적인 방법은 object 집합을 정의하고 그 object를 조작하는 방법에 대해서 서술하는 것이다. 이런 방법이 바로 ‘algebra’ (대수학)이다. 그 중 linear algebra는 vector에 대한 것이며, vector를 조작하는 것에 대해서 서술한다.","mainEntityOfPage":{"@type":"WebPage","@id":"https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html"},"@type":"BlogPosting","url":"https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html","headline":"system of linear equations 정리글","dateModified":"2020-08-16T00:00:00-05:00","datePublished":"2020-08-16T00:00:00-05:00","@context":"https://schema.org"}</script>
+{"description":"직관적인 개념을 정리할 때, 일반적인 방법은 object 집합을 정의하고 그 object를 조작하는 방법에 대해서 서술하는 것이다. 이런 방법이 바로 ‘algebra’ (대수학)이다. 그 중 linear algebra는 vector에 대한 것이며, vector를 조작하는 것에 대해서 서술한다.","mainEntityOfPage":{"@type":"WebPage","@id":"https://rroundtable.github.io//blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html"},"@type":"BlogPosting","url":"https://rroundtable.github.io//blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html","headline":"system of linear equations 정리글","dateModified":"2020-08-16T00:00:00-05:00","datePublished":"2020-08-16T00:00:00-05:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
-<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://fastpages.fast.ai/blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://rroundtable.github.io//blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
 
 
@@ -30,17 +30,17 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="직관적인 개념을 정리할 때, 일반적인 방법은 object 집합을 정의하고 그 object를 조작하는 방법에 대해서 서술하는 것이다. 이런 방법이 바로 ‘algebra’ (대수학)이다. 그 중 linear algebra는 vector에 대한 것이며, vector를 조작하는 것에 대해서 서술한다." />
 <meta property="og:description" content="직관적인 개념을 정리할 때, 일반적인 방법은 object 집합을 정의하고 그 object를 조작하는 방법에 대해서 서술하는 것이다. 이런 방법이 바로 ‘algebra’ (대수학)이다. 그 중 linear algebra는 vector에 대한 것이며, vector를 조작하는 것에 대해서 서술한다." />
-<link rel="canonical" href="https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html" />
-<meta property="og:url" content="https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html" />
+<link rel="canonical" href="https://rroundtable.github.io//blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html" />
+<meta property="og:url" content="https://rroundtable.github.io//blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html" />
 <meta property="og:site_name" content="RoundTable" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-08-16T00:00:00-05:00" />
 <script type="application/ld+json">
-{"description":"직관적인 개념을 정리할 때, 일반적인 방법은 object 집합을 정의하고 그 object를 조작하는 방법에 대해서 서술하는 것이다. 이런 방법이 바로 ‘algebra’ (대수학)이다. 그 중 linear algebra는 vector에 대한 것이며, vector를 조작하는 것에 대해서 서술한다.","mainEntityOfPage":{"@type":"WebPage","@id":"https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html"},"@type":"BlogPosting","url":"https://fastpages.fast.ai/blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html","headline":"system of linear equations 정리글","dateModified":"2020-08-16T00:00:00-05:00","datePublished":"2020-08-16T00:00:00-05:00","@context":"https://schema.org"}</script>
+{"description":"직관적인 개념을 정리할 때, 일반적인 방법은 object 집합을 정의하고 그 object를 조작하는 방법에 대해서 서술하는 것이다. 이런 방법이 바로 ‘algebra’ (대수학)이다. 그 중 linear algebra는 vector에 대한 것이며, vector를 조작하는 것에 대해서 서술한다.","mainEntityOfPage":{"@type":"WebPage","@id":"https://rroundtable.github.io//blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html"},"@type":"BlogPosting","url":"https://rroundtable.github.io//blog/deeplearning/linear%20algebra/2020/08/16/system-of-linear-equations.html","headline":"system of linear equations 정리글","dateModified":"2020-08-16T00:00:00-05:00","datePublished":"2020-08-16T00:00:00-05:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
 <link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
-<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://fastpages.fast.ai/blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://rroundtable.github.io//blog/feed.xml" title="RoundTable" /><!-- the google_analytics_id gets auto inserted from the config file -->
 
 
 
@@ -256,7 +256,7 @@ a_{m1}x_1 + \cdots + a_{mn}x_n  = b_m
         </p>
       </div>
       <div class="footer-col">
-        <p>An easy to use blogging platform with support for Jupyter Notebooks.</p>
+        <p>Tech Blog</p>
       </div>
     </div>
 
