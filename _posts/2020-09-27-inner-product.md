@@ -42,7 +42,7 @@ $$
 
 
 - $V$: vector space
-- $\Psi: V x V \rightarrow R$: bilinear mapping
+- $\Psi: V \times V \rightarrow R$: bilinear mapping
 
 $\Psi$ symmetric:$\Psi(x, y) = \Psi(y, x) \forall x,y in V$
 
@@ -94,7 +94,7 @@ $$
 <x, y> = <\sum_{i=1}^n \psi_i b_i, 	\sum_{i=1}^n \lambda_i b_i> = \sum_{i=1}^n \sum_{j=1}^n \psi_i <b_i, b_j>\lambda_j = \hat{x}^T A \hat{y}
 $$
 
-- $\hat{x}, \hat{y}$: the coordinatesofxandywithrespect to the basis B, 각각 $\psi_i, \lambda_i$의 값
+- $\hat{x}, \hat{y}$: the coordinates of x and y with respect to the basis B, 각각 $\psi_i, \lambda_i$의 값
 
 위의 식을 통해서, A를 통해서 inner product가 unique하게 결정되는 것을 알 수 있다. 또한 inner product의 symmetry한 특성은 A또한 symmetry metrix라는 것을 의미한다. 게다가, inner product의 positive definites는 A가 다음과 같은 특성을 가지는 것을 알 수 있다.
 $$
@@ -129,3 +129,4 @@ Symmetric, positive definite matrix A는 다음과 같은 특징을 가진다.
   - $x^T A x > 0$
 - A의 대각성분은 모두 양수이다.
   - $e_i^T A e_i > 0$
+  - scalar를 vector를 이용해서 표현하면 어떻게 할 수 있을까?

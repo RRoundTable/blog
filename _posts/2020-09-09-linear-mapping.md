@@ -12,10 +12,14 @@ layout: post
 
 ## Linear Mapping
 
-vector space $V, W$ 에 대하여, mapping $\psi: V \rightarrow \PhiW$ 이 있을때, 다음과 같은 조건을 만족하면 linear mapping이라고 한다.
+vector space $V, W$ 에 대하여, mapping $\psi: V \rightarrow \Phi W$ 이 있을때, 다음과 같은 조건을 만족하면 linear mapping이라고 한다.
+
+
 $$
 \forall x, y \in V \ \forall \lambda, \psi \in R: \Phi(\lambda x + \psi y) = \lambda \Phi(x) + \psi \Phi(y)
 $$
+
+
 아래에서 다루겠지만, 이런 linear mapping은 matrix로 표현이 가능하다.
 
 
@@ -40,9 +44,33 @@ $$
 
 - automorphism: $\Phi: V \rightarrow V$, linear, bijective
 
-  **Theorem**
+  
 
-  *Finite-dimensional vector spaces* V *and* W *are isomorphic if and only if* dim(V ) = dim(W )*.*
+## Example 2.19 (Homomorphism)
+
+$$
+\Phi: R^2 \rightarrow \mathbb{C}, \Phi(x) = x_1 + ix_2
+$$
+
+$$
+\Phi(\begin{bmatrix} x_1 \\ x_2\end{bmatrix} + \begin{bmatrix} y_1 \\ y_2\end{bmatrix}) = (x_1 + y_1) + i(x_2 + y_2) = x_1 + ix_2 + y_1 + iy_2 \\ =\Phi(\begin{bmatrix} x_1 \\ x_2\end{bmatrix}) + \Phi(\begin{bmatrix} y_1 \\ y_2\end{bmatrix})
+$$
+
+$$
+\Phi(\lambda \begin{bmatrix} x_1 \\ x_2\end{bmatrix}) = \lambda x_1 + \lambda i x_2 = \lambda(x_1 + ix_2) = \lambda \Phi(\begin{bmatrix} x_1 \\ x_2\end{bmatrix})
+$$
+
+
+
+**Theorem** 2.17
+
+*Finite-dimensional vector spaces* V *and* W *are isomorphic if and only if* dim(V ) = dim(W )*.*
+
+위의 theorem을 바탕으로 알 수 있는 것은 다음과 같다.
+
+- 같은 차원의 vector space는 서로 어떤 loss도 없이 서로의 공간으로 mapping할 수 있다.
+
+- $R^{n \times m}, R^{nm}$은 둘 간의 linear, bijective mapping 존재한다. 
 
 
 
@@ -101,3 +129,4 @@ $$
 $$
 
 위의 함수를 해석해보면, V의 basis vector는 W의 basis vector의 linear combination으로 표현된다는 것이다.
+

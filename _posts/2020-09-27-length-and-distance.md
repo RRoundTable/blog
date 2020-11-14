@@ -9,8 +9,6 @@ categories: ['deeplearning', 'linear algebra']
 layout: post
 ---
 
-
-
 vector의 length는 norm으로 정의할 수 있으며, inner product로 설명할 수 있기도 하다. (하지만, 모든 norm을 inner product로 표현하는 것은 아니다. L1 norm)
 $$
 \rVert x \rVert:= \sqrt{<x, x>}
@@ -91,8 +89,9 @@ distance또한 length와 마찬가지로 norm으로 정의하며, inner product�
 - Triangle inequality
 
   - $$
-    d(x, z) \leqslant d(x, y) + d(y + z) \ \forall x, y, z \in V
+    d(x, z) \leqslant d(x, y) + d(y, z) \ \forall x, y, z \in V
     $$
 
     
 
+ 
