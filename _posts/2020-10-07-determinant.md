@@ -17,7 +17,7 @@ matrix는 linear mapping을 나타낼 수도 있지만, 데이터 자체를 표�
 
 matrix를 몇 가지 숫자로 묘사할 수 있는데, determinant와 eigenvalue를 보면 알 수 있다. 이번 장에서 아래와 같은 마인드맵을 참고하면서 공부하면 큰 그림을 그리는데 도움이 될 것이다.
 
-![image-20201031123929253]({{ site.baseurl }}/images/2020-10-07-determinant/mindmap)
+![image-20201031123929253]({{ site.baseurl }}/images/2020-10-07-determinant/mindmap.png)
 
 
 
@@ -80,7 +80,6 @@ Theorem 4.2 (Laplace Expansion) consider a matrix $A \in R^(n \times n)$, for al
    det(A) = \sum_{k=1}^n(-1)^{k+j}a_{kj}det(A_{kj})
    $$
    
-
 2. Expansion along row j
    $$
    det(A) = \sum_{k=1}^n(-1)^{k+j}a_{kj}det(A_{jk})
