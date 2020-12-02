@@ -15,7 +15,7 @@ layout: post
 
 ### Definition 4.6
 
-square matrix $A \in R^{n \times n}$가 주어졌을 때, 아래의 식을 만족하면 $\lamda \in R$는  engienvalue이고  $x \in R^n/\{ 0\}$는 eigenvector 이다. 그리고 아래의 식을 eigenvalue equation이라고 한다.
+square matrix $A \in R^{n \times n}$가 주어졌을 때, 아래의 식을 만족하면 $\lambda \in R$는  engienvalue이고  $x \in R^n/\{ 0\}$는 eigenvector 이다. 그리고 아래의 식을 eigenvalue equation이라고 한다.
 
 
 $$
