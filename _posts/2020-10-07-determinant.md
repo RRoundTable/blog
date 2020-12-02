@@ -26,6 +26,8 @@ matrix를 몇 가지 숫자로 묘사할 수 있는데, determinant와 eigenvalu
 ## Determinant 
 
 determinant는 system of linear equation과 연관이 깊다. 그리고 아래와 같이 기호로 나타낸다. determinant는 $n \times n$ matrix꼴에서만 정의된다.
+
+
 $$
 det(A) = \begin{vmatrix} a_{11}&  a_{12} & a_{13}\\ a_{21}&  a_{22} & a_{23} \\ a_{31}&  a_{32} & a_{33} \end{vmatrix}
 $$
@@ -38,8 +40,12 @@ $$
 
 
 - $T_{ij} = 0, \forall i > ji$: upper trianglar matrix
+
 - $T_{ij} = 0, \forall i < ji$: upper trianglar matrix
+
 - T는 trianglar matrix
+
+  
 
 $$
 det(T) = \prod_{i=1}^nT_{ii} \\
