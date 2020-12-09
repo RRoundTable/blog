@@ -22,11 +22,15 @@ matrix를 decomposition하는데 다양한 방법이 있다. 이번 글에서는
 Symmetric, positive definite matrix A는 $A=LL^T$로 분해될 수 있다. 이 때, $L$은 traiagular matrix with positive diagonal element이다.
 
 그리고 L을 cholesky factor라고 부르며 unique하다. 
+
+
 $$
 \begin{bmatrix} a_{11} & \cdots & a_{13} \\ \vdots & \ddots & \vdots \\ a_{31} & \cdots & a_{33} \\\end{bmatrix} = \begin{bmatrix} l_{11} & \cdots & 0 \\ \vdots & \ddots & \vdots \\ l_{31} & \cdots & l_{33} \\\end{bmatrix}  \begin{bmatrix} l_{11} & \cdots & l_{13} \\ \vdots & \ddots & \vdots \\ 0 & \cdots & l_{33} \\\end{bmatrix} ^T
 $$
 
 
+
+​	
 
 
 cholesky decomposition은 machine learning 에서 numerical computation 과정에서 활용되기도 한다. (Symmetric, positive definite)
@@ -53,12 +57,14 @@ cholesky decomposition은 machine learning 에서 numerical computation 과정�
     det(A) = det(L)det(L^T) = det(L)^2
     $$
 
+    
+  
   - L은 triagular matrix이기 때문에
-
+  
     - $$
       det(L) = \prod_{i} l_{ii} \\
-      det(A) = \prod_{i} l_{ii}^2 \\
+    det(A) = \prod_{i} l_{ii}^2 \\
       $$
-
+  
       
 
