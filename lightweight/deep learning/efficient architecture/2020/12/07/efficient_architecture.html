@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Efficient Architecture 정리글 | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Efficient Architecture 정리글" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Efficient Architecture" />
+<meta property="og:description" content="Efficient Architecture" />
+<link rel="canonical" href="https://rroundtable.github.io//blog/lightweight/deep%20learning/efficient%20architecture/2020/12/07/efficient_architecture.html" />
+<meta property="og:url" content="https://rroundtable.github.io//blog/lightweight/deep%20learning/efficient%20architecture/2020/12/07/efficient_architecture.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-07T00:00:00-06:00" />
+<script type="application/ld+json">
+{"description":"Efficient Architecture","@type":"BlogPosting","headline":"Efficient Architecture 정리글","dateModified":"2020-12-07T00:00:00-06:00","datePublished":"2020-12-07T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://rroundtable.github.io//blog/lightweight/deep%20learning/efficient%20architecture/2020/12/07/efficient_architecture.html"},"url":"https://rroundtable.github.io//blog/lightweight/deep%20learning/efficient%20architecture/2020/12/07/efficient_architecture.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://rroundtable.github.io//blog/feed.xml" title="RoundTable" /><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4NHFHZZ2SF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4NHFHZZ2SF');
+</script><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Efficient Architecture 정리글 | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Efficient Architecture 정리글" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Efficient Architecture" />
+<meta property="og:description" content="Efficient Architecture" />
+<link rel="canonical" href="https://rroundtable.github.io//blog/lightweight/deep%20learning/efficient%20architecture/2020/12/07/efficient_architecture.html" />
+<meta property="og:url" content="https://rroundtable.github.io//blog/lightweight/deep%20learning/efficient%20architecture/2020/12/07/efficient_architecture.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-12-07T00:00:00-06:00" />
+<script type="application/ld+json">
+{"description":"Efficient Architecture","@type":"BlogPosting","headline":"Efficient Architecture 정리글","dateModified":"2020-12-07T00:00:00-06:00","datePublished":"2020-12-07T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://rroundtable.github.io//blog/lightweight/deep%20learning/efficient%20architecture/2020/12/07/efficient_architecture.html"},"url":"https://rroundtable.github.io//blog/lightweight/deep%20learning/efficient%20architecture/2020/12/07/efficient_architecture.html","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://rroundtable.github.io//blog/feed.xml" title="RoundTable" /><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4NHFHZZ2SF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4NHFHZZ2SF');
+</script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script type="text/javascript">
+require.config({
+  paths: {
+    jquery: 'https://code.jquery.com/jquery-3.5.0.min',
+    plotly: 'https://cdn.plot.ly/plotly-latest.min'
+  },
+
+  shim: {
+    plotly: {
+      deps: ['jquery'],
+      exports: 'plotly'
+    }
+  }
+});
+</script>
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">RoundTable</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/images/2020-11-15-engien-vector-and-eigen-value.html">eigenvalue 와 enginevector 정리글</a><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Efficient Architecture 정리글</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2020-12-07T00:00:00-06:00" itemprop="datePublished">
+        Dec 7, 2020
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#lightweight">lightweight</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#deep learning">deep learning</a>
+        &nbsp;
+      
+        <a class="category-tags-link" href="/blog/categories/#efficient architecture">efficient architecture</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#efficient-architecture">Efficient Architecture</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#mobilenet-v1-depthwise-separable-convolution">MobileNet-V1: Depthwise-separable convolution</a></li>
+<li class="toc-entry toc-h3"><a href="#mobilenet-v3-architecture-search">MobileNet-V3: Architecture Search</a></li>
+<li class="toc-entry toc-h3"><a href="#mixnet-mixed-depthwise-convolutional-kernel">MixNet: Mixed Depthwise Convolutional Kernel</a></li>
+<li class="toc-entry toc-h3"><a href="#efficientnet">EfficientNet</a></li>
+<li class="toc-entry toc-h3"><a href="#mnasnet">MNasNet</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h2"><a href="#reference">Reference</a></li>
+</ul><h2 id="efficient-architecture">
+<a class="anchor" href="#efficient-architecture" aria-hidden="true"><span class="octicon octicon-link"></span></a>Efficient Architecture</h2>
+
+<p>딥러닝 모델을 경량화하는 방법 중에서 효율적인 구조를 채택하는 방법이 있다. 이를 efficient architecture라고 하겠다.</p>
+
+<p>효율적인 구조라고 함은, 네트워크의 성능은 유지하면서 속도를 빠르게 하거 크기를 줄이는 것이다. 이번 글에서는 efficient architecture에 대해서 전반적인 흐름을 살펴볼 계획이다.</p>
+
+<h3 id="mobilenet-v1-depthwise-separable-convolution">
+<a class="anchor" href="#mobilenet-v1-depthwise-separable-convolution" aria-hidden="true"><span class="octicon octicon-link"></span></a><strong>MobileNet-V1: Depthwise-separable convolution</strong>
+</h3>
+
+<p>Convolution layer는 다양한 영역에서 좋은 성능을 보여주며, 많은 영역에서 활용된다. 아래의 convolution 연산량에 대해서 생각해보자.</p>
+
+<p><img src="https://miro.medium.com/max/4800/1*fgYepSWdgywsqorf3bdksg.png" alt=""></p>
+
+<p>위의 연산은 다음과 같은 연산량을 가진다.
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mn>12</mn><mo>×</mo><mn>3</mn><mo>×</mo><mn>5</mn><mo>×</mo><mn>5</mn><mo>×</mo><mn>3</mn></mrow><annotation encoding="application/x-tex">12 \times 12 \times 3 \times 5 \times 5 \times 3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">3</span></span></span></span></p>
+
+<p>만약 output의 channel의 수가 256이길 바라면, $5 \times 5 \times 3$이 256개 있으면 된다.</p>
+
+<p><img src="https://miro.medium.com/max/1400/1*XloAmCh5bwE4j1G7yk5THw.png" alt=""></p>
+
+<p>다시 연산량을 계산해보면, 아래와 같다.
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mn>12</mn><mo>×</mo><mn>3</mn><mo>×</mo><mn>5</mn><mo>×</mo><mn>5</mn><mo>×</mo><mn>256</mn><mo>=</mo><mn>276480</mn></mrow><annotation encoding="application/x-tex">12 \times 12 \times 3 \times 5 \times 5 \times 256 = 276480</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">5</span><span class="mord">6</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">7</span><span class="mord">6</span><span class="mord">4</span><span class="mord">8</span><span class="mord">0</span></span></span></span></p>
+
+<p>위의 예시에서 살펴본 결과, convolution의 연산량은 원하는 output filter의 개수와 선형적으로 증가하며, 다른 변수(input dim, channel, kernel size)에 의해서도 모두 선형적으로 증가한다. 따라서, 각 요소들이 모두 선형적으로 늘어나게 되면, 연산량은 폭발적으로 늘어나게 된다.</p>
+
+<p><strong>Depthwise-separable convolution</strong>은 이름에서처럼 위의 연산을 두 단계로 나누어서 진행한다. 이는 spatial separable convolution과 유사한 직관을 가진다.</p>
+
+<p><img src="https://miro.medium.com/max/1400/1*o3mKhG3nHS-1dWa_plCeFw.png" alt=""></p>
+
+<p><strong>Depthwise-separable convolution</strong>은 크게 두 가지 파트로 나눈다.</p>
+
+<ul>
+  <li>Depthwise convolution</li>
+  <li>Pointwise convolution</li>
+</ul>
+
+<p><strong>Depthwise Convolution</strong></p>
+
+<p><img src="https://miro.medium.com/max/1400/1*yG6z6ESzsRW-9q5F_neOsg.png" alt=""></p>
+
+<p>말그대로 depth 별로 filter를 두는 것이다. 위의 보이는 이미지처럼 한 filter가 하나의 차원을 담당한다. 그리고 output과 input의 depth는 같다.</p>
+
+<p><strong>Pointwise Convolution</strong></p>
+
+<p><img src="https://miro.medium.com/max/1400/1*37sVdBZZ9VK50pcAklh8AQ.png" alt=""></p>
+
+<p><img src="https://miro.medium.com/max/1400/1*Q7a20gyuunpJzXGnWayUDQ.png" alt=""></p>
+
+<p>한 point의 모든 depth에 대한 정보를 가지고 있는 kernel이다. kernel의 개수를 늘리면, output의 depth가 늘어난다.</p>
+
+<p>위의 두 연산을 합치면, depthwise convolution에서는 kernel size를 조절할 수 있으며, pointwise convolution에서는 depth를 조절할 수 있다. 따라서, 기존의 convolution과 유사한 역할을 할 수 있다.</p>
+
+<p>depthwise-separable convolution의 연산량을 구해보면 아래와 같다.
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>12</mn><mo>×</mo><mn>12</mn><mo>×</mo><mn>3</mn><mo>×</mo><mn>5</mn><mo>×</mo><mn>5</mn><mo>+</mo><mn>8</mn><mo>×</mo><mn>8</mn><mo>×</mo><mn>256</mn><mo>=</mo><mn>27184</mn></mrow><annotation encoding="application/x-tex">12 \times 12 \times 3 \times 5 \times 5 + 8 \times 8 \times 256 = 27184</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">1</span><span class="mord">2</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">3</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">8</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.72777em;vertical-align:-0.08333em;"></span><span class="mord">8</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">5</span><span class="mord">6</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">7</span><span class="mord">1</span><span class="mord">8</span><span class="mord">4</span></span></span></span></p>
+
+<p><strong>Performance</strong></p>
+
+<p>Depthwise-separable convolution은 MovileNet V1에서 제안한 구조이다. 성능에 대한 것은 아래를 참고하면 된다.  depthwise convolution을 적용한 것이 그렇지 않은 것보다 parameter 수는 약 5 ~6배 정도 작지만, 성능은 1%밖에 차이가 안난다.</p>
+
+<p><img src="https://blog.kakaocdn.net/dn/cTebmi/btqEjpAJeoQ/jkEe3CkKsS6TugGAimnrK1/img.png" alt=""></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>### MobileNet-V2: Inverted Residual
+</code></pre></div></div>
+
+<p><img src="https://miro.medium.com/max/4800/1*bSiu8CCxznrr2VthpV2jdw.png" alt=""></p>
+
+<p>위의 이미지는 output의 dimension이 작을수록 activation space에 입력채널의 정보를 전달하기 힘들다는 것을 보여준다. 따라서, activation을 작은 차원으로 mapping 시키는 것은 정보손실을 가져올 수 있다.</p>
+
+<p><img src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&amp;fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FbfWWAo%2Fbtqxmv8lNPb%2Fzbco9dIzLplDXfOK7lJg1k%2Fimg.png" alt=""></p>
+
+<p>이러한 직관을 가지고 <strong>inverted residual block</strong>을 제안하는데, 기존의 residual block과 bottleneck 이후 channel을 확장하고 그 다음 layer는 차원은 유지하면서 비선형 변형의 역할을 수행한다.</p>
+
+<p>조금 더 자세히 살펴보면, 위의 구조는 아래의 실험결과를 바탕으로 제안되었다.</p>
+
+<ul>
+  <li>Convolution은 낮은 차원에서 잘 작동하지 않는다. -&gt; 높은 차원에서 convolution을 진행해야한다.</li>
+  <li>낮은 차원으로의 비선형 변환은 정보손실을 많이 한다. -&gt; 높은 차원으로 비선형 변환을 한다.</li>
+</ul>
+
+<p><strong>Memory Efficiency Inference</strong></p>
+
+<p>inference시 메모리를 효율적으로 활용가능하다. 이는 input과 output을 작게 유지할 수 있기 때문이다.</p>
+
+<h3 id="mobilenet-v3-architecture-search">
+<a class="anchor" href="#mobilenet-v3-architecture-search" aria-hidden="true"><span class="octicon octicon-link"></span></a>MobileNet-V3: Architecture Search</h3>
+
+<p><img src="https://miro.medium.com/max/1300/1*HNSvrDfVuDsb-4E10ZqSmg.png" alt=""></p>
+
+<p>Mobilenet V3는 이전 방법론과 다르게, AutoML을 적용하여, architecture search를 진행하였습니다. 이전에는 효율적인 구조에 대해서 직접 설계했다면, V3는 objective만 명확히 설정하면, 자동으로 최적의 구조를 찾습니다.</p>
+
+<p>위의 이미지는 그 과정을 나타냈습니다. Controller는 효율적인 architecture를 찾습니다. child network는 학습이 진행되며 학습된 결과를 바탕으로 controller에서 gradient를 전달합니다.</p>
+
+<p><strong>NAS: Neural Architecture Search</strong></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/720/1*cr1OHTq9lE4GDyOCYeknxQ.png" alt=""></p>
+
+<p>NAS는 위의 이미지처럼 크게 세 가지 영역으로 구성된다. NAS는 preformance를 최대화 하는 search strategy를 찾는다.</p>
+
+<p><strong>search space</strong></p>
+
+<p><img src="https://cdn-images-1.medium.com/max/720/1*rxBO_zugD4EGXTzwjPXoOQ.png" style="zoom:50%;"></p>
+
+<p>NAS가 찾을 neutal architecture를 결정한다. Chain-like architectuer이거나, skip connection을 포함한 복잡한 구조일 수도 있다.</p>
+
+<p><strong>Search strategy, Performance estimation</strong></p>
+
+<p>위의 주제를 다루기 위해서는 강화학습과 RNN을 언급하고 가야한다. controller가 performance를 최대화하는 방향으로 optimize된다. 이때, 사용되는 방법론이 강화학습이다. 그리고 controller는 RNN으로 구성되어 있다.</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/720/1*jsdG_98K-kCLyqCY4Hxp7w.png" alt=""></p>
+
+<p>위의 이미지를 보면, filter의 개수부터 filter의 높이까지 다양한 영역의 hyperparameter를 RNN의 output으로 가진다. RNN의 output으로 architecture를 설계하고 학습 후 이를 reward를 반영한다.</p>
+
+<p>여기서 RNN의 parameter는 강화학습에서 policy로의 역할을 하며, reward를 바탕으로 objective에 더 적합한 architecture를 만들어내도록 학습이 된다. 참고로, loss함수가 미분가능한 함수가 아니라서, iterative한 방법을 통해서 학습이 된다.</p>
+
+<h3 id="mixnet-mixed-depthwise-convolutional-kernel">
+<a class="anchor" href="#mixnet-mixed-depthwise-convolutional-kernel" aria-hidden="true"><span class="octicon octicon-link"></span></a>MixNet: Mixed Depthwise Convolutional Kernel</h3>
+
+<p>Depthwise convolution kernel을 AutoML 방법론으로 잘 섞어서 효율을 최대화 하는 방법입니다. 성능은 아래와 같습니다.</p>
+
+<p><img src="https://miro.medium.com/max/4800/1*i7vCSV14vZqeD39_i0BXLw.png" style="zoom:40%;"></p>
+
+<h3 id="efficientnet">
+<a class="anchor" href="#efficientnet" aria-hidden="true"><span class="octicon octicon-link"></span></a>EfficientNet</h3>
+
+<p><img src="http://solarisailab.com/wp-content/uploads/2020/05/efficientnet_factor-1024x484.png" alt=""></p>
+
+<p>본 논문에서는 baseline cnn을 선택하여, 필터의 개수, 레이어의 개수, 입력 데이터의 해상도를 높이는 실험을 하여 아래처럼 성능을 확인하였다. 확인 결과, 일정수준이상이 되면 accuracy가 증가하는 폭이 낮아짐을 알 수 있었다. 따라서, 저자들은 이러한 세 가지 요소를 조화롭게 활용하며 최적의 모델을 만들고자 했다.</p>
+
+<p><img src="http://solarisailab.com/wp-content/uploads/2020/05/efficientnet_factor_experiment-1024x388.png" style="zoom:55%;"></p>
+
+<p>복합모델스케일링은 위의 세 가지의 factor를 조합하여, model을 만드는 것이다. 자세한 내용은 아래의 reference를 확인하기 바랍니다.</p>
+
+<h3 id="mnasnet">
+<a class="anchor" href="#mnasnet" aria-hidden="true"><span class="octicon octicon-link"></span></a>MNasNet</h3>
+
+<p><img src="https://3.bp.blogspot.com/-AdjfrZWQ0as/W2jkUwfCZwI/AAAAAAAADNM/cedodZCGRFQaD075xxIQpe2gU9bYay3xwCLcBGAs/s640/image1.png" alt=""></p>
+
+<p>위에서 언급했던 NAS는 하나의 objective를 받았던 반면에, MNasNet은 multi objective reward를 활용하여 최적화된다.</p>
+
+<h2 id="reference">
+<a class="anchor" href="#reference" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reference</h2>
+
+<p>[1] <a href="https://www.youtube.com/watch?v=BhS4EofeY8E&amp;ab_channel=JunghoonKim">경량화 이모저모</a></p>
+
+<p>[2] <a href="https://towardsdatascience.com/a-basic-introduction-to-separable-convolutions-b99ec3102728">depthwise-separable convolution</a></p>
+
+<p>[3] <a href="https://miro.medium.com/max/4800/1*bSiu8CCxznrr2VthpV2jdw.png">inverted residual</a></p>
+
+<p>[4] <a href="">MobileNet-V1</a></p>
+
+<p>[5] <a href="">MobileNet-V2</a></p>
+
+<p>[6] <a href="">MobileNet-V3</a></p>
+
+<p>[7] <a href="https://theaiacademy.blogspot.com/2020/05/neural-architecture-search-nas-future.html">Neural Architecture Search Blog</a></p>
+
+<p>[8] <a href="http://solarisailab.com/archives/2666">EfficientNet Blog</a></p>
+
+<p>[9] <a href="https://ai.googleblog.com/2018/08/mnasnet-towards-automating-design-of.html">MNasNet Blog</a></p>
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="RoundTable/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/lightweight/deep%20learning/efficient%20architecture/2020/12/07/efficient_architecture.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Tech Blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
