@@ -25,7 +25,7 @@ Symmetric, positive definite matrix A는 $A=LL^T$로 분해될 수 있다. 이 �
 
 
 $$
-\begin{bmatrix} a_{11} & \cdots & a_{13} \\ \vdots & \ddots & \vdots \\ a_{31} & \cdots & a_{33} \\\end{bmatrix} = \begin{bmatrix} l_{11} & \cdots & 0 \\ \vdots & \ddots & \vdots \\ l_{31} & \cdots & l_{33} \\\end{bmatrix}  \begin{bmatrix} l_{11} & \cdots & l_{13} \\ \vdots & \ddots & \vdots \\ 0 & \cdots & l_{33} \\\end{bmatrix} ^T
+\begin{bmatrix} a_{11} & \cdots & a_{13} \\ \vdots & \ddots & \vdots \\ a_{31} & \cdots & a_{33} \\\end{bmatrix} = \begin{bmatrix} l_{11} & \cdots & 0 \\ \vdots & \ddots & \vdots \\ l_{31} & \cdots & l_{33} \\\end{bmatrix}  \begin{bmatrix} l_{11} & \cdots & l_{13} \\ \vdots & \ddots & \vdots \\ 0 & \cdots & l_{33} \\\end{bmatrix} 
 $$
 
 
@@ -37,7 +37,7 @@ cholesky decomposition은 machine learning 에서 numerical computation 과정�
 
 - corvariance matrix of gaussian multivariate  variable
 
-  - corvariance matrix는 symmetric, positive definite하기 때문에 cholesky decomposition이 가능하다. 추후에 다루겠지만, 이는 gaussian distribution으로부터 sampling할 수 있도록 하며, random variable의 linear transpormation이 가능하도록한다.
+  - corvariance matrix는 symmetric, positive definite하기 때문에 cholesky decomposition이 가능하다. 추후에 다루겠지만, 이는 gaussian distribution으로부터 sampling할 수 있도록 하며, random variable의 linear transformation이 가능하도록한다.
 
     $\Sigma= AA^T$: covariance matrix
 
