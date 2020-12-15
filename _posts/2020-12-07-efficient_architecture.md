@@ -28,7 +28,7 @@ Convolution layer는 다양한 영역에서 좋은 성능을 보여주며, 많�
 
 위의 연산은 다음과 같은 연산량을 가진다.
 $$
-12 \times 12 \times 3 \times 5 \times 5 \times 3
+8 \times 8 \times 3 \times 5 \times 5 \times 3
 $$
 
 
@@ -38,7 +38,7 @@ $$
 
 다시 연산량을 계산해보면, 아래와 같다.
 $$
-12 \times 12 \times 3 \times 5 \times 5 \times 256 = 276480
+8 \times 8 \times 3 \times 5 \times 5 \times 256 = 276480
 $$
 
 
@@ -77,7 +77,7 @@ $$
 
 depthwise-separable convolution의 연산량을 구해보면 아래와 같다.
 $$
-12 \times 12 \times 3 \times 5 \times 5 + 8 \times 8 \times 256 = 27184
+8 \times 8 \times 3 \times 5 \times 5 + 8 \times 8 \times 256 = 27184
 $$
 
 
