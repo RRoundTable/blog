@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://rroundtable.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rroundtable.github.io//blog/" rel="alternate" type="text/html" /><updated>2020-12-18T22:09:47-06:00</updated><id>https://rroundtable.github.io//blog/feed.xml</id><title type="html">RoundTable</title><subtitle>Tech Blog</subtitle><entry><title type="html">CODE: chapter 1, 2, 3</title><link href="https://rroundtable.github.io//blog/code/2020/12/18/CODE-1-2-3.html" rel="alternate" type="text/html" title="CODE: chapter 1, 2, 3" /><published>2020-12-18T00:00:00-06:00</published><updated>2020-12-18T00:00:00-06:00</updated><id>https://rroundtable.github.io//blog/code/2020/12/18/CODE-1-2-3</id><content type="html" xml:base="https://rroundtable.github.io//blog/code/2020/12/18/CODE-1-2-3.html">&lt;h1 id=&quot;code-정리글&quot;&gt;CODE 정리글&lt;/h1&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.0.0">Jekyll</generator><link href="https://rroundtable.github.io//blog/feed.xml" rel="self" type="application/atom+xml" /><link href="https://rroundtable.github.io//blog/" rel="alternate" type="text/html" /><updated>2020-12-18T23:10:40-06:00</updated><id>https://rroundtable.github.io//blog/feed.xml</id><title type="html">RoundTable</title><subtitle>Tech Blog</subtitle><entry><title type="html">CODE: chapter 1, 2, 3</title><link href="https://rroundtable.github.io//blog/code/2020/12/18/CODE-1-2-3.html" rel="alternate" type="text/html" title="CODE: chapter 1, 2, 3" /><published>2020-12-18T00:00:00-06:00</published><updated>2020-12-18T00:00:00-06:00</updated><id>https://rroundtable.github.io//blog/code/2020/12/18/CODE-1-2-3</id><content type="html" xml:base="https://rroundtable.github.io//blog/code/2020/12/18/CODE-1-2-3.html">&lt;h1 id=&quot;code-정리글&quot;&gt;CODE 정리글&lt;/h1&gt;
 
 &lt;p&gt;이번 글에서는 주로 부호(code)에 대한 내용을 다룬다. 저자의 내용전개는 대략 아래와 같다.&lt;/p&gt;
 
@@ -94,13 +94,34 @@
 
 &lt;h3 id=&quot;2개-부호로-나타낼-수-있는-글자&quot;&gt;2개 부호로 나타낼 수 있는 글자&lt;/h3&gt;
 
-&lt;p&gt;| 부호  | 문자 |
-| —– | —- |
-| . . | I  |
-| - - |  M |
-| . - |  A |
-| - . |  N |
-2개 부호를 사용할 수 있다면, 표현할 수 있는 글자는 위와 같다.&lt;/p&gt;
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;부호&lt;/th&gt;
+      &lt;th&gt;문자&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;. .&lt;/td&gt;
+      &lt;td&gt;I&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;- -&lt;/td&gt;
+      &lt;td&gt;M&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;. -&lt;/td&gt;
+      &lt;td&gt;A&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;- .&lt;/td&gt;
+      &lt;td&gt;N&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;2개 부호를 사용할 수 있다면, 표현할 수 있는 글자는 위와 같다.&lt;/p&gt;
 
 &lt;h3 id=&quot;3개-부호로-나타낼-수-있는-글자&quot;&gt;3개 부호로 나타낼 수 있는 글자&lt;/h3&gt;
 
