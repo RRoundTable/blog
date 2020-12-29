@@ -57,6 +57,8 @@ $$
 
 이 모델에 residual connection을 적용하면 아래와 같은 forward 과정을 가집니다.
 
+- 레이어: $h_0, h_1, h_2, h_3$
+- 각 레이어의 입력: $x_0, x_1, x_2, x_3$
 
 $$
 x_0 \rightarrow h_0(x_0) + x_0 = x_1 \rightarrow h_1(x_1) + x_1 = x_2 \rightarrow h_2(x_2) + x_2 = x_3 \rightarrow h_3(x_3) + x_3 = x_4 \rightarrow loss
@@ -82,7 +84,7 @@ $$
 
 이를 위의 backpropagation의 식에 대입해보면, 기존 모델 대비 더 큰 분산을 가지는 것을 알 수 있습니다.
 
-$\frac{dh_1(x_0)}{dx_0}, \frac{dh_2(x_1)}{dx_0}, \frac{dh_3(x_2)}{dx_0}, \frac{dh_3(x_3)}{dx_0}$ 각 부분들이 모두 유사한 스케일을 가진다고 가정해보면, 최소 레이어 수 배 만큼 큰 분산을 가진다고 할 수 있습니다.
+$\frac{dh_1(x_0)}{dx_0}, \frac{dh_2(x_1)}{dx_0}, \frac{dh_3(x_2)}{dx_0}, \frac{dh_3(x_3)}{dx_0}$ 각 요소들이 모두 유사한 스케일을 가진다고 가정해보면, 최소 레이어 수 배 만큼 큰 분산을 가진다고 할 수 있습니다.
 
 
 ## Method: Gradient Accumulation
@@ -127,11 +129,11 @@ for i, (inputs, labels) in enumerate(training_set):
 
 ### Gradient Accumulation
 
-아래의 학습 그래프는 residual VAE를 기존의 방법대로 학습시킨 것이다. 보이는 것처럼 학습이 매우 불안정적으로 진행된다.
+아래의 학습 그래프는 residual VAE를 기존의 방법대로 학습시킨 것이다. 보이는 것처럼 학습이 매우 불안정적으로 진행됩니다.
 
 ![]({{ site.baseurl}}/images/2020-12-29-Noisy-Gradient/vanilla.png)
 
-반면에, graidient accumulation을 적용하게 되면, 아래의 그래프처럼 안정적으로 학습이 진행된다.
+반면에, graidient accumulation을 적용하게 되면, 아래의 그래프처럼 안정적으로 학습이 진행됩니다.
 
 ![]({{ site.baseurl}}/images/2020-12-29-Noisy-Gradient/gradient_accumulation.png)
 
@@ -143,7 +145,7 @@ Residual VAE와 VAE의 실험을 비교해봤습니다.
 - Dataset은 MNIST를 사용했습니다.
 - 실험셋팅은 class 0, 1을 target class를 두고 학습하였으며, 아래의 값은 그것의 평균값입니다.
 
-|n_layers       |80                   |              |                 |                         |
+|n_layers=80       |              |              |                 |                         |
 |---------------|---------------------|---------------------|--------------------------|---------------------------------|
 |metric         |평균 : train_recon_loss|평균 : valid_recon_loss|평균 : predict_recon_roc_auc|표본 표준 편차 : predict_recon_roc_auc|
 |rvae-identity  |30.6490        |30.8460          |0.7266               |0.252                      |
