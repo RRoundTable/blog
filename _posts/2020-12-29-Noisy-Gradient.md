@@ -163,12 +163,12 @@ Residual VAE와 VAE의 실험을 비교해봤습니다.
 
 ## Reference
 
-[1][RAdam](https://github.com/LiyuanLucasLiu/RAdam)
+[1] [RAdam](https://github.com/LiyuanLucasLiu/RAdam)
 
-[2][Training Tips for the Transformer Model](https://arxiv.org/abs/1804.00247)
+[2] [Training Tips for the Transformer Model](https://arxiv.org/abs/1804.00247)
 
-[3][On Layer Normalization in the Transformer Architecture](https://arxiv.org/abs/2002.04745)
+[3] [On Layer Normalization in the Transformer Architecture](https://arxiv.org/abs/2002.04745)
 
-[4][Gradient Accumulation](https://towardsdatascience.com/gradient-accumulation-overcoming-memory-constraints-in-deep-learning-36d411252d01)
+[4] [Gradient Accumulation](https://towardsdatascience.com/gradient-accumulation-overcoming-memory-constraints-in-deep-learning-36d411252d01)
 
 
