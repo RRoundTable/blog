@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Construction of a Probability Space | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Construction of a Probability Space" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Tech Blog" />
+<meta property="og:description" content="Tech Blog" />
+<link rel="canonical" href="https://rroundtable.github.io//blog/math/2021/01/22/Construction-of-a-Probability-Space.html" />
+<meta property="og:url" content="https://rroundtable.github.io//blog/math/2021/01/22/Construction-of-a-Probability-Space.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-22T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-01-22T00:00:00-06:00","dateModified":"2021-01-22T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://rroundtable.github.io//blog/math/2021/01/22/Construction-of-a-Probability-Space.html"},"description":"Tech Blog","@type":"BlogPosting","url":"https://rroundtable.github.io//blog/math/2021/01/22/Construction-of-a-Probability-Space.html","headline":"Construction of a Probability Space","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+<link rel="stylesheet" href="/blog/assets/css/style.css"><link type="application/atom+xml" rel="alternate" href="https://rroundtable.github.io//blog/feed.xml" title="RoundTable" /><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4NHFHZZ2SF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4NHFHZZ2SF');
+</script><link rel="shortcut icon" type="image/x-icon" href="/blog/images/favicon.ico"><!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>Construction of a Probability Space | RoundTable</title>
+<meta name="generator" content="Jekyll v4.0.0" />
+<meta property="og:title" content="Construction of a Probability Space" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Tech Blog" />
+<meta property="og:description" content="Tech Blog" />
+<link rel="canonical" href="https://rroundtable.github.io//blog/math/2021/01/22/Construction-of-a-Probability-Space.html" />
+<meta property="og:url" content="https://rroundtable.github.io//blog/math/2021/01/22/Construction-of-a-Probability-Space.html" />
+<meta property="og:site_name" content="RoundTable" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-01-22T00:00:00-06:00" />
+<script type="application/ld+json">
+{"datePublished":"2021-01-22T00:00:00-06:00","dateModified":"2021-01-22T00:00:00-06:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://rroundtable.github.io//blog/math/2021/01/22/Construction-of-a-Probability-Space.html"},"description":"Tech Blog","@type":"BlogPosting","url":"https://rroundtable.github.io//blog/math/2021/01/22/Construction-of-a-Probability-Space.html","headline":"Construction of a Probability Space","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+<link href="https://unpkg.com/@primer/css/dist/primer.css" rel="stylesheet" />
+<link rel="stylesheet" href="//use.fontawesome.com/releases/v5.0.7/css/all.css"><link type="application/atom+xml" rel="alternate" href="https://rroundtable.github.io//blog/feed.xml" title="RoundTable" /><!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-4NHFHZZ2SF"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-4NHFHZZ2SF');
+</script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.css" integrity="sha384-zB1R0rpPzHqg7Kpt0Aljp8JPLqbXI3bhnPWROx27a9N0Ll6ZP/+DiW/UqRcLbRjq" crossorigin="anonymous">
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML"> </script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/katex.min.js" integrity="sha384-y23I5Q6l+B6vatafAwxRu/0oK/79VlbSz7Q9aiSZUvyWYIYsd+qj+o24G5ZU2zJz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.11.1/dist/contrib/auto-render.min.js" integrity="sha384-kWPLUVMOks5AQFrykwIup5lo0m3iMkkHrD0uJ4H5cjeGihAutqP0yW0J6dpFiVkI" crossorigin="anonymous"></script>
+    <script>
+    document.addEventListener("DOMContentLoaded", function() {
+        renderMathInElement( document.body, {
+        delimiters: [
+            {left: "$$", right: "$$", display: true},
+            {left: "[%", right: "%]", display: true},
+            {left: "$", right: "$", display: false}
+        ]}
+        );
+    });
+    </script>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+<script type="text/javascript">
+require.config({
+  paths: {
+    jquery: 'https://code.jquery.com/jquery-3.5.0.min',
+    plotly: 'https://cdn.plot.ly/plotly-latest.min'
+  },
+
+  shim: {
+    plotly: {
+      deps: ['jquery'],
+      exports: 'plotly'
+    }
+  }
+});
+</script>
+
+<script>
+function wrap_img(fn) {
+    if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading") {
+        var elements = document.querySelectorAll(".post img");
+        Array.prototype.forEach.call(elements, function(el, i) {
+            if (el.getAttribute("title") && (el.className != "emoji")) {
+                const caption = document.createElement('figcaption');
+                var node = document.createTextNode(el.getAttribute("title"));
+                caption.appendChild(node);
+                const wrapper = document.createElement('figure');
+                wrapper.className = 'image';
+                el.parentNode.insertBefore(wrapper, el);
+                el.parentNode.removeChild(el);
+                wrapper.appendChild(el);
+                wrapper.appendChild(caption);
+            }
+        });
+    } else { document.addEventListener('DOMContentLoaded', fn); }
+}
+window.onload = wrap_img;
+</script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function(){
+    // add link icon to anchor tags
+    var elem = document.querySelectorAll(".anchor-link")
+    elem.forEach(e => (e.innerHTML = '<i class="fas fa-link fa-xs"></i>'));
+    });
+</script>
+</head><body><header class="site-header">
+
+  <div class="wrapper"><a class="site-title" rel="author" href="/blog/">RoundTable</a><nav class="site-nav">
+        <input type="checkbox" id="nav-trigger" class="nav-trigger" />
+        <label for="nav-trigger">
+          <span class="menu-icon">
+            <svg viewBox="0 0 18 15" width="18px" height="15px">
+              <path d="M18,1.484c0,0.82-0.665,1.484-1.484,1.484H1.484C0.665,2.969,0,2.304,0,1.484l0,0C0,0.665,0.665,0,1.484,0 h15.032C17.335,0,18,0.665,18,1.484L18,1.484z M18,7.516C18,8.335,17.335,9,16.516,9H1.484C0.665,9,0,8.335,0,7.516l0,0 c0-0.82,0.665-1.484,1.484-1.484h15.032C17.335,6.031,18,6.696,18,7.516L18,7.516z M18,13.516C18,14.335,17.335,15,16.516,15H1.484 C0.665,15,0,14.335,0,13.516l0,0c0-0.82,0.665-1.483,1.484-1.483h15.032C17.335,12.031,18,12.695,18,13.516L18,13.516z"/>
+            </svg>
+          </span>
+        </label>
+
+        <div class="trigger"><a class="page-link" href="/blog/images/2020-11-15-engien-vector-and-eigen-value.html">eigenvalue 와 enginevector 정리글</a><a class="page-link" href="/blog/about/">About Me</a><a class="page-link" href="/blog/search/">Search</a><a class="page-link" href="/blog/categories/">Tags</a></div>
+      </nav></div>
+</header>
+<main class="page-content" aria-label="Content">
+      <div class="wrapper">
+        <article class="post h-entry" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title p-name" itemprop="name headline">Construction of a Probability Space</h1><p class="post-meta post-meta-title"><time class="dt-published" datetime="2021-01-22T00:00:00-06:00" itemprop="datePublished">
+        Jan 22, 2021
+      </time>
+       • <span class="read-time" title="Estimated read time">
+    
+    
+      3 min read
+    
+</span></p>
+
+    
+      <p class="category-tags"><i class="fas fa-tags category-tags-icon"></i></i> 
+      
+        <a class="category-tags-link" href="/blog/categories/#math">math</a>
+        
+      
+      </p>
+    
+
+    </header>
+
+  <div class="post-content e-content" itemprop="articleBody">
+    <ul class="section-nav">
+<li class="toc-entry toc-h2"><a href="#construction-of-a-probability-space">Construction of a Probability Space</a>
+<ul>
+<li class="toc-entry toc-h3"><a href="#probability-and-random-variable">Probability and Random Variable</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#probability-space">Probability Space</a></li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#statistics">Statistics</a></li>
+<li class="toc-entry toc-h3"><a href="#discrete-and-continuous-probabilities">Discrete and Continuous Probabilities</a>
+<ul>
+<li class="toc-entry toc-h4"><a href="#discrete-probability">Discrete Probability</a></li>
+<li class="toc-entry toc-h4"><a href="#continous-probability">Continous Probability</a>
+<ul>
+<li class="toc-entry toc-h5"><a href="#definition-probability-density-function">Definition: Probability Density Function</a></li>
+<li class="toc-entry toc-h5"><a href="#definition-cumulative-distribution-function">Definition: Cumulative Distribution Function</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toc-entry toc-h3"><a href="#contrasting-discrete-and-continous-distribution">Contrasting Discrete and Continous Distribution</a></li>
+</ul>
+</li>
+</ul><p><img src="/blog/images/2021-01-22-Construction-of-a-Probability-Space/1.png" alt=""></p>
+
+<h2 id="construction-of-a-probability-space">
+<a class="anchor" href="#construction-of-a-probability-space" aria-hidden="true"><span class="octicon octicon-link"></span></a>Construction of a Probability Space</h2>
+
+<p>확률은 간단히 말하면, 불확실성에 대한 것이다. 확률론은 실험들의 random한 결과를 수학적으로 구조화할려고 하는 것이다. 예를 들어서, 동전 던지기를 한다고 했을 때, 앞면이 나올지 뒷면이 나올지 알 수 없다. 하지만, 여러번의 시도를 하다보면, 평균적으로 앞면이 얼마나 나오는지 알 수 있다.</p>
+
+<p>probability는 boolean logic의 일반화라고 볼 수 있다. boolean logic은 명확하게 결과가 나온다. 예를 들어서, 컴퓨터에 키보드로 ‘Hello World!’를 입력하면, 항상 ‘Hello World!’라는 값이 출력된다. 반면에, 확률공간은 deterministic하지 않다. 예를 들어서, 친구를 기다린다고 했을 때 다음과 같이 세가지 상황에 대해서 생각해볼 수 있다. 아래의 세가지 경우 중 어떤 일이 일어날지는 알 수 없다. 이것이 boolean logic과의 큰 차이점이다.</p>
+
+<ul>
+  <li>제 시간에 도착</li>
+  <li>교통체증으로 인한 지각</li>
+  <li>외계인에게 납치</li>
+</ul>
+
+<p>probability는 machine learning부분에서 두 가지 관점에서 활용된다.</p>
+
+<ul>
+  <li>Bayesian</li>
+  <li>Frequentist</li>
+</ul>
+
+<h3 id="probability-and-random-variable">
+<a class="anchor" href="#probability-and-random-variable" aria-hidden="true"><span class="octicon octicon-link"></span></a>Probability and Random Variable</h3>
+
+<p>probability와 관련해서 세 가지 개념이 있다.</p>
+
+<ul>
+  <li>probability space: probability를 측정할 수 있게 해준다.(일반적으로 random variable을 활용한다.)</li>
+  <li>random variable: probability를 계산하기 용이한 공간으로 옮겨서 계산하게 해준다.</li>
+  <li>distribution or law of random variable:</li>
+</ul>
+
+<h4 id="probability-space">
+<a class="anchor" href="#probability-space" aria-hidden="true"><span class="octicon octicon-link"></span></a>Probability Space</h4>
+
+<p><img src="https://maurocamaraescudero.netlify.app/probability_space.png" style="zoom:25%;"></p>
+
+<p><strong>Sample Space</strong> $\Omega$</p>
+
+<p>실험으로 나올 수 있는 모든 결과의 집합. 동전 두번 던지기 실험을 예로 들면 Sample Space는 아래와 같이 정해진다.
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Ω</mi><mo>=</mo><mo stretchy="false">{</mo><mi>h</mi><mi>h</mi><mo separator="true">,</mo><mi>h</mi><mi>t</mi><mo separator="true">,</mo><mi>t</mi><mi>h</mi><mo separator="true">,</mo><mi>t</mi><mi>t</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\Omega = \{hh, ht, th, tt\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">Ω</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathdefault">h</span><span class="mord mathdefault">h</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">h</span><span class="mord mathdefault">t</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault">h</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault">t</span><span class="mclose">}</span></span></span></span></p>
+
+<p><strong>Event Space</strong> $\mathcal{A}$</p>
+
+<p>실험의 잠재적인 결과의 집합. Sample Space의 부분 집합. 실험이 끝난 후에, 특정 결과가 Event Space에 포함되는지 판단할 수 있다. 종종 Event Space와 Sample Space를 혼용해서 사용하기도 한다.</p>
+
+<p><strong>Probability</strong></p>
+
+<p>Event $A \in \mathcal{A}$가 있을 때, $P(A)$를 측정할 수 있다.</p>
+
+<p>어떤 Event의 Probability는 $[0, 1]$의 범위를 가지고 있고, Sample Space상의 모든 Event의 Probability의 합은 1이다.</p>
+
+<p>Probability Space $\Omega, \mathcal{A}, A$가 주어졌을 때, Real-World의 현상을 Model하고 싶다.</p>
+
+<p>아래와 같은 Sample Space가 있다고 가정해보겠다.
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">Ω</mi><mo>=</mo><mo stretchy="false">{</mo><mi>h</mi><mi>h</mi><mo separator="true">,</mo><mi>h</mi><mi>t</mi><mo separator="true">,</mo><mi>t</mi><mi>h</mi><mo separator="true">,</mo><mi>t</mi><mi>t</mi><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\Omega = \{hh, ht, th, tt\}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">Ω</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathdefault">h</span><span class="mord mathdefault">h</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">h</span><span class="mord mathdefault">t</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault">h</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault">t</span><span class="mclose">}</span></span></span></span></p>
+
+<p>그리고, 아래와 같은 Function(Random Variable)이 있다고 가정하겠다.</p>
+
+<ul>
+  <li>$\Tau$: target space</li>
+</ul>
+
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo>:</mo><mi mathvariant="normal">Ω</mi><mo>→</mo><mi mathvariant="normal">T</mi></mrow><annotation encoding="application/x-tex">X: \Omega \rightarrow \Tau</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord">Ω</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">→</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord"><span class="mord mathrm">T</span></span></span></span></span></span>
+
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>X</mi><mo stretchy="false">(</mo><mi>h</mi><mi>h</mi><mo stretchy="false">)</mo><mo>=</mo><mn>2</mn><mo separator="true">,</mo><mspace linebreak="newline"></mspace><mi>X</mi><mo stretchy="false">(</mo><mi>h</mi><mi>t</mi><mo stretchy="false">)</mo><mo>=</mo><mi>X</mi><mo stretchy="false">(</mo><mi>t</mi><mi>h</mi><mo stretchy="false">)</mo><mo>=</mo><mn>1</mn><mo separator="true">,</mo><mspace linebreak="newline"></mspace><mi>X</mi><mo stretchy="false">(</mo><mi>t</mi><mi>t</mi><mo stretchy="false">)</mo><mo>=</mo><mn>0</mn></mrow><annotation encoding="application/x-tex">X(hh) = 2, \\
+X(ht) = X(th) = 1, \\
+X(tt) = 0</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mopen">(</span><span class="mord mathdefault">h</span><span class="mord mathdefault">h</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mopen">(</span><span class="mord mathdefault">h</span><span class="mord mathdefault">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mord mathdefault">h</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8388800000000001em;vertical-align:-0.19444em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span></span><span class="mspace newline"></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mord mathdefault">t</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span></span></span></span></span>
+
+<p>Target Space는 아래와 같이 정의할 수 있다. 앞으로 주목할 것은 $\Tau$의 Element의 Probability이다.
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">T</mi><mo>=</mo><mo stretchy="false">{</mo><mn>0</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mn>2</mn><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\Tau = \{0, 1, 2 \}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord"><span class="mord mathrm">T</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord">2</span><span class="mclose">}</span></span></span></span></p>
+
+<p>확률은 아래와 같이 정리할 수 있다.</p>
+
+<ul>
+  <li>$S \in \Tau$</li>
+</ul>
+
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>P</mi><mi>X</mi></msub><mo stretchy="false">(</mo><mi>S</mi><mo stretchy="false">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false">(</mo><mi>X</mi><mo>∈</mo><mi>S</mi><mo stretchy="false">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false">(</mo><msup><mi>X</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo stretchy="false">(</mo><mi>S</mi><mo stretchy="false">)</mo><mo stretchy="false">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false">(</mo><mo stretchy="false">{</mo><mi>w</mi><mo>∈</mo><mi mathvariant="normal">Ω</mi><mo separator="true">,</mo><mi>X</mi><mo stretchy="false">(</mo><mi>w</mi><mo stretchy="false">)</mo><mo>∈</mo><mi>S</mi><mo stretchy="false">}</mo><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">P_X(S) = P(X \in S) = P(X^{-1}(S)) = P(\{ w \in \Omega , X(w) \in S \})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.07847em;">X</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.1141079999999999em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.864108em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">1</span></span></span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mclose">)</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mopen">{</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord">Ω</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">∈</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mclose">}</span><span class="mclose">)</span></span></span></span></span>
+
+<h3 id="statistics">
+<a class="anchor" href="#statistics" aria-hidden="true"><span class="octicon octicon-link"></span></a>Statistics</h3>
+
+<p>Probability와 Statistics는 종종 혼용되는 용어이나, 이 둘은 uncertainry의 서로 다른 측면에 초점이 있다.</p>
+
+<p>Probability는 Process를 Modeling하며, Random Variable을 활용하여 Uncertainty를 측정한다. 반면에, Statistics는 관측한 현상을 바탕으로 잠재적인 Process를 파악하고자 한다. 이런점에서 Machine Learning은 Statistics에 가까운데, ML에서는 주어진 데이터를 재현할 수 있는 모델을 만드는 것이 목표이기 때문이다.</p>
+
+<p>Machine Learning에서 중요한 이슈 중 하나는 Generalization Error이다. 이는 현재 실험에서뿐만 아니라, 미래에 다른 실험에서도 좋은 성능을 내는 것을 기대한다는 것이다.</p>
+
+<h3 id="discrete-and-continuous-probabilities">
+<a class="anchor" href="#discrete-and-continuous-probabilities" aria-hidden="true"><span class="octicon octicon-link"></span></a>Discrete and Continuous Probabilities</h3>
+
+<p>Target Space의 성질에 따라서 Distribution의 종류도 달라진다. 앞으로의 내용은 Discrete Probability와 Continous Probability를 다룰 계획이다.</p>
+
+<h4 id="discrete-probability">
+<a class="anchor" href="#discrete-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>Discrete Probability</h4>
+
+<p>Target Space가 Discrete한 경우이다. 아래 이미지와 같이 Multiple Random Variable이 있다고 해보자.</p>
+
+<ul>
+  <li>$X, Y$: Random Variables</li>
+  <li>Target Space: 각 Random Variable($X, Y$) 의 Target Space의 곱집합</li>
+</ul>
+
+<p>이를 바탕으로 Joint Probability를 정의할 수 있다.
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi><mo stretchy="false">(</mo><mi>X</mi><mo>=</mo><msub><mi>x</mi><mi>i</mi></msub><mo separator="true">,</mo><mi>Y</mi><mo>=</mo><msub><mi>y</mi><mi>j</mi></msub><mo stretchy="false">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false">(</mo><mi>X</mi><mo>=</mo><msub><mi>x</mi><mi>i</mi></msub><mo>∩</mo><mi>Y</mi><mo>=</mo><msub><mi>y</mi><mi>j</mi></msub><mo stretchy="false">)</mo><mo>=</mo><mfrac><msub><mi>n</mi><mrow><mi>i</mi><mi>j</mi></mrow></msub><mi>N</mi></mfrac></mrow><annotation encoding="application/x-tex">P(X=x_i, Y= y_j) = P(X=x_i \cap Y=y_j)=\frac{n_{ij}}{N}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.7055600000000001em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.31166399999999994em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight">i</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">∩</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.22222em;">Y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.036108em;vertical-align:-0.286108em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.03588em;">y</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.311664em;"><span style="top:-2.5500000000000003em;margin-left:-0.03588em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.286108em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.153712em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.808712em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.10903em;">N</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.50732em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight">n</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3280857142857143em;"><span style="top:-2.357em;margin-left:0em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mtight"><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.05724em;">j</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.2818857142857143em;"><span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></p>
+
+<ul>
+  <li>$n_{ij}$: $x_i$, $y_j$ 가 발생한 횟수</li>
+  <li>$N$: 전체 횟수</li>
+</ul>
+
+<p>Joint Probability를 정의하고 나면, 사실 위의 이미지가 PMF(Probability Mass Function) 이라는 것을 알 수 있다. 그리고 Probability라는 것이 결국은 State(Event)를 입력으로 받고 Real을 출력으로 가지는 함수라는 것을 알 수 있다.</p>
+
+<p>Marginal Probability $p(x)$는 Joint Distribution $p(x, y)$에서 $X$가 입력으로 $Y$와 무관하게 $x$를 받는 것이다.</p>
+
+<p>Conditional Probability $p (y \given x)$ 는 $X =x$  인 경우에서 $Y=y$일 때의 Probability이다.</p>
+
+<h4 id="continous-probability">
+<a class="anchor" href="#continous-probability" aria-hidden="true"><span class="octicon octicon-link"></span></a>Continous Probability</h4>
+
+<p>이번 섹션에서는 Real-Valued Random Variable를 다룰 것이다. Target Space는 실수공간에서의 Interval이라고 볼 수 있다.</p>
+
+<h5 id="definition-probability-density-function">
+<a class="anchor" href="#definition-probability-density-function" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definition: Probability Density Function</h5>
+
+<p>함수 $f: \R^D \rightarrow R$ 는 아래의 조건을 만족하면, Probability Density Function이라고 정의한다.</p>
+
+<ul>
+  <li>
+    <p>$\forall x \in R^D: f(x) \geqslant 0$</p>
+  </li>
+  <li>
+    <p>Integral이 존재하며, 다음과 같은 조건을 만족
+<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mo>∫</mo><msup><mi>R</mi><mi>D</mi></msup></msub><mi>f</mi><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mi>d</mi><mi>x</mi><mo>=</mo><mn>1</mn></mrow><annotation encoding="application/x-tex">\int_{R^D}f(x) dx = 1</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.1608200000000002em;vertical-align:-0.35582em;"></span><span class="mop"><span class="mop op-symbol small-op" style="margin-right:0.19445em;position:relative;top:-0.0005599999999999772em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1860449999999999em;"><span style="top:-2.34418em;margin-left:-0.19445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight"><span class="mord mathdefault mtight" style="margin-right:0.00773em;">R</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.7740928571428571em;"><span style="top:-2.786em;margin-right:0.07142857142857144em;"><span class="pstrut" style="height:2.5em;"></span><span class="sizing reset-size3 size1 mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">D</span></span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.35582em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mord mathdefault">d</span><span class="mord mathdefault">x</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span></span></span></span></p>
+  </li>
+</ul>
+
+<p>Probability Density Function은 Probability Mass Function과 달리, point $X=x$에서의 Probability가 0이다. PDF에서는 Probability를 Interval로 측정한다.</p>
+
+<h5 id="definition-cumulative-distribution-function">
+<a class="anchor" href="#definition-cumulative-distribution-function" aria-hidden="true"><span class="octicon octicon-link"></span></a>Definition: Cumulative Distribution Function</h5>
+
+<span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>F</mi><mi>X</mi></msub><mo stretchy="false">(</mo><mi>x</mi><mo stretchy="false">)</mo><mo>=</mo><mi>P</mi><mo stretchy="false">(</mo><msub><mi>X</mi><mn>1</mn></msub><mo>⩽</mo><msub><mi>x</mi><mn>1</mn></msub><mo separator="true">,</mo><mo>⋯</mo><mtext> </mtext><mo separator="true">,</mo><msub><mi>X</mi><mi>D</mi></msub><mo>⩽</mo><msub><mi>x</mi><mi>D</mi></msub><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">F_X(x) = P(X_1 \leqslant x_1, \cdots, X_D\leqslant x_D )</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.13889em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.07847em;">X</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mopen">(</span><span class="mord mathdefault">x</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">P</span><span class="mopen">(</span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel amsrm">⩽</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.8777699999999999em;vertical-align:-0.19444em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="minner">⋯</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.16666666666666666em;"></span><span class="mord"><span class="mord mathdefault" style="margin-right:0.07847em;">X</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.07847em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel amsrm">⩽</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathdefault">x</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.32833099999999993em;"><span style="top:-2.5500000000000003em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathdefault mtight" style="margin-right:0.02778em;">D</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span>
+
+<ul>
+  <li>$X = [X_1, \cdots , X_D]^T$</li>
+  <li>$x = [x_1, \cdots , x_D]^T$</li>
+</ul>
+
+<h3 id="contrasting-discrete-and-continous-distribution">
+<a class="anchor" href="#contrasting-discrete-and-continous-distribution" aria-hidden="true"><span class="octicon octicon-link"></span></a>Contrasting Discrete and Continous Distribution</h3>
+
+<p><img src="/blog/images/2021-01-22-Construction-of-a-Probability-Space/3.png" alt=""></p>
+
+<p>Discrete Random Variable일 경우, Mass가 $[0, 1]$사이의 값을 가지지만, Continous Random Variable같은 경우에는 Density가 $[0, 1]$사이의 값을 가지지 않는다.  위의 이미지는 Discrete/Continous Uniform Distribution을 나타낸 것이다.</p>
+
+
+  </div><!-- from https://github.com/utterance/utterances -->
+<script src="https://utteranc.es/client.js"
+        repo="RoundTable/blog"
+        issue-term="title"
+        label="blogpost-comment"
+        theme="github-light"
+        crossorigin="anonymous"
+        async>
+</script><a class="u-url" href="/blog/math/2021/01/22/Construction-of-a-Probability-Space.html" hidden></a>
+</article>
+      </div>
+    </main><footer class="site-footer h-card">
+  <data class="u-url" href="/blog/"></data>
+
+  <div class="wrapper">
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col">
+        <p class="feed-subscribe">
+          <a href="/blog/feed.xml">
+            <svg class="svg-icon orange">
+              <use xlink:href="/blog/assets/minima-social-icons.svg#rss"></use>
+            </svg><span>Subscribe</span>
+          </a>
+        </p>
+      </div>
+      <div class="footer-col">
+        <p>Tech Blog</p>
+      </div>
+    </div>
+
+    <div class="social-links"><ul class="social-media-list"><li><a rel="me" href="https://github.com/fastai" title="fastai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#github"></use></svg></a></li><li><a rel="me" href="https://twitter.com/fastdotai" title="fastdotai"><svg class="svg-icon grey"><use xlink:href="/blog/assets/minima-social-icons.svg#twitter"></use></svg></a></li></ul>
+</div>
+
+  </div>
+
+</footer>
+</body>
+
+</html>
