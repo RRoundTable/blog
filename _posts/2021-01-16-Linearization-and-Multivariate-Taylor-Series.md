@@ -6,6 +6,7 @@ badges: true
 comments: true
 categories: ['math']
 layout: post
+
 ---
 
 
@@ -20,9 +21,10 @@ f(x) \approx f(x_0)+(\nabla_x f)(x_0)(x - x_0)
 $$
 
 
+
 아래의 이미지를 보면, 하나의 예시를 알 수 있다. 함수 $f$에 대해서 $x_0$에서의 근사는 아래의 이미지처럼 직선의 형태로 나타낼 수 있다.
 
-![]({{ site.baseurl }}/images/2021-01-16-Linearization-and-Multivariate-Taylor-Series/1.png)
+![](/Users/makinarocks/src/blog/_posts/{{ site.baseurl }}/images/2021-01-16-Linearization-and-Multivariate-Taylor-Series/1.png)
 
 
 
@@ -39,10 +41,12 @@ x \mapsto f(x) , x \in R^D
 $$
 
 
+
 그리고 Difference Vector를 아래와 같이 정의해보겠다.
 $$
 \delta = x - x_0
 $$
+
 
 
 이제 Multivariate Taylor Series는 아래와 같이 정의할 수 있다.
@@ -73,19 +77,24 @@ $D^k_x$와 $\delta^k$는 모두 Higher Order Tensor이다.
 $$
 \delta^k \in R^{D^k}
 $$
+
+
 하나씩 살펴보겠다. 우선 $\delta^2$를 알아보겠다.
 $$
 \delta^2 = \delta \otimes \delta, \delta^2[i, j] = \delta[i] \delta[j]
 $$
 
 
+
 $\delta^3$을 구해보면 다음과 같다.
 $$
 \delta^3 = \delta \otimes \delta \otimes \delta, \delta^3[i, j, k] = \delta[i] \delta[j] \delta[k]
 $$
+
+
 아래의 이미지는 그 과정을 시각화한 것이다.
 
-![]({{ site.baseurl }}/images/2021-01-16-Linearization-and-Multivariate-Taylor-Series/2.png)
+![](/Users/makinarocks/src/blog/_posts/{{ site.baseurl }}/images/2021-01-16-Linearization-and-Multivariate-Taylor-Series/2.png)
 
 
 
@@ -96,6 +105,8 @@ $$
 D^0_x f(x_0) \delta^k = \sum_{i_1=1}^D \cdots \sum_{i_k=1}^D D_x^k f(x_0)[i_1, \cdots, i_k] \delta[i_1] \cdots \delta[i_k]
 $$
 
+
+
 - $H(x_0)$: Hessian of f, evaluated at $x_0$
 
 
@@ -104,15 +115,18 @@ $$
 $$
 D^k_x f(x_0) \delta^0 = f(x_0) \in R
 $$
+
+
 만약 $k=1$이라면,
 $$
 D^1_x f(x_0) \delta^1 =  \nabla_x f(x_0)[i] \delta[i]
 $$
+
+
 만약 $k=2$라면,
 $$
 D^2_x f(x_0) \delta^2 =  \delta^T H(x_0) \delta
 $$
+
+
 만약 $k=3$라면,
-$$
-D_x^3 f(x_0)\delta^3 = \sum_{i=1}^D  \sum_{j=1}^D  \sum_{k=1}^D D_x^3 f(x_0)[i, j, k] \delta[i] \delta[j] \delta[k]
-$$
