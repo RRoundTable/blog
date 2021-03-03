@@ -1,5 +1,5 @@
 ---
-title: "2021-01-22-Construction-of-a-Probability-Space.md"
+title: "Sum Rule Product Rule and Bayes Theorem"
 toc: true
 branch: master
 badges: true
