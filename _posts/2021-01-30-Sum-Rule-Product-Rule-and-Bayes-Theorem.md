@@ -15,10 +15,13 @@ layout: post
 
 
 아래의 수식은 Joint Probability를 나타낸다. $x$와 $y$가 동시에 일어나는 확률분포이다.
+
 $$
 p(x, y)
 $$
+
 아래의 수식들은 Marginal Probability이다.
+
 $$
 p(x), p(y)
 $$
@@ -27,6 +30,7 @@ $$
 
 
 아래의 수식은 Conditional Probability를 나타낸다. $x$ 가 주어졌을 때,  $y$의 확률분포이다.
+
 $$
 p(y \mid x)
 $$
@@ -93,8 +97,8 @@ Posterior $p(x \mid y)$는 Bayesian Statistics에서 관심을 가지는 값인�
 
 
 아래의 수식은 Marginal Likelihood/Evidence이다. 모든 $x$에 대하여 Sum을 하기 때문에, $x$와 독립적이다. 그리고 Posterior를 Normalize하는 역할을 한다. 하지만, 이는 Integration 때문에 실제로 구하기 어렵다는 단점이 있다.
+
 $$
 p(y) = \int p(y\mid x) p(x) dx = \mathbb{E}_x(p(y \mid x))
 $$
-
 
