@@ -142,3 +142,178 @@ $$
 
 
 
+## Empirical Means and Covariances
+
+위에서 살펴본 통계값은 Population Mean/Covariance이다. 
+일반적으로 Machine Learning에서는 관측값을 바탕으로 통계값을 추정한다.
+
+Random Variable X를 고려해보자.
+Population Statistics에서 Empirical Statistics로 가는 두 가지 방법이 있다.
+
+1. 한정된 데이터셋을 Empirical Statistics를 구하기 위해 사용한다. Empirical Statistics을 한정된 Random Variable에 대한 함수로 생각한다.
+2. 데이터를 관측한다. 이를 Random Variable의 결과로 본다. Empirical Statistics를 적용한다.
+
+### Definition 6.9: Empirical Mean and Covariance
+
+$$
+\bar{x} := \frac{1}{N} \sum_{n=1}^N x_n,
+$$
+
+$$
+\Sigma := \frac{1}{N} \sum_{n=1}^N (x_n - \bar{x})(x_n - \bar{x})
+$$
+
+## Three Expressions for the Variance
+
+
+Covariance는 Squared Deviation의 Expectation으로 구할 수 있다.
+
+$$
+\mathbf{V}_X[x] := \mathbf{E}_X[(x-u)^2]
+$$
+
+위의 식을 통해서 Covariance를 구할려면 아래와 같이 두 가지 과정을 거쳐야한다.
+1. $u$를 구한다.
+2. $u$를 통해서 Variance를 구한다.
+
+하지만 아래 수식을 통하면 이런 과정을 거치지 않아도 된다. 한번의 과정을 통해서 구할 수 있다.
+
+$$
+\mathbf{V}_X[x] := \mathbf{E}_X[x^2] - (\mathbf{E}_X[x^2])^2
+$$
+
+하지만 위의 수식은 Numerically Unstable하다는 한계를 가지고 있다.
+
+Variance를 표현하는 다른 방법은 데이터들의 모든 쌍에 대해서 차이의 평균을 구하는 것이다.
+
+$$
+\frac{1}{N^2} \sum_{i,j=1}^N(x_i - x_j)^2 = 2[\frac{1}{N}\sum_{i=1}^Nx_i^2 - (\frac{1}{N}\sum_{i=1}^Nx_i)^2]
+$$
+
+
+## Sums and Transformations of Random Variables
+
+Random Variable $x, y \in R^D$
+
+$$
+\mathbf{E}[x+y] = \mathbf{E}[x] + \mathbf{E}[y]
+$$
+
+$$
+\mathbf{E}[x-y] = \mathbf{E}[x] - \mathbf{E}[y]
+$$
+
+$$
+\mathbf{V}[x+y] = \mathbf{V}[x] + \mathbf{V}[y] + \mathbf{Cov}[x, y] + \mathbf{Cov}[y, x]
+$$
+
+$$
+\mathbf{V}[x+y] = \mathbf{V}[x] + \mathbf{V}[y] - \mathbf{Cov}[x, y] - \mathbf{Cov}[y, x]
+$$
+
+$y = Ax + b$라는 Random Variable의 Statistic는 $X$로 아래와 같이 표현될 수 있다.
+
+$$
+\mathbf{E}_Y[y] = \mathbf{E}_X[Ax + b] = A \mathbf{E}_X[x] + b = Au + b
+$$
+
+
+$$
+\mathbf{V}_Y[y] = \mathbf{V}_X[Ax + b] = A \mathbf{V}_X[x]A^T =  A\Sigma A^T
+$$
+
+$$
+\mathbf{Cov}[x,y]= \mathbf{E}[x(Ax + b)^T] - \mathbf{E}[x]\mathbf{E}[Ax + b]^T \\
+= \mathbf{E}[x]b^T + \mathbf{E}[xx^T]A^T - u b^T - uu^TA^T \\
+= ub^T - ub^T + (\mathbf{E}[xx^T] - uu^T)A^T
+= \Sigma A^T
+$$
+
+
+
+## Statistical Independence
+
+### Definition: Independence
+
+$$
+p(x, y) = p(x) p(y)
+$$
+
+
+
+Random Variable X, Y가 독립이라는 것은 y에 대한 정보를 알아도 x에 추가적인 정보가 없는 것을 의미한다. 
+
+그리고 아래와 같은 관계가 성립한다.
+
+- $p(x \mid y) = p(x)$
+- $p(y \mid x) = p(y)$
+- $\mathbf{V}_{X, Y}[x+ y] = \mathbf{V}_{X}[x] + \mathbf{V}_{Y}[y]$
+- $\mathbf{Cov}_{X,Y}[x, y ] = 0$
+
+(**Remark**) Covariance가 0이라고 독립이지는 않다. Covariance는 Linear Depedence만 측정한다. 만약 Non-Linearly Dependent하다면 Covariance는 0이지만, Statistically Dependent하다. 
+$$
+x \\
+y =x^2
+$$
+
+
+### Definition: Conditional Independence
+
+$$
+p(x, y \mid z) = p(x \mid z) p(y \mid z) \ \text{ for all }\ z\in Z
+$$
+
+
+
+직관적으로 Random Variable X, Y는 z라는 정보가 주어지면 독립이라는 의미이다.
+
+
+
+Product Rule을 통해서 아래와 같이 전개 가능하다.
+$$
+p(x, y\mid z) = p(x \mid y, z) p(y \mid z)
+$$
+
+
+위의 식을 통해서 아래와 같은 관계를 구할 수 있다. z가 주어지면 x, y는 독립을 표현해준다.
+$$
+p(x \mid y, z)=p(x \mid z)
+$$
+
+
+## Inner Products of Random Variables
+
+두 Random Variable이 Uncorrelated하다면 다음과 같은 관계가 성립한다.
+$$
+\mathbb{V}[x+y] = \mathbb{V}[x] + \mathbb{V}[y]
+$$
+Variance는 제곱꼴로 구하기 때문에 피타고라스 법칙과 유사하게 보인다.
+$$
+c^2 = a^2 + b^2
+$$
+
+
+Random Variable은 백터공간에서 백터로 표현할 수 있다. 두 Random Variable의 Inner Product은 아래와 같이 표현한다.
+
+이때 두 Random Variable의 Mean은 모두 0이라고 가정한다.
+$$
+<X, Y> := \mathbf{Cov}[x, y]
+$$
+
+- Symmetric
+- Positive Definite
+- Linear in Either Arguments
+
+Random Variable X의 Norm은 다음과 같이 구할 수 있다.
+$$
+\rVert X \rVert = \sqrt{\mathbf{Cov}[x,x]} = \sqrt{\mathbb{V}[x]} = \sigma(x)
+$$
+
+
+이제 두 Random Variable의 각도를 구해보자. Correlation은 두 Random Variable의 코사인 각도로 볼 수 있다.
+$$
+\cos \theta = \frac{<X, Y>}{\rVert X \rVert \rVert Y \rVert} = \frac{\mathbf{Cov}[x, y]}{\sqrt{\mathbb{V}[x] \mathbb{V}[y]}}
+$$
+
+
+선형대수학에서 Inner Product의 결과가 0일경우 서로 독립이라고 한다. 이와 대응되는 것으로 Random Variable간의 독립은 $\mathbf{Cov}[x, y] = 0$일 때 서로 Uncorrelated하다고 한다.
