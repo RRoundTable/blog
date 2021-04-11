@@ -137,30 +137,24 @@ $$
 #### Proof
 
 $$
-\begin{equation}
 \mathbf{E}[x] = \int_{\infty}^{\infty} x p(x) dx = \int_{\infty}^{\infty} \alpha xp_1(x) + (1 - \alpha) xp_2(x) dx \\
 =  \alpha \int_{\infty}^{\infty} xp_1(x) dx + (1 -\alpha)  \int_{\infty}^{\infty} \alpha xp_2(x) dx
 = \alpha u_1 + (1 - \alpha) u_2
-\end{equation}
 $$
 
 - $\sigma^2 = \mathbf{E}[x^2] - u^2$
 
 $$
-\begin{equation}
 \mathbf{E}[x^2] = \int_{\infty}^{\infty} x^2 p(x) dx = \int_{\infty}^{\infty} \alpha x^2p_1(x) + (1 - \alpha) x^2p_2(x) dx \\
 = \alpha \int_{\infty}^{\infty} x^2p_1(x) dx + (1 -\alpha)  \int_{\infty}^{\infty} \alpha x^2p_2(x) dx \\
 = \alpha (u_1^2 + \sigma_1^2) + (1 - \alpha)(u_2^2 + \sigma_2^2)
-\end{equation}
 $$
 
 
 $$
-\begin{equation}
 \mathbf{V}[x^2] = \mathbf{E}[x^2] -  (\mathbf{E}[x])^2 \\
 = \alpha(u_1^2 + \sigma_1^2) + (1 - \alpha)(u_2^2 + \sigma_2^2) - (\alpha u_1 + (1 - \alpha) u_2)^2
 = [\alpha \sigma_1^2 + (1 - \alpha )\sigma_2^2] - ([\alpha u_1^2 + (1 - \alpha) u_2^2] - [\alpha u_1^2 + (1 - \alpha) u_2])
-\end{equation}
 $$
 
 ### Transformation
