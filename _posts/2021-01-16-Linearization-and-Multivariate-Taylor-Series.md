@@ -24,7 +24,7 @@ $$
 
 아래의 이미지를 보면, 하나의 예시를 알 수 있다. 함수 $f$에 대해서 $x_0$에서의 근사는 아래의 이미지처럼 직선의 형태로 나타낼 수 있다.
 
-![](/Users/makinarocks/src/blog/_posts/{{ site.baseurl }}/images/2021-01-16-Linearization-and-Multivariate-Taylor-Series/1.png)
+![]({{ site.baseurl }}/images/2021-01-16-Linearization-and-Multivariate-Taylor-Series/1.png)
 
 
 
@@ -94,7 +94,7 @@ $$
 
 아래의 이미지는 그 과정을 시각화한 것이다.
 
-![](/Users/makinarocks/src/blog/_posts/{{ site.baseurl }}/images/2021-01-16-Linearization-and-Multivariate-Taylor-Series/2.png)
+![]({{ site.baseurl }}/images/2021-01-16-Linearization-and-Multivariate-Taylor-Series/2.png)
 
 
 
