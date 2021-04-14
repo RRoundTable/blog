@@ -114,7 +114,7 @@ p(x \mid \theta) = h(x) g_{\theta}(\phi(x))
 $$
 
 - $h$: $\theta$와 독립
-- $g_theta$: Sufficient Statistics $\theta(x)$에 의한 모든 의존성을 가지고 있음 
+- $g_{theta}$: Sufficient Statistics $\theta(x)$에 의한 모든 의존성을 가지고 있음 
 
 만약 $p(x \mid \theta)$가 $\theta$와 독립이라면, $\phi (\theta)$는 어떤 $\phi$에 대해서도 Trivial Sufficient Statistics가 된다.
 재밌는 경우는 $p(x \mid \theta)$가 $x$에는 독립이고 $\phi(x)$에 대해서는 의존적인 경우이다. 이 경우에는 $\phi(x)$는 $\theta$에 대한 Sufficient Statistics이다.
