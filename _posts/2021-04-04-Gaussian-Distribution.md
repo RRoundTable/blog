@@ -200,3 +200,6 @@ $\mathcal{N}(u, \Sigma)$를 얻기 위해서 다음과 같은 과정을 한다.
 1. $x \sim \mathcal{N}(0, I)$
 2. $y = Ax + u$, $AA^T = \Sigma$
    
+
+
+   http://math.mit.edu/~sheffield/600/Lecture26.pdf
