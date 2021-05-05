@@ -126,3 +126,68 @@ $$
 그렇다면 이런 질문도 가능하다. 
 어떤 분포가 한정된 차원의 Sufficient Statistics를 가질 수 있는가?
 정답은 Exponential Family이다.
+
+## Exponential Family
+
+확률분포를 고려할 때 3단계의 추상화 과정이 있다.
+
+1. 파라미터와 분포의 종류가 정해짐. 
+2. 분포의 종류는 정해졌으나 파라미터는 정해지지 않음
+3. 분포의 Family를 고려 (Exponential Family)
+   
+
+Exponential Family는 확률분포의 Family이다.
+이 때 Family는 파라미터 $\theta \in R^D$를 가진다.
+
+- $\phi(x)$: Sufficient Statistics Vector
+
+$$
+p(x \mid \theta) = h(x) \exp (<\theta, \phi(x)> - A(\theta))
+$$
+
+$$
+p(x \mid \theta) \propto \exp (<\theta, \phi(x)>)
+$$
+
+### Example: Gaussian as Exponentail Family
+
+- $\mathcal{N}(u, \sigma^2)$
+- $\phi(x) = \begin{bmatrix} x \\ x^2\end{bmatrix}$
+
+$$
+p(x \mid \theta) \propto \exp (\theta_1 x + \theta_2 x^2)
+$$
+
+$$
+\theta = \begin{bmatrix} \frac{u}{\sigma^2} -\frac{1}{2\sigma^2}\end{bmatrix}^T
+$$
+
+$$
+\theta \propto \exp(\frac{ux}{\sigma^2} - \frac{x^2}{2 \sigma^2}) \propto \exp (-\frac{1}{2\sigma^2} (x-u)^2)
+$$
+
+
+### Example: Bernoulli as Exponential Family
+
+$$
+p(x \mid u) = u^x(1-u)^{1 - x}, x \in \{ 0, 1\} 
+$$
+
+$$
+p(x \mid u) = \exp [\log u^x(1-u)^{1-x}] \\
+= \exp [x \log u + (1-x) \log (1-u)] \\
+= \exp [x \log u - x\log(1-u) + \log(1-u)] \\
+= \exp [x \log \frac{u}{1-u} + \log(1-u)]
+$$
+
+$$
+h(x) = 1 \\
+\theta = \log \frac{u}{1- u} \\
+\phi(x) = x
+A(\theta) = -\log (1-u) = \log (1 + exp(\theta))
+$$
+
+$$
+u = \frac{1}{1 + \exp(-\theta)}
+$$
+
